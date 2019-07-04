@@ -104,7 +104,7 @@
             that.confirmLoading = true;
             let httpurl = '';
             let method = '';
-            if(!this.model.id){
+            if(!this.model.filterelementId){
               httpurl+=this.url.add;
               method = 'post';
             }else{

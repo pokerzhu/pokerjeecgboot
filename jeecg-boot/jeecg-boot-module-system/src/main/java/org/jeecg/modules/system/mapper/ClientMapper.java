@@ -7,7 +7,12 @@ import org.jeecg.modules.system.entity.Client;
  * @Author: jeecg-boot
  * @Date:   2019-07-03
  * @Version: V1.0
+ * @name: hehao
  */
 public interface ClientMapper extends BaseMapper<Client> {
-
+//    /**
+//     * 更新
+//     * @param client
+//     */
+//    Boolean ClientUpd(Client client);
 }

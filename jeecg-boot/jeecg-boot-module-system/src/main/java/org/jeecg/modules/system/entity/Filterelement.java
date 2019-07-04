@@ -1,4 +1,6 @@
 package org.jeecg.modules.system.entity;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -24,6 +26,7 @@ public class Filterelement {
 	/**filterelementId*/
 	@Excel(name = "filterelementId", width = 15)
     @ApiModelProperty(value = "filterelementId")
+    @TableId(type = IdType.UUID)
 	private String filterelementId;
 	/**filterelementName*/
 	@Excel(name = "filterelementName", width = 15)

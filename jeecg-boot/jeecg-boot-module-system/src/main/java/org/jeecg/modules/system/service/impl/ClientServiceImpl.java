@@ -3,6 +3,7 @@ package org.jeecg.modules.system.service.impl;
 import org.jeecg.modules.system.entity.Client;
 import org.jeecg.modules.system.mapper.ClientMapper;
 import org.jeecg.modules.system.service.IClientService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -15,5 +16,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
  */
 @Service
 public class ClientServiceImpl extends ServiceImpl<ClientMapper,Client> implements IClientService {
-
+//    @Autowired
+//    private ClientMapper clientMapper;
+//    @Override
+//    public Boolean ClientUpd(Client client) {
+//       Boolean bool=clientMapper.ClientUpd(client);
+//        return bool;
+//    }
 }

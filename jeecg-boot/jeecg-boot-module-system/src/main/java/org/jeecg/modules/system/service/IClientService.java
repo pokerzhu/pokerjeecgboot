@@ -10,5 +10,5 @@ import org.jeecg.modules.system.entity.Client;
  * @Version: V1.0
  */
 public interface IClientService extends IService<Client> {
-
+//    Boolean ClientUpd(Client client);
 }

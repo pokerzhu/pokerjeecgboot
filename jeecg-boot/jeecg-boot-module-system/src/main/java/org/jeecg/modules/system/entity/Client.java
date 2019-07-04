@@ -35,6 +35,7 @@ public class Client {
 	/**clientId*/
 	@Excel(name = "clientId", width = 15)
     @ApiModelProperty(value = "clientId")
+    @TableId(type = IdType.UUID)
 	private String clientId;
 	/**clientName*/
 	@Excel(name = "clientName", width = 15)

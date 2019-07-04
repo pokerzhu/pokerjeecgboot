@@ -117,7 +117,7 @@
             that.confirmLoading = true;
             let httpurl = '';
             let method = '';
-            if(!this.model.id){
+            if(!this.model.clientId){
               httpurl+=this.url.add;
               method = 'post';
             }else{
