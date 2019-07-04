@@ -11,12 +11,12 @@
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
       
-        <a-form-item
+       <!-- <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="编号">
           <a-input placeholder="请输入编号" v-decorator="['filterelementId', validatorRules.filterelementId ]" />
-        </a-form-item>
+        </a-form-item>-->
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
