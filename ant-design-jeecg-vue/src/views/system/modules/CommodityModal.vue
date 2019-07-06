@@ -11,41 +11,47 @@
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
       
-        <a-form-item
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          label="地址">
-          <a-input placeholder="请输入地址" v-decorator="['address', validatorRules.address ]" />
-        </a-form-item>
        <!-- <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          label="编号">
-          <a-input placeholder="请输入编号" v-decorator="['clientId', validatorRules.clientId ]" />
+          label="商品编号">
+          <a-input placeholder="请输入商品编号" v-decorator="['commodityId', validatorRules.commodityId ]" />
         </a-form-item>-->
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          label="用户名">
-          <a-input placeholder="请输入用户名" v-decorator="['clientName', validatorRules.clientName ]" />
+          label="商品名称">
+          <a-input placeholder="请输入商品名称" v-decorator="['commodityName', validatorRules.commodityName ]" />
         </a-form-item>
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          label="开关设备编号">
-          <a-input placeholder="请输入开关设备编号" v-decorator="['open', {}]" />
+          label="商品价格">
+          <a-input placeholder="请输入商品价格" v-decorator="['commodityPrices', validatorRules.commodityPrices ]" />
         </a-form-item>
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          label="密码">
-          <a-input placeholder="请输入密码" v-decorator="['password', validatorRules.password ]" />
+          label="商品租价">
+          <a-input placeholder="请输入商品租价" v-decorator="['commodityRent', validatorRules.commodityRent ]" />
         </a-form-item>
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          label="手机号">
-          <a-input placeholder="请输入手机号" v-decorator="['phone', validatorRules.phone ]" />
+          label="商品描述">
+          <a-input placeholder="请输入商品描述" v-decorator="['description', validatorRules.description ]" />
+        </a-form-item>
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="商品图片">
+          <a-input placeholder="请输入商品图片" v-decorator="['images', validatorRules.images ]" />
+        </a-form-item>
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="商品类型">
+          <a-input-number v-decorator="[ 'type', validatorRules.type ]" />
         </a-form-item>
 		
       </a-form>
@@ -58,7 +64,7 @@
   import pick from 'lodash.pick'
 
   export default {
-    name: "ClientModal",
+    name: "CommodityModal",
     data () {
       return {
         title:"操作",
@@ -76,15 +82,17 @@
         confirmLoading: false,
         form: this.$form.createForm(this),
         validatorRules:{
-        address:{rules: [{ required: true, message: '请输入address!' }]},
-        clientId:{rules: [{ required: true, message: '请输入clientId!' }]},
-        clientName:{rules: [{ required: true, message: '请输入clientName!' }]},
-        password:{rules: [{ required: true, message: '请输入password!' }]},
-        phone:{rules: [{ required: true, message: '请输入phone!' }]},
+        commodityId:{rules: [{ required: true, message: '请输入商品编号!' }]},
+        commodityName:{rules: [{ required: true, message: '请输入商品名称!' }]},
+        commodityPrices:{rules: [{ required: true, message: '请输入商品价格!' }]},
+        commodityRent:{rules: [{ required: true, message: '请输入商品租价!' }]},
+        description:{rules: [{ required: true, message: '请输入商品描述!' }]},
+        images:{rules: [{ required: true, message: '请输入商品图片!' }]},
+        type:{rules: [{ required: true, message: '请输入商品类型!' }]},
         },
         url: {
-          add: "/demo/client/add",
-          edit: "/demo/client/edit",
+          add: "/commodity/commodity/add",
+          edit: "/commodity/commodity/edit",
         },
       }
     },
@@ -99,7 +107,7 @@
         this.model = Object.assign({}, record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'address','clientId','clientName','open','password','phone'))
+          this.form.setFieldsValue(pick(this.model,'commodityId','commodityName','commodityPrices','commodityRent','description','images','type'))
 		  //时间格式化
         });
 
@@ -116,7 +124,7 @@
             that.confirmLoading = true;
             let httpurl = '';
             let method = '';
-            if(!this.model.clientId){
+            if(!this.model.commodityId){
               httpurl+=this.url.add;
               method = 'post';
             }else{
@@ -138,6 +146,9 @@
               that.confirmLoading = false;
               that.close();
             })
+
+
+
           }
         })
       },
