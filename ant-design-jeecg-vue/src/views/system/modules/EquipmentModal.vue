@@ -11,47 +11,47 @@
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
       
-       <!-- <a-form-item
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          label="商品编号">
-          <a-input placeholder="请输入商品编号" v-decorator="['commodityId', validatorRules.commodityId ]" />
-        </a-form-item>-->
+        <!--<a-form-item-->
+          <!--:labelCol="labelCol"-->
+          <!--:wrapperCol="wrapperCol"-->
+          <!--label="设备编号">-->
+          <!--<a-input placeholder="请输入设备编号" v-decorator="['equipmentId', validatorRules.equipmentId ]" />-->
+        <!--</a-form-item>-->
+        <!--<a-form-item-->
+          <!--:labelCol="labelCol"-->
+          <!--:wrapperCol="wrapperCol"-->
+          <!--label="商品编号，商品表外键">-->
+          <!--<a-input placeholder="请输入商品编号，商品表外键" v-decorator="['commodityId', validatorRules.commodityId ]" />-->
+        <!--</a-form-item>-->
+        <!--<a-form-item-->
+          <!--:labelCol="labelCol"-->
+          <!--:wrapperCol="wrapperCol"-->
+          <!--label="安装客户编号，客户表外键。">-->
+          <!--<a-input placeholder="请输入安装客户编号，客户表外键。" v-decorator="['clientId', validatorRules.clientId ]" />-->
+        <!--</a-form-item>-->
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          label="商品名称">
-          <a-input placeholder="请输入商品名称" v-decorator="['commodityName', validatorRules.commodityName ]" />
+          label="所属代理">
+          <a-input placeholder="请输入所属代理" v-decorator="['ids',validatorRules.ids ]" />
         </a-form-item>
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          label="商品价格">
-          <a-input placeholder="请输入商品价格" v-decorator="['commodityPrices', validatorRules.commodityPrices ]" />
+          label="客户名">
+          <a-input placeholder="请输入客户名" v-decorator="['ids',validatorRules.ids ]" />
         </a-form-item>
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          label="商品租价">
-          <a-input placeholder="请输入商品租价" v-decorator="['commodityRent', validatorRules.commodityRent ]" />
+          label="硬件编号">
+          <a-input placeholder="请输入硬件编号" v-decorator="['ids',validatorRules.ids ]" />
         </a-form-item>
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          label="商品描述">
-          <a-input placeholder="请输入商品描述" v-decorator="['description', validatorRules.description ]" />
-        </a-form-item>
-        <a-form-item
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          label="商品图片">
-          <a-input placeholder="请输入商品图片" v-decorator="['images', validatorRules.images ]" />
-        </a-form-item>
-        <a-form-item
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          label="商品类型">
-          <a-input-number v-decorator="[ 'type', validatorRules.type ]" />
+          label="是否启用，字典">
+          <a-input-number v-decorator="[ 'enabled', validatorRules.enabled ]" />
         </a-form-item>
 		
       </a-form>
@@ -65,7 +65,7 @@
   import moment from "moment"
 
   export default {
-    name: "CommodityModal",
+    name: "EquipmentModal",
     data () {
       return {
         title:"操作",
@@ -83,17 +83,15 @@
         confirmLoading: false,
         form: this.$form.createForm(this),
         validatorRules:{
-        commodityId:{rules: [{ required: true, message: '请输入商品编号!' }]},
-        commodityName:{rules: [{ required: true, message: '请输入商品名称!' }]},
-        commodityPrices:{rules: [{ required: true, message: '请输入商品价格!' }]},
-        commodityRent:{rules: [{ required: true, message: '请输入商品租价!' }]},
-        description:{rules: [{ required: true, message: '请输入商品描述!' }]},
-        images:{rules: [{ required: true, message: '请输入商品图片!' }]},
-        type:{rules: [{ required: true, message: '请输入商品类型!' }]},
+        equipmentId:{rules: [{ required: true, message: '请输入设备编号!' }]},
+        commodityId:{rules: [{ required: true, message: '请输入商品编号，商品表外键!' }]},
+        clientId:{rules: [{ required: true, message: '请输入安装客户编号，客户表外键。!' }]},
+        ids:{rules: [{ required: true, message: '请输入硬件编号!' }]},
+        enabled:{rules: [{ required: true, message: '请输入是否启用，字典!' }]},
         },
         url: {
-          add: "/commodity/commodity/add",
-          edit: "/commodity/commodity/edit",
+          add: "/demo/equipment/add",
+          edit: "/demo/equipment/edit",
         },
       }
     },
@@ -108,7 +106,7 @@
         this.model = Object.assign({}, record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'commodityId','commodityName','commodityPrices','commodityRent','description','images','type'))
+          this.form.setFieldsValue(pick(this.model,'equipmentId','commodityId','clientId','ids','enabled'))
 		  //时间格式化
         });
 
@@ -125,7 +123,7 @@
             that.confirmLoading = true;
             let httpurl = '';
             let method = '';
-            if(!this.model.commodityId){
+            if(!this.model.id){
               httpurl+=this.url.add;
               method = 'post';
             }else{

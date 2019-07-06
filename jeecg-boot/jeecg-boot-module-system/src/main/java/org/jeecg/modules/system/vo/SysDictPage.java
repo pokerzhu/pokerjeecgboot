@@ -8,7 +8,7 @@ import org.jeecgframework.poi.excel.annotation.ExcelCollection;
 import java.util.List;
 
 @Data
-public class SysDictPage {
+public class     SysDictPage {
 
     /**
      * 主键
