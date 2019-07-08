@@ -118,19 +118,19 @@ public class ClientController {
 	
 	/**
 	  *   通过id删除
-	 * @param id
+	 * @param clientId
 	 * @return
 	 */
 	@AutoLog(value = "客户表-通过id删除")
 	@ApiOperation(value="客户表-通过id删除", notes="客户表-通过id删除")
 	@DeleteMapping(value = "/delete")
-	public Result<Client> delete(@RequestParam(name="id",required=true) String id) {
+	public Result<Client> delete(@RequestParam(name="id",required=true) String clientId) {
 		Result<Client> result = new Result<Client>();
-		Client client = clientService.getById(id);
+		Client client = clientService.getById(clientId);
 		if(client==null) {
 			result.error500("未找到对应实体");
 		}else {
-			boolean ok = clientService.removeById(id);
+			boolean ok = clientService.removeById(clientId);
 			if(ok) {
 				result.success("删除成功!");
 			}

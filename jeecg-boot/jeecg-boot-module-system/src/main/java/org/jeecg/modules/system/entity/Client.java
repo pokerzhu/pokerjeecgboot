@@ -55,5 +55,5 @@ public class Client {
 	private String phone;
     @Excel(name = "create_time", width = 15)
     @ApiModelProperty(value = "create_time")
-    private  String createTime;
+    private String createTime;
 }

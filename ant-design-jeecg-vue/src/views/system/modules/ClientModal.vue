@@ -17,12 +17,12 @@
           label="地址">
           <a-input placeholder="请输入地址" v-decorator="['address', validatorRules.address ]" />
         </a-form-item>
-       <!-- <a-form-item
+        <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="编号">
           <a-input placeholder="请输入编号" v-decorator="['clientId', validatorRules.clientId ]" />
-        </a-form-item>-->
+        </a-form-item>
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"

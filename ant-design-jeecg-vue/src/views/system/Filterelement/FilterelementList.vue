@@ -7,29 +7,24 @@
         <a-row :gutter="24">
 
           <a-col :md="6" :sm="8">
-            <a-form-item label="设备编号">
-              <a-input placeholder="请输入设备编号" v-model="queryParam.equipmentId"></a-input>
+            <a-form-item label="编号">
+              <a-input placeholder="请输入编号" v-model="queryParam.filterelementId"></a-input>
             </a-form-item>
           </a-col>
           <a-col :md="6" :sm="8">
-            <a-form-item label="商品编号，商品表外键">
-              <a-input placeholder="请输入商品编号，商品表外键" v-model="queryParam.commodityId"></a-input>
+            <a-form-item label="滤芯名称">
+              <a-input placeholder="请输入滤芯名称" v-model="queryParam.filterelementName"></a-input>
             </a-form-item>
           </a-col>
         <template v-if="toggleSearchStatus">
         <a-col :md="6" :sm="8">
-            <a-form-item label="安装客户编号，客户表外键。">
-              <a-input placeholder="请输入安装客户编号，客户表外键。" v-model="queryParam.clientId"></a-input>
+            <a-form-item label="滤芯图">
+              <a-input placeholder="请输入滤芯图" v-model="queryParam.images"></a-input>
             </a-form-item>
           </a-col>
           <a-col :md="6" :sm="8">
-            <a-form-item label="硬件编号">
-              <a-input placeholder="请输入硬件编号" v-model="queryParam.ids"></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :md="6" :sm="8">
-            <a-form-item label="是否启用，字典">
-              <a-input placeholder="请输入是否启用，字典" v-model="queryParam.enabled"></a-input>
+            <a-form-item label="有效时长">
+              <a-input placeholder="请输入有效时长" v-model="queryParam.validity"></a-input>
             </a-form-item>
           </a-col>
         </template>
@@ -51,7 +46,7 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('设备表')">导出</a-button>
+      <a-button type="primary" icon="download" @click="handleExportXls('滤芯表')">导出</a-button>
       <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
       </a-upload>
@@ -90,7 +85,7 @@
             <a class="ant-dropdown-link">更多 <a-icon type="down" /></a>
             <a-menu slot="overlay">
               <a-menu-item>
-                <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">
+                <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.filterelementId)">
                   <a>删除</a>
                 </a-popconfirm>
               </a-menu-item>
@@ -103,69 +98,54 @@
     <!-- table区域-end -->
 
     <!-- 表单区域 -->
-    <equipment-modal ref="modalForm" @ok="modalFormOk"></equipment-modal>
+    <filterelement-modal ref="modalForm" @ok="modalFormOk"></filterelement-modal>
   </a-card>
 </template>
 
 <script>
-  import EquipmentModal from './modules/EquipmentModal'
+  import FilterelementModal from '../modules/FilterelementModal'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
 
   export default {
-    name: "EquipmentList",
+    name: "FilterelementList",
     mixins:[JeecgListMixin],
     components: {
-      EquipmentModal
+      FilterelementModal
     },
     data () {
       return {
-        description: '设备表管理页面',
+        description: '滤芯表管理页面',
         // 表头
         columns: [
-          // {
-          //   title: '#',
-          //   dataIndex: '',
-          //   key:'rowIndex',
-          //   width:60,
-          //   align:"center",
-          //   customRender:function (t,r,index) {
-          //     return parseInt(index)+1;
-          //   }
-          //  },
-		   {
-            title: '设备编号',
-            align:"center",
-            dataIndex: 'equipmentId'
-           },
-		   {
-            title: '商品编号，商品表外键',
-            align:"center",
-            dataIndex: 'commodityId'
-           },
           {
-            title: '商品名称',
+            title: '#',
+            dataIndex: '',
+            key:'rowIndex',
+            width:60,
             align:"center",
-            dataIndex: 'commodityName'
-          },
-          {
-            title: '所属代理',
-            align:"center",
-            dataIndex: 'realname'
-          },
-		   {
-            title: '客户名',
-            align:"center",
-            dataIndex: 'clientName'
+            customRender:function (t,r,index) {
+              return parseInt(index)+1;
+            }
            },
 		   {
-            title: '硬件编号',
+            title: '编号',
             align:"center",
-            dataIndex: 'ids'
+            dataIndex: 'filterelementId'
            },
 		   {
-            title: '是否启用，字典',
+            title: '滤芯名称',
             align:"center",
-            dataIndex: 'enabled'
+            dataIndex: 'filterelementName'
+           },
+		   {
+            title: '滤芯图片',
+            align:"center",
+            dataIndex: 'images'
+           },
+		   {
+            title: '有效时长',
+            align:"center",
+            dataIndex: 'validity'
            },
           {
             title: '操作',
@@ -175,11 +155,11 @@
           }
         ],
 		url: {
-          list: "/demo/equipment/list",
-          delete: "/demo/equipment/delete",
-          deleteBatch: "/demo/equipment/deleteBatch",
-          exportXlsUrl: "demo/equipment/exportXls",
-          importExcelUrl: "demo/equipment/importExcel",
+          list: "/demo/filterelement/list",
+          delete: "/demo/filterelement/delete",
+          deleteBatch: "/demo/filterelement/deleteBatch",
+          exportXlsUrl: "demo/filterelement/exportXls",
+          importExcelUrl: "demo/filterelement/importExcel",
        },
     }
   },

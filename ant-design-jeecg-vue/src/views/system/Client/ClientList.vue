@@ -5,31 +5,30 @@
     <div class="table-page-search-wrapper">
       <a-form layout="inline">
         <a-row :gutter="24">
-
           <a-col :md="6" :sm="8">
-            <a-form-item label="商品编号">
-              <a-input placeholder="请输入商品编号" v-model="queryParam.commodityId"></a-input>
+            <a-form-item label="地址">
+              <a-input placeholder="请输入地址" v-model="queryParam.address"></a-input>
             </a-form-item>
           </a-col>
           <a-col :md="6" :sm="8">
-            <a-form-item label="商品名称">
-              <a-input placeholder="请输入商品名称" v-model="queryParam.commodityName"></a-input>
+            <a-form-item label="编号">
+              <a-input placeholder="请输入编号" v-model="queryParam.clientId"></a-input>
             </a-form-item>
           </a-col>
         <template v-if="toggleSearchStatus">
         <a-col :md="6" :sm="8">
-            <a-form-item label="商品价格">
-              <a-input placeholder="请输入商品价格" v-model="queryParam.commodityPrices"></a-input>
+            <a-form-item label="用户名">
+              <a-input placeholder="请输入用户名" v-model="queryParam.clientName"></a-input>
             </a-form-item>
           </a-col>
           <a-col :md="6" :sm="8">
-            <a-form-item label="商品租价">
-              <a-input placeholder="请输入商品租价" v-model="queryParam.commodityRent"></a-input>
+            <a-form-item label="开关设备编号">
+              <a-input placeholder="请输入开关设备编号" v-model="queryParam.open"></a-input>
             </a-form-item>
           </a-col>
           <a-col :md="6" :sm="8">
-            <a-form-item label="商品描述">
-              <a-input placeholder="请输入商品描述" v-model="queryParam.description"></a-input>
+            <a-form-item label="密码">
+              <a-input placeholder="请输入密码" v-model="queryParam.password"></a-input>
             </a-form-item>
           </a-col>
         </template>
@@ -51,7 +50,7 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('商品表')">导出</a-button>
+      <a-button type="primary" icon="download" @click="handleExportXls('客户表')">导出</a-button>
       <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
       </a-upload>
@@ -82,20 +81,21 @@
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
         @change="handleTableChange">
 
-        <span slot="action" slot-scope="text, record">
-          <a @click="handleEdit(record)">编辑</a>
-
-          <a-divider type="vertical" />
-          <a-dropdown>
-            <a class="ant-dropdown-link">更多 <a-icon type="down" /></a>
-            <a-menu slot="overlay">
-              <a-menu-item>
-                <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.commodityId)">
-                  <a>删除</a>
-                </a-popconfirm>
-              </a-menu-item>
-            </a-menu>
-          </a-dropdown>
+          <span slot="action" slot-scope="text, record">
+          <a @click="handleEdit(record)">
+            <a-icon type="edit"/>
+            编辑
+          </a>
+              <a @click="ClientFF(record)">
+            <a-icon type="edit"/>
+            详情
+          </a>
+          <a-divider type="vertical"/>
+          <a @click="ClientEdit(record)"><a-icon type="setting"/>可用设备</a>
+          <a-divider type="vertical"/>
+          <a-popconfirm title="确定删除吗?" @confirm="() =>handleDelete(record.clientId)">
+            <a>删除</a>
+          </a-popconfirm>
         </span>
 
       </a-table>
@@ -103,23 +103,29 @@
     <!-- table区域-end -->
 
     <!-- 表单区域 -->
-    <commodity-modal ref="modalForm" @ok="modalFormOk"></commodity-modal>
+    <client-modal ref="modalForm" @ok="modalFormOk"></client-modal>
+    <client-item-list ref="clientitemlist"></client-item-list>
+    <ClientXQ ref="clientxq"></ClientXQ>
   </a-card>
 </template>
 
 <script>
-  import CommodityModal from './modules/CommodityModal'
+  import { filterObj } from '@/utils/util';
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-
+  import ClientModal from '../modules/ClientModal'
+  import ClientItemList from './ClientItemList'
+  import ClientXQ from "../modules/ClientXQ";
   export default {
-    name: "CommodityList",
+    name: "ClientList",
     mixins:[JeecgListMixin],
     components: {
-      CommodityModal
+      ClientModal,
+      ClientItemList,
+      ClientXQ,
     },
     data () {
       return {
-        description: '商品表管理页面',
+        description: '客户表管理页面',
         // 表头
         columns: [
           {
@@ -132,61 +138,36 @@
               return parseInt(index)+1;
             }
            },
+		   // {
+       //   title: '编号',
+       //   align:"center",
+       //   dataIndex: 'clientId'
+       //     },
 		   {
-            title: '商品编号',
-            align:"center",
-            dataIndex: 'commodityId'
+         title: '用户名',
+         align:"center",
+         dataIndex: 'clientName'
            },
 		   {
-            title: '商品名称',
-            align:"center",
-            dataIndex: 'commodityName'
+         title: '密码',
+         align:"center",
+         dataIndex: 'password'
            },
 		   {
-            title: '商品价格',
-            align:"center",
-            dataIndex: 'commodityPrices'
+         title: '手机号',
+         align:"center",
+         dataIndex: 'phone'
            },
 		   {
-            title: '商品租价',
-            align:"center",
-            dataIndex: 'commodityRent'
+         title: '地址',
+         align:"center",
+         dataIndex: 'address'
            },
 		   {
-            title: '商品描述',
-            align:"center",
-            dataIndex: 'description'
+         title: '开关设备编号',
+         align:"center",
+         dataIndex: 'open'
            },
-		   {
-            title: '商品图片',
-            align:"center",
-            dataIndex: 'images'
-           },
-		   {
-            title: '商品类型',
-            align:"center",
-            dataIndex: 'type'
-           },
-          {
-            title: '创建人',
-            align:"center",
-            dataIndex: 'createBy'
-          },
-          {
-            title: '创建时间',
-            align:"center",
-            dataIndex: 'createTime'
-          },
-          {
-            title: '更新人',
-            align:"center",
-            dataIndex: 'updateBy'
-          },
-          {
-            title: '更新时间',
-            align:"center",
-            dataIndex: 'updateTime'
-          },
           {
             title: '操作',
             dataIndex: 'action',
@@ -195,11 +176,11 @@
           }
         ],
 		url: {
-          list: "/commodity/commodity/list",
-          delete: "/commodity/commodity/delete",
-          deleteBatch: "/commodity/commodity/deleteBatch",
-          exportXlsUrl: "commodity/commodity/exportXls",
-          importExcelUrl: "commodity/commodity/importExcel",
+          list: "/demo/client/list",
+          delete: "/demo/client/delete",
+          deleteBatch: "/demo/client/deleteBatch",
+          exportXlsUrl: "demo/client/exportXls",
+          importExcelUrl: "demo/client/importExcel",
        },
     }
   },
@@ -209,8 +190,41 @@
     }
   },
     methods: {
-     
-    }
+      getQueryParams() {
+        var param = Object.assign({}, this.queryParam, this.isorter);
+        param.field = this.getQueryField();
+        param.pageNo = this.ipagination.current;
+        param.pageSize = this.ipagination.pageSize;
+        return filterObj(param);
+      },
+      //取消选择
+      cancelDict() {
+        this.dict = "";
+        this.visible = false;
+        this.loadData();
+      },
+      //编辑字典数据
+      ClientEdit(record) {
+        console.log(record.clientId)
+        this.$refs.clientitemlist.edit(record);
+      },
+      //编辑字典数据
+      ClientFF(record) {
+        this.$refs.clientxq.edit(record);
+      },
+      // // 重置字典类型搜索框的内容
+      // searchReset() {
+      //   var that = this;
+      //   that.queryParam.dictName = "";
+      //   that.queryParam.dictCode = "";
+      //   that.loadData(this.ipagination.current);
+      // },
+    },
+    watch: {
+      openKeys(val) {
+        console.log('openKeys', val)
+      },
+    },
   }
 </script>
 <style scoped>
