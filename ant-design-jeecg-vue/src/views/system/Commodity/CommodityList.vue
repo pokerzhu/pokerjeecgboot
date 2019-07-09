@@ -87,7 +87,7 @@
           <a @click="handleEdit(record)">编辑</a>
            <a-divider type="vertical" />
           <a-dropdown>
-          <a @click="allocation(record.commodityId)"><a-icon type="setting"/>配置滤芯</a>
+          <a @click="editDictItem(record)"><a-icon type="setting"/>配置滤芯</a>
           </a-dropdown>
           <a-divider type="vertical" />
           <a-dropdown>
@@ -108,13 +108,14 @@
 
     <!-- 表单区域 -->
     <commodity-modal ref="modalForm" @ok="modalFormOk"></commodity-modal>
-   <!-- <RelationshipList ref="RelationshipList" ></RelationshipList>-->
+    <RelationshipList ref="relationshipList" ></RelationshipList>
   </a-card>
 </template>
 
 <script>
+  import { filterObj } from '@/utils/util';
   import CommodityModal from '../modules/CommodityModal'
- /* import RelationshipList from '../Commodity/RelationshipList'*/
+  import RelationshipList from '../Commodity/RelationshipList'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
 
   export default {
@@ -122,7 +123,7 @@
     mixins:[JeecgListMixin],
     components: {
       CommodityModal,
-      /*RelationshipList*/
+      RelationshipList
     },
     data () {
       return {
@@ -169,7 +170,7 @@
             align:"center",
             dataIndex: 'images'
            },
-		   {
+		   /*{
             title: '商品类型',
             align:"center",
             dataIndex: 'type'
@@ -193,7 +194,7 @@
             title: '更新时间',
             align:"center",
             dataIndex: 'updateTime'
-          },
+          },*/
           {
             title: '操作',
             dataIndex: 'action',
@@ -216,8 +217,8 @@
     }
   },
     methods: {
-      allocation(commodityId) {
-        console.log(commodityId);
+      editDictItem(record) {
+        this.$refs.relationshipList.edit(record);
       },
     }
   }

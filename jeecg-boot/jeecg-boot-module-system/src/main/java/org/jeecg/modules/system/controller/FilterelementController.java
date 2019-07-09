@@ -110,6 +110,14 @@ public class FilterelementController {
          }
          return result;
      }
+     /*查询滤芯*/
+     @GetMapping(value = "/selpurpose")
+     public List<Filterelement> selpurpose(){
+         //获取滤芯表数据
+         List<Filterelement> records = filterelementService.list();
+         System.out.println(records);
+         return records;
+     }
      /**
       * 分页列表查询
       *

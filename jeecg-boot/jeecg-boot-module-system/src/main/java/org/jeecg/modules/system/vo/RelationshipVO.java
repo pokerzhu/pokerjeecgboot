@@ -26,4 +26,6 @@ public class RelationshipVO {
 	private String filterelementName;
 	/*商品编号*/
 	private String commodityId;
+	/*关联id*/
+	private String relationshipId;
 }

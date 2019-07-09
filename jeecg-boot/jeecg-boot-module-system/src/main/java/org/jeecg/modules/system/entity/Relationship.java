@@ -31,6 +31,7 @@ public class Relationship {
 	/**商品滤芯关系编号*/
 	@Excel(name = "商品滤芯关系编号", width = 15)
     @ApiModelProperty(value = "商品滤芯关系编号")
+	@TableId(type = IdType.UUID)
 	private String relationshipId;
 	/**商品编号，商品表外键*/
 	@Excel(name = "商品编号，商品表外键", width = 15)

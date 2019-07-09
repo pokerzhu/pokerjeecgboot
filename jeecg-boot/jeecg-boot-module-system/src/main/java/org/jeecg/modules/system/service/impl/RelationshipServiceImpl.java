@@ -6,6 +6,7 @@ import org.jeecg.modules.system.entity.Relationship;
 import org.jeecg.modules.system.mapper.RelationshipMapper;
 import org.jeecg.modules.system.service.IRelationshipService;
 import org.jeecg.modules.system.vo.RelationshipVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -19,11 +20,17 @@ import java.util.List;
  * @Version: V1.0
  */
 @Service
-public class RelationshipServiceImpl extends ServiceImpl<RelationshipMapper, RelationshipVO> implements IRelationshipService {
+public class RelationshipServiceImpl extends ServiceImpl<RelationshipMapper, Relationship> implements IRelationshipService {
+    @Autowired
     private RelationshipMapper relationshipMapper;
 
     @Override
     public IPage<RelationshipVO> selectItemsByMainId(Page page, String commodityId) {
         return page.setRecords(relationshipMapper.selectItemsByMainId(commodityId));
+    }
+
+    @Override
+    public Integer selectBycommodityId(String commodityId) {
+        return relationshipMapper.selectBycommodityId(commodityId);
     }
 }

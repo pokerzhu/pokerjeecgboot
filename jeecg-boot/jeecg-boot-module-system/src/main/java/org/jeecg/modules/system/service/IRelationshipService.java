@@ -14,12 +14,18 @@ import java.util.List;
  * @Date:   2019-07-05
  * @Version: V1.0
  */
-public interface IRelationshipService extends IService<RelationshipVO> {
+public interface IRelationshipService extends IService<Relationship> {
     /**
      * 根据商品id查询滤芯
      * @param id
      * @return
      */
     IPage<RelationshipVO> selectItemsByMainId(Page page, String commodityId);
+    /**
+     * 根据商品id查询已添加滤芯总数
+     * @param commodityId
+     * @return
+     */
+    Integer selectBycommodityId(String commodityId);
 
 }
