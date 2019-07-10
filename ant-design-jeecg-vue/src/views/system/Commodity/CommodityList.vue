@@ -82,6 +82,11 @@
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
         @change="handleTableChange">
 
+        <template slot="avatarslot" slot-scope="text, record, index">
+          <div class="anty-img-wrap">
+            <a-avatar shape="square" :src="getAvatarView(record.images)" icon="user"/>
+          </div>
+        </template>
         <span slot="action" slot-scope="text, record">
 
           <a @click="handleEdit(record)">编辑</a>
@@ -165,11 +170,12 @@
             align:"center",
             dataIndex: 'description'
            },
-		   {
-            title: '商品图片',
-            align:"center",
-            dataIndex: 'images'
-           },
+          {
+            title: '商品缩略图',
+            align: "center",
+            dataIndex: 'images',
+            scopedSlots: {customRender: "avatarslot"}
+          },
 		   /*{
             title: '商品类型',
             align:"center",
@@ -208,6 +214,7 @@
           deleteBatch: "/commodity/commodity/deleteBatch",
           exportXlsUrl: "commodity/commodity/exportXls",
           importExcelUrl: "commodity/commodity/importExcel",
+          imgerver: window._CONFIG['domianURL'] + "/sys/common/view",
        },
     }
   },
@@ -219,6 +226,9 @@
     methods: {
       editDictItem(record) {
         this.$refs.relationshipList.edit(record);
+      },
+      getAvatarView: function (avatar) {
+        return this.url.imgerver + "/" + avatar;
       },
     }
   }

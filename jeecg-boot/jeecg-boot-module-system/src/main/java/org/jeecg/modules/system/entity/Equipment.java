@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.jeecg.common.aspect.annotation.Dict;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.jeecgframework.poi.excel.annotation.Excel;
 
@@ -47,8 +48,9 @@ public class Equipment {
     @ApiModelProperty(value = "硬件编号")
 	private String ids;
 	/**是否启用，字典*/
-	@Excel(name = "是否启用，字典", width = 15)
+	@Excel(name = "安装状态", width = 15)
     @ApiModelProperty(value = "是否启用，字典")
+	@Dict(dicCode = "enabled")
 	private Integer enabled;
 	/**创建人*/
 	@Excel(name = "创建人", width = 15)

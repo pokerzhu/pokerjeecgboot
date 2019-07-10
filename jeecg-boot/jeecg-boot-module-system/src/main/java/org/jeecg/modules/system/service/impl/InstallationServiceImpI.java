@@ -23,4 +23,9 @@ public class InstallationServiceImpI extends ServiceImpl<InstallationMapper, Ins
     public IPage<InstallationVO> findSelect(Page page, String clientId) {
         return page.setRecords(installationMapper.findSelect(clientId));
     }
+
+    @Override
+    public boolean Updeteopen(Installation installation) {
+        return installationMapper.Updeteopen(installation);
+    }
 }

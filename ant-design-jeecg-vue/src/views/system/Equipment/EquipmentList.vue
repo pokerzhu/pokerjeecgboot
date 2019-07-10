@@ -28,8 +28,8 @@
               </a-form-item>
             </a-col>
             <a-col :md="6" :sm="8">
-              <a-form-item label="是否启用，字典">
-                <a-input placeholder="请输入是否启用，字典" v-model="queryParam.enabled"></a-input>
+              <a-form-item label="安装状态">
+                <a-input placeholder="请输入是否安装" v-model="queryParam.enabled"></a-input>
               </a-form-item>
             </a-col>
           </template>
@@ -138,7 +138,7 @@
             dataIndex: 'equipmentId'
           },
           {
-            title: '商品编号，商品表外键',
+            title: '商品编号',
             align:"center",
             dataIndex: 'commodityId'
           },
@@ -163,9 +163,9 @@
             dataIndex: 'ids'
           },
           {
-            title: '是否启用，字典',
+            title: '启用状态',
             align:"center",
-            dataIndex: 'enabled'
+            dataIndex: 'enabled_dictText'
           },
           {
             title: '操作',

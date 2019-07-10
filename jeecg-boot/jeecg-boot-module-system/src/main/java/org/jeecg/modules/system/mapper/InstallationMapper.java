@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.jeecg.modules.system.entity.Client;
 import org.jeecg.modules.system.entity.Installation;
 import org.jeecg.modules.system.vo.InstallationVO;
@@ -11,7 +12,7 @@ import org.jeecg.modules.system.vo.InstallationVO;
 import java.util.List;
 
 public interface InstallationMapper extends BaseMapper<Installation> {
-    @Select("SELECT o.open_id,c.commodity_name,e.equipment_id \n" +
+    @Select("SELECT o.open_id,o.open,c.commodity_name,e.equipment_id \n" +
             "FROM installation_open as o\n" +
             "left join equipment as e on \n" +
             "o.equipment_id=e.equipment_id\n" +
@@ -19,5 +20,17 @@ public interface InstallationMapper extends BaseMapper<Installation> {
             "e.commodity_id=c.commodity_id\n" +
             "where o.`client_id`=#{clientId}")
     List<InstallationVO> findSelect(@Param("clientId")String clientId);
+
+    /*
+    UPDATE `jeecg-boot`.`installation_open` SET `client_id` = '2', `equipment_id` = '008', `open` = 1, `create_by` = '何豪', `create_time` = '2019-07-08 16:43:58', `update_by` = '何豪', `update_time` = '2019-07-08 16:44:03' WHERE `open_id` = '002';
+     */
+
+    /**
+     * 修改设备当前状态
+     * @param
+     * @return
+     */
+    @Update("UPDATE `installation_open` SET `open` = #{open} WHERE `open_id` = #{openId}")
+    boolean Updeteopen(Installation installation);
 
 }

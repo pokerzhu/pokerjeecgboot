@@ -69,8 +69,10 @@ export const JeecgListMixin = {
       this.loading = true;
       getAction(this.url.list, params).then((res) => {
         if (res.success) {
+
           this.dataSource = res.result.records;
           this.ipagination.total = res.result.total;
+          console.log(this.dataSource);
         }
         this.loading = false;
       })

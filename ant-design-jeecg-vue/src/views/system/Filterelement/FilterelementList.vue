@@ -17,11 +17,6 @@
             </a-form-item>
           </a-col>
         <template v-if="toggleSearchStatus">
-        <a-col :md="6" :sm="8">
-            <a-form-item label="滤芯图">
-              <a-input placeholder="请输入滤芯图" v-model="queryParam.images"></a-input>
-            </a-form-item>
-          </a-col>
           <a-col :md="6" :sm="8">
             <a-form-item label="有效时长">
               <a-input placeholder="请输入有效时长" v-model="queryParam.validity"></a-input>
@@ -76,7 +71,11 @@
         :loading="loading"
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
         @change="handleTableChange">
-
+        <template slot="avatarslot" slot-scope="text, record, index">
+          <div class="anty-img-wrap">
+            <a-avatar shape="square" :src="getAvatarView(record.images)" icon="user"/>
+          </div>
+        </template>
         <span slot="action" slot-scope="text, record">
           <a @click="handleEdit(record)">编辑</a>
 
@@ -138,9 +137,10 @@
             dataIndex: 'filterelementName'
            },
 		   {
-            title: '滤芯图片',
+            title: '滤芯展示图',
             align:"center",
-            dataIndex: 'images'
+         dataIndex: 'images',
+         scopedSlots: {customRender: "avatarslot"}
            },
 		   {
             title: '有效时长',
@@ -160,6 +160,7 @@
           deleteBatch: "/demo/filterelement/deleteBatch",
           exportXlsUrl: "demo/filterelement/exportXls",
           importExcelUrl: "demo/filterelement/importExcel",
+          imgerver: window._CONFIG['domianURL'] + "/sys/common/view",
        },
     }
   },
@@ -169,7 +170,9 @@
     }
   },
     methods: {
-     
+      getAvatarView: function (avatar) {
+        return this.url.imgerver + "/" + avatar;
+      },
     }
   }
 </script>

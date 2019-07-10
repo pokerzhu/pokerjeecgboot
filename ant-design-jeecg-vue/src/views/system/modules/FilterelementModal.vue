@@ -23,12 +23,30 @@
           label="滤芯名称">
           <a-input placeholder="请输入滤芯名称" v-decorator="['filterelementName', validatorRules.filterelementName ]" />
         </a-form-item>
-        <a-form-item
+        <a-form-item label="滤芯展示图" :labelCol="labelCol" :wrapperCol="wrapperCol"><!--v-decorator="[ 'thumbnail', validatorRules.thumbnail]"-->
+          <a-upload
+            listType="picture-card"
+            class="thumbnail-uploader"
+            :showUploadList="false"
+            :action="uploadAction"
+            :data="{'isup':1}"
+            :headers="headers"
+            :beforeUpload="beforeUpload"
+            @change="handleChange"
+          >
+            <img  v-if="picUrl" :src="getThumbnailView()"  alt="缩略图" style="height:104px;max-width:300px"/>
+            <div v-else>
+              <a-icon :type="uploadLoading ? 'loading' : 'plus'" />
+              <div class="ant-upload-text">上传</div>
+            </div>
+          </a-upload>
+        </a-form-item>
+        <!--<a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="滤芯图">
           <a-input placeholder="请输入滤芯图" v-decorator="['images', validatorRules.images ]" />
-        </a-form-item>
+        </a-form-item>-->
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
@@ -61,8 +79,10 @@
           xs: { span: 24 },
           sm: { span: 16 },
         },
-
+        headers:{},
+        uploadLoading:false,
         confirmLoading: false,
+        picUrl: "",
         form: this.$form.createForm(this),
         validatorRules:{
         filterelementId:{rules: [{ required: true, message: '请输入编号!' }]},
@@ -73,10 +93,17 @@
         url: {
           add: "/demo/filterelement/add",
           edit: "/demo/filterelement/edit",
+          fileUpload: window._CONFIG['domianURL']+"/sys/common/upload",
+          imgerver: window._CONFIG['domianURL']+"/sys/common/view",
         },
       }
     },
     created () {
+    },
+    computed:{
+      uploadAction:function () {
+        return this.url.fileUpload;
+      }
     },
     methods: {
       add () {
@@ -86,6 +113,7 @@
         this.form.resetFields();
         this.model = Object.assign({}, record);
         this.visible = true;
+        this.picUrl = "Has no pic url yet";
         this.$nextTick(() => {
           this.form.setFieldsValue(pick(this.model,'filterelementId','filterelementName','images','validity'))
 		  //时间格式化
@@ -126,11 +154,38 @@
               that.confirmLoading = false;
               that.close();
             })
-
-
-
           }
         })
+      },
+      beforeUpload: function(file){
+        var fileType = file.type;
+        if(fileType.indexOf('image')<0){
+          this.$message.warning('请上传图片');
+          return false;
+        }
+        //TODO 验证文件大小
+      },
+      handleChange (info) {
+        this.picUrl = "";
+        if (info.file.status === 'uploading') {
+          this.uploadLoading = true
+          return
+        }
+        if (info.file.status === 'done') {
+          var response = info.file.response;
+          this.uploadLoading = false;
+          console.log(response);
+          if(response.success){
+            this.model.images = response.message;
+            this.picUrl = "Has no pic url yet";
+          }else{
+            this.$message.warning(response.message);
+          }
+        }
+      },
+      getThumbnailView(){
+        console.log(this.url.imgerver +"/"+ this.model.images)
+        return this.url.imgerver +"/"+ this.model.images;
       },
       handleCancel () {
         this.close()

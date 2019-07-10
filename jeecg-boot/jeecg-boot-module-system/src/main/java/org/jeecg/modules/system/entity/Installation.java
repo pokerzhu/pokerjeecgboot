@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.jeecg.common.aspect.annotation.Dict;
 import org.jeecgframework.poi.excel.annotation.Excel;
 
 @Data
@@ -30,6 +31,11 @@ public class Installation {
     @Excel(name = "设备编号", width = 15)
     @ApiModelProperty(value = "设备编号")
     private String equipmentId;
+    /**设备编号*/
+    @Excel(name = "设备状态", width = 15)
+    @ApiModelProperty(value = "设备状态")
+    @Dict(dicCode = "open")
+    private Integer open;
     /**创建人*/
     @Excel(name = "创建人", width = 15)
     @ApiModelProperty(value = "创建人")

@@ -2,6 +2,7 @@ package org.jeecg.modules.system.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
+import org.jeecg.common.aspect.annotation.Dict;
 
 import java.io.Serializable;
 @Data
@@ -26,5 +27,6 @@ public class EquipmentVO implements Serializable {
     private String ids;
     //是否启用
     @TableField("enabled")
-    private String enabled;
+    @Dict(dicCode = "enabled")
+    private Integer enabled;
 }

@@ -92,15 +92,11 @@ public class RelationshipController {
      public Result<Relationship> add(@RequestBody Relationship filterelement) {
          Result<Relationship> result = new Result<Relationship>();
          try {
-         	if(relationshipService.selectBycommodityId(filterelement.getCommodityId())<5){
-				filterelement.setCreateBy("张文");
-				filterelement.setCreateTime(new Date());
-				filterelement.setUpdateBy("张文");
-				relationshipService.save(filterelement);
-				result.success("添加成功！");
-			}else{
-				result.error500("滤芯只能添加5根");
-			}
+			filterelement.setCreateBy("张文");
+			filterelement.setCreateTime(new Date());
+			filterelement.setUpdateBy("张文");
+			relationshipService.save(filterelement);
+			result.success("添加成功！");
          } catch (Exception e) {
              log.error(e.getMessage(), e);
              result.error500("操作失败");

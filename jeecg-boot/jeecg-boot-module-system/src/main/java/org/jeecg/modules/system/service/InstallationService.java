@@ -11,4 +11,10 @@ import java.util.List;
 
 public interface InstallationService extends IService<Installation> {
     IPage<InstallationVO> findSelect(Page page,String clientId);
+    /**
+     * 修改设备当前状态
+     * @param installationVO
+     * @return
+     */
+    boolean Updeteopen(Installation installationVO);
 }

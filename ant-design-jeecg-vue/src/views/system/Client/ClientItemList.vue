@@ -35,15 +35,15 @@
             :loading="loading"
             @change="handleTableChange"
           >
-
           <span slot="action" slot-scope="text, record">
-            <a @click="handleEdit(record)">授权</a>
-            <a-divider type="vertical"/>
-            <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.openId)">
+            <a @click="handleEdit(record)">
+              <span v-if="record.open==0">授权</span>
+              <span v-if="record.open==1">取消授权</span>
+            </a>
+           <!-- <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.openId)">
               <a>删除</a>
-            </a-popconfirm>
+            </a-popconfirm>-->
           </span>
-
           </a-table>
         </div>
       </div>
@@ -57,6 +57,7 @@
   import {filterObj} from '@/utils/util';
   import ClientItemModal from '../modules/ClientItemModal'
   import {JeecgListMixin} from '@/mixins/JeecgListMixin'
+  import {putAction,} from '@/api/manage'
 
   export default {
     name: "ClientItemList",
@@ -76,9 +77,14 @@
             dataIndex: 'commodityName',
           },
           {
-            title: '可用设备编号',
+            title: '设备编号',
             align: "center",
             dataIndex: 'equipmentId',
+          },
+          {
+            title: '设备当前状态',
+            align: "center",
+            dataIndex: 'open_dictText',
           },
           {
             title: '操作',
@@ -111,7 +117,8 @@
         },
         url: {
           list: "/demo/installation/list",
-          delete: "/demo/installation/delete"
+          delete: "/demo/installation/delete",
+          updateopen:"/demo/installation/updateopen",
         },
       }
     },
@@ -138,7 +145,30 @@
         // 当其它模块调用该模块时,调用此方法加载字典数据
         this.loadData();
       },
-
+      handleEdit(record){
+        this.loading = true;
+        /*let obj;上下两种皆可，
+        obj=putAction(this.url.updateopen, record);
+        obj.then((res) => {
+          console.log(res);
+          if (res.success) {
+            this.$message.success(res.message);
+            that.$emit('ok');
+          } else {
+            this.$message.warning(res.message);
+          }
+        }).finally(() => {
+          this.loadData();
+        })*/
+        putAction(this.url.updateopen, record).then((res) => {
+          if (res.success) {
+            console.log(this.dataSource);
+            this.$message.success(res.message);
+          }
+          this.loading = false;
+          this.loadData();
+        })
+      },
       getQueryParams() {
         var param = Object.assign({}, this.queryParam);
         param.dictId = this.dictId;

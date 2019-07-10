@@ -41,10 +41,6 @@ public class Client {
 	@Excel(name = "clientName", width = 15)
     @ApiModelProperty(value = "clientName")
 	private String clientName;
-	/**open*/
-	@Excel(name = "open", width = 15)
-    @ApiModelProperty(value = "open")
-	private String open;
 	/**password*/
 	@Excel(name = "password", width = 15)
     @ApiModelProperty(value = "password")

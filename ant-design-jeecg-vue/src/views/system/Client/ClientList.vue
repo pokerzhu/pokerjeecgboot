@@ -22,11 +22,6 @@
             </a-form-item>
           </a-col>
           <a-col :md="6" :sm="8">
-            <a-form-item label="开关设备编号">
-              <a-input placeholder="请输入开关设备编号" v-model="queryParam.open"></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :md="6" :sm="8">
             <a-form-item label="密码">
               <a-input placeholder="请输入密码" v-model="queryParam.password"></a-input>
             </a-form-item>
@@ -86,10 +81,10 @@
             <a-icon type="edit"/>
             编辑
           </a>
-              <a @click="ClientFF(record)">
+              <!--<a @click="ClientFF(record)">
             <a-icon type="edit"/>
             详情
-          </a>
+          </a>-->
           <a-divider type="vertical"/>
           <a @click="ClientEdit(record)"><a-icon type="setting"/>可用设备</a>
           <a-divider type="vertical"/>
@@ -162,11 +157,6 @@
          title: '地址',
          align:"center",
          dataIndex: 'address'
-           },
-		   {
-         title: '开关设备编号',
-         align:"center",
-         dataIndex: 'open'
            },
           {
             title: '操作',

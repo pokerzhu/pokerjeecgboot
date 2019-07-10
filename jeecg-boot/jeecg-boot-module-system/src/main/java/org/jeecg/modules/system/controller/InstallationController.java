@@ -41,7 +41,37 @@ public class InstallationController {
         result.setResult(pageList);
         return result;
     }
+    /**
+     *  编辑
+     * @param commodity
+     * @return
+     */
+    @AutoLog(value = "设备关系-编辑")
+    @ApiOperation(value="商品表-编辑", notes="商品表-编辑")
+    @PutMapping(value = "/updateopen")
+    public Result<InstallationVO> edit(@RequestBody InstallationVO commodity) {
+        Result<InstallationVO> result = new Result<InstallationVO>();
+        Installation commodityEntity = installationService.getById(commodity.getOpenId());
+        if(commodityEntity==null) {
+            result.error500("未找到对应实体");
+        }else {
+            if(commodity.getOpen()==0){
+                commodityEntity.setOpen(1);
+            }else{
+                commodityEntity.setOpen(0);
+            }
+            System.out.println(commodityEntity);
+            boolean ok = installationService.Updeteopen(commodityEntity);
+            //TODO 返回false说明什么？
+            if(ok) {
+                result.success("修改成功!");
+            }else{
+                result.success("修改失败!");
+            }
+        }
 
+        return result;
+    }
     /**
      *   通过id删除
      * @param openId

@@ -29,12 +29,12 @@
           label="用户名">
           <a-input placeholder="请输入用户名" v-decorator="['clientName', validatorRules.clientName ]" />
         </a-form-item>
-        <a-form-item
+        <!--<a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="开关设备编号">
           <a-input placeholder="请输入开关设备编号" v-decorator="['open', {}]" />
-        </a-form-item>
+        </a-form-item>-->
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
