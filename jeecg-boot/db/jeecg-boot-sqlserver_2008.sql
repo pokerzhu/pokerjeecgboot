@@ -3522,7 +3522,7 @@ CREATE TABLE [dbo].[sys_log] (
 [ip] nvarchar(100) NULL ,
 [method] nvarchar(500) NULL ,
 [request_url] nvarchar(255) NULL ,
-[request_param] nvarchar(255) NULL ,
+[] nvarchar(255) NULL ,
 [request_type] nvarchar(10) NULL ,
 [cost_time] bigint NULL ,
 [create_by] nvarchar(32) NULL ,
@@ -3660,16 +3660,16 @@ GO
 IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
 'SCHEMA', N'dbo', 
 'TABLE', N'sys_log', 
-'COLUMN', N'request_param')) > 0) 
+'COLUMN', N'')) > 0)
 EXEC sp_updateextendedproperty @name = N'MS_Description', @value = N'请求参数'
 , @level0type = 'SCHEMA', @level0name = N'dbo'
 , @level1type = 'TABLE', @level1name = N'sys_log'
-, @level2type = 'COLUMN', @level2name = N'request_param'
+, @level2type = 'COLUMN', @level2name = N''
 ELSE
 EXEC sp_addextendedproperty @name = N'MS_Description', @value = N'请求参数'
 , @level0type = 'SCHEMA', @level0name = N'dbo'
 , @level1type = 'TABLE', @level1name = N'sys_log'
-, @level2type = 'COLUMN', @level2name = N'request_param'
+, @level2type = 'COLUMN', @level2name = N''
 GO
 IF ((SELECT COUNT(*) from fn_listextendedproperty('MS_Description', 
 'SCHEMA', N'dbo', 
@@ -3759,7 +3759,7 @@ GO
 -- ----------------------------
 -- Records of sys_log
 -- ----------------------------
-INSERT INTO [dbo].[sys_log] ([id], [log_type], [log_content], [operate_type], [userid], [username], [ip], [method], [request_url], [request_param], [request_type], [cost_time], [create_by], [create_time], [update_by], [update_time]) VALUES (N'002b7112a147edeb6149a891494577d0', N'1', N'用户名: admin,登录成功！', null, null, null, N'127.0.0.1', null, null, null, null, null, N'jeecg-boot', N'2019-02-24 22:52:15.0000000', null, null)
+INSERT INTO [dbo].[sys_log] ([id], [log_type], [log_content], [operate_type], [userid], [username], [ip], [method], [request_url], [], [request_type], [cost_time], [create_by], [create_time], [update_by], [update_time]) VALUES (N'002b7112a147edeb6149a891494577d0', N'1', N'用户名: admin,登录成功！', null, null, null, N'127.0.0.1', null, null, null, null, null, N'jeecg-boot', N'2019-02-24 22:52:15.0000000', null, null)
 GO
 GO
 INSERT INTO [dbo].[sys_log] ([id], [log_type], [log_content], [operate_type], [userid], [username], [ip], [method], [request_url], [request_param], [request_type], [cost_time], [create_by], [create_time], [update_by], [update_time]) VALUES (N'00f763e007e5a6bddf4cb8e562a53005', N'1', N'用户名: admin,登录成功！', null, null, null, N'127.0.0.1', null, null, null, null, null, N'jeecg-boot', N'2019-02-25 15:41:31.0000000', null, null)
