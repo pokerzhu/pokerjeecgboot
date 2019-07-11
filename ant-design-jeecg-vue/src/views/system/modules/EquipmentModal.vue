@@ -7,53 +7,101 @@
     @ok="handleOk"
     @cancel="handleCancel"
     cancelText="关闭">
-    
+
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
-      
+
         <!--<a-form-item-->
-          <!--:labelCol="labelCol"-->
-          <!--:wrapperCol="wrapperCol"-->
-          <!--label="设备编号">-->
-          <!--<a-input placeholder="请输入设备编号" v-decorator="['equipmentId', validatorRules.equipmentId ]" />-->
+        <!--:labelCol="labelCol"-->
+        <!--:wrapperCol="wrapperCol"-->
+        <!--label="设备编号">-->
+        <!--<a-input placeholder="请输入设备编号" v-decorator="['equipmentId', validatorRules.equipmentId ]" />-->
         <!--</a-form-item>-->
         <!--<a-form-item-->
-          <!--:labelCol="labelCol"-->
-          <!--:wrapperCol="wrapperCol"-->
-          <!--label="商品编号，商品表外键">-->
-          <!--<a-input placeholder="请输入商品编号，商品表外键" v-decorator="['commodityId', validatorRules.commodityId ]" />-->
+        <!--:labelCol="labelCol"-->
+        <!--:wrapperCol="wrapperCol"-->
+        <!--label="商品编号，商品表外键">-->
+        <!--<a-input placeholder="请输入商品编号，商品表外键" v-decorator="['commodityId', validatorRules.commodityId ]" />-->
         <!--</a-form-item>-->
         <!--<a-form-item-->
-          <!--:labelCol="labelCol"-->
-          <!--:wrapperCol="wrapperCol"-->
-          <!--label="安装客户编号，客户表外键。">-->
-          <!--<a-input placeholder="请输入安装客户编号，客户表外键。" v-decorator="['clientId', validatorRules.clientId ]" />-->
+        <!--:labelCol="labelCol"-->
+        <!--:wrapperCol="wrapperCol"-->
+        <!--label="安装客户编号，客户表外键。">-->
+        <!--<a-input placeholder="请输入安装客户编号，客户表外键。" v-decorator="['clientId', validatorRules.clientId ]" />-->
         <!--</a-form-item>-->
-        <a-form-item
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          label="所属代理">
-          <a-input placeholder="请输入所属代理" v-decorator="['ids',validatorRules.ids ]" />
-        </a-form-item>
-        <a-form-item
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          label="客户名">
-          <a-input placeholder="请输入客户名" v-decorator="['ids',validatorRules.ids ]" />
-        </a-form-item>
+        <!--<a-form-item-->
+        <!--:labelCol="labelCol"-->
+        <!--:wrapperCol="wrapperCol"-->
+        <!--label="所属代理">-->
+        <!--<a-input placeholder="请输入所属代理" v-decorator="['ids',validatorRules.ids ]" />-->
+        <!--</a-form-item>-->
+        <a-spin :spinning="confirmLoading">
+          <a-form :form="form">
+            <a-form-item label="所属代理" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-select  placeholder="请选择所属代理"  v-decorator="[ 'userId',{}]" >
+                <a-select-option v-for="(selpurpose) in SysUserList"
+                                 :value="selpurpose.id">
+                  {{ selpurpose.realname }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-form>
+
+          <!--<a-form :form="form">-->
+          <!--<a-form-item label="客户名" :labelCol="labelCol" :wrapperCol="wrapperCol">-->
+          <!--<a-select  placeholder="请选择客户名"  v-decorator="[ 'clientId',{}]" >-->
+          <!--<a-select-option v-for="(selpurpose) in ClientList"-->
+          <!--:value="selpurpose.clientId">-->
+          <!--{{ selpurpose.clientName }}-->
+          <!--</a-select-option>-->
+          <!--</a-select>-->
+          <!--</a-form-item>-->
+          <!--</a-form>-->
+
+          <a-form :form="form">
+            <a-form-item label="商品名称" :labelCol="labelCol" :wrapperCol="wrapperCol">
+              <a-select  placeholder="请选择商品名称"  v-decorator="[ 'commodityId',{}]" >
+                <a-select-option v-for="(selpurpose) in CommodityList"
+                                 :value="selpurpose.commodityId">
+                  {{ selpurpose.commodityName }}
+                </a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-form>
+
+          <!--<a-form :form="form">-->
+          <!--<a-form-item label="状态是否启用" :labelCol="labelCol" :wrapperCol="wrapperCol">-->
+          <!--<a-select  placeholder="状态是否启用"  v-decorator="[ 'enabled',{initialValue:'001'}]" >-->
+          <!--<a-select-option v-for="(selpurpose) in "-->
+          <!--:value="selpurpose.filterelementId">-->
+          <!--{{ selpurpose }}-->
+          <!--</a-select-option>-->
+          <!--</a-select>-->
+          <!--</a-form-item>-->
+          <!--</a-form>-->
+        </a-spin>
+        <!--<a-form-item-->
+        <!--:labelCol="labelCol"-->
+        <!--:wrapperCol="wrapperCol"-->
+        <!--label="客户名">-->
+        <!--<a-input placeholder="请输入客户名" v-decorator="['ids',validatorRules.clientName ]" />-->
+        <!--</a-form-item>-->
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="硬件编号">
           <a-input placeholder="请输入硬件编号" v-decorator="['ids',validatorRules.ids ]" />
         </a-form-item>
-        <a-form-item
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          label="是否启用，字典">
-          <a-input-number v-decorator="[ 'enabled', validatorRules.enabled ]" />
-        </a-form-item>
-		
+
+        <a-form :form="form">
+          <a-form-item label="是否启用" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-select  placeholder="请选择是否激活"  v-decorator="[ 'enabled',{}]" >
+              <a-select-option :value="0">  未激活 </a-select-option>
+              <a-select-option :value="1">  已激活 </a-select-option>
+            </a-select>
+          </a-form-item>
+        </a-form>
+
       </a-form>
     </a-spin>
   </a-modal>
@@ -61,6 +109,7 @@
 
 <script>
   import { httpAction } from '@/api/manage'
+  import { getAction,postAction} from '@/api/manage'
   import pick from 'lodash.pick'
   // import moment from "moment"
 
@@ -71,6 +120,11 @@
         title:"操作",
         visible: false,
         model: {},
+        equipmentId:"",
+        ClientList:[],
+        SysUserList:[],
+        CommodityList:[],
+        status: 1,
         labelCol: {
           xs: { span: 24 },
           sm: { span: 5 },
@@ -83,11 +137,10 @@
         confirmLoading: false,
         form: this.$form.createForm(this),
         validatorRules:{
-        equipmentId:{rules: [{ required: true, message: '请输入设备编号!' }]},
-        commodityId:{rules: [{ required: true, message: '请输入商品编号，商品表外键!' }]},
-        clientId:{rules: [{ required: true, message: '请输入安装客户编号，客户表外键。!' }]},
-        ids:{rules: [{ required: true, message: '请输入硬件编号!' }]},
-        enabled:{rules: [{ required: true, message: '请输入是否启用，字典!' }]},
+          id:{rules: [{ required: true, message: '请输入所属代理!' }]},
+          clientId:{rules: [{ required: true, message: '请输入客户名。!' }]},
+          ids:{rules: [{ required: true, message: '请输入硬件编号!' }]},
+          enabled:{rules: [{ required: true, message: '请输入是否启用!' }]},
         },
         url: {
           add: "/demo/equipment/add",
@@ -96,20 +149,38 @@
       }
     },
     created () {
+      this.selUser();
+      this.sleClient();
+      this.selCommodity();
     },
     methods: {
+      selUser(){
+        getAction("/sys/user/selSysUser",null).then((res) => {
+          this.SysUserList = res;
+        })
+      },
+      sleClient(){
+        getAction("/demo/client/selClient",null).then((res) => {
+          this.ClientList = res;
+        })
+      },
+      selCommodity(){
+        getAction("/commodity/commodity/selCommodity",null).then((res) => {
+          this.CommodityList = res;
+        })
+      },
       add () {
         this.edit({});
       },
       edit (record) {
+        console.log(record+"************************************")
         this.form.resetFields();
-        this.model = Object.assign({}, record);
+        this.model = Object.assign({},record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'equipmentId','commodityId','clientId','ids','enabled'))
-		  //时间格式化
+          this.form.setFieldsValue(pick(this.model,'userId','commodityId','ids','enabled'))
+          //时间格式化
         });
-
       },
       close () {
         this.$emit('close');
@@ -123,17 +194,15 @@
             that.confirmLoading = true;
             let httpurl = '';
             let method = '';
-            if(!this.model.id){
+            if(!this.model.equipmentId){
               httpurl+=this.url.add;
               method = 'post';
             }else{
               httpurl+=this.url.edit;
-               method = 'put';
+              method = 'put';
             }
             let formData = Object.assign(this.model, values);
             //时间格式化
-            
-            console.log(formData)
             httpAction(httpurl,formData,method).then((res)=>{
               if(res.success){
                 that.$message.success(res.message);
@@ -145,21 +214,14 @@
               that.confirmLoading = false;
               that.close();
             })
-
-
-
           }
         })
       },
       handleCancel () {
         this.close()
       },
-
-
     }
   }
 </script>
-
 <style lang="less" scoped>
-
 </style>

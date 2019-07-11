@@ -2,12 +2,14 @@ package org.jeecg.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.jeecg.modules.system.entity.Equipment;
 import org.jeecg.modules.system.mapper.EquipmentMapper;
 import org.jeecg.modules.system.service.IEquipmentService;
 import org.jeecg.modules.system.vo.EquipmentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @Description: 设备表
@@ -16,12 +18,24 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
  * @Version: V1.0
  */
 @Service
-public class EquipmentServiceImpl extends ServiceImpl<EquipmentMapper,EquipmentVO> implements IEquipmentService {
+public class EquipmentServiceImpl extends ServiceImpl<EquipmentMapper, Equipment> implements IEquipmentService {
 
     @Autowired
     private EquipmentMapper equipmentMapper;
+
     @Override
     public IPage<EquipmentVO> Equfindselect(Page page) {
         return page.setRecords(equipmentMapper.Equfindselect());
+    }
+
+    @Transactional
+    @Override
+    public boolean updateequipment(Equipment equipment) {
+        return equipmentMapper.updateequipment(equipment);
+    }
+    @Override
+    public boolean UpdEquipment(Equipment equipment) {
+        boolean bool=equipmentMapper.UpdEquipment(equipment);
+        return bool;
     }
 }

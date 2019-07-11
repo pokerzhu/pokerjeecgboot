@@ -90,8 +90,13 @@
             <a class="ant-dropdown-link">更多 <a-icon type="down" /></a>
             <a-menu slot="overlay">
               <a-menu-item>
-                <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">
+                <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.equipmentId)">
                   <a>删除</a>
+                </a-popconfirm>
+              </a-menu-item>
+               <a-menu-item>
+                <a-popconfirm title="确定安装吗?" @confirm="() =>handleAddequipment(record.equipmentId)">
+                  <a>安装</a>
                 </a-popconfirm>
               </a-menu-item>
             </a-menu>
@@ -104,18 +109,20 @@
 
     <!-- 表单区域 -->
     <equipment-modal ref="modalForm" @ok="modalFormOk"></equipment-modal>
+    <equipment-client-add ref="clientmodal"></equipment-client-add>
   </a-card>
 </template>
 
 <script>
   import EquipmentModal from '../modules/EquipmentModal'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
+  import EquipmentClientAdd from '../modules/EquipmentClientAdd'
 
   export default {
     name: "EquipmentList",
     mixins:[JeecgListMixin],
     components: {
-      EquipmentModal
+      EquipmentModal,EquipmentClientAdd
     },
     data () {
       return {
@@ -189,7 +196,12 @@
       }
     },
     methods: {
-
+      // 添加字典数据
+      handleAddequipment(equipmentId) {
+        this.$refs.clientmodal.add(equipmentId);
+        this.$refs.clientmodal.title="请填写安装客户信息";
+        this.$refs.clientmodal.visible=true;
+      },
     }
   }
 </script>

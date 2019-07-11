@@ -72,6 +72,15 @@ public class CommodityController {
 		 return result;
 	 }
 
+	 /*查询商品*/
+	 @GetMapping(value = "/selCommodity")
+	 public List<Commodity> selCommodity(){
+		 //获取滤芯表数据
+		 List<Commodity> records = commodityService.list();
+		 System.out.println(records);
+		 return records;
+	 }
+
 	 /**
 	  *   添加
 	  * @param commodity

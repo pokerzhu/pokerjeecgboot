@@ -16,7 +16,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.jeecgframework.poi.excel.annotation.Excel;
 
 /**
- * @Description: 商品滤芯关联
+ * @Description: 类型滤芯关联表
  * @Author: jeecg-boot
  * @Date:   2019-07-05
  * @Version: V1.0
@@ -33,10 +33,10 @@ public class Relationship {
     @ApiModelProperty(value = "商品滤芯关系编号")
 	@TableId(type = IdType.UUID)
 	private String relationshipId;
-	/**商品编号，商品表外键*/
-	@Excel(name = "商品编号，商品表外键", width = 15)
-    @ApiModelProperty(value = "商品编号，商品表外键")
-	private String commodityId;
+	/**商品类型id*/
+	@Excel(name = "商品类型", width = 15)
+	@ApiModelProperty(value = "商品类型")
+	private java.lang.Integer typeId;
 	/**滤芯编号，滤芯表外键*/
 	@Excel(name = "滤芯编号，滤芯表外键", width = 15)
     @ApiModelProperty(value = "滤芯编号，滤芯表外键")

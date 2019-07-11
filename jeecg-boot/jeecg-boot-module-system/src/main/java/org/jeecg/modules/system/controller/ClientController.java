@@ -71,8 +71,17 @@ public class ClientController {
 		result.setResult(pageList);
 		return result;
 	}
-	
-	/**
+
+	 /*查询客户*/
+	 @GetMapping(value = "/selClient")
+	 public List<Client> selClient(){
+		 //获取滤芯表数据
+		 List<Client> records = clientService.list();
+		 System.out.println(records);
+		 return records;
+	 }
+
+	 /**
 	  *   添加
 	 * @param client
 	 * @return
@@ -84,7 +93,9 @@ public class ClientController {
 		Result<Client> result = new Result<Client>();
 		try {
 			clientService.save(client);
-			result.success("添加成功！");
+			Client client1 = new Client().setClientId(client.getClientId());
+			result.setResult(client1);//添加成功后返回客户实体
+			result.success("添加客户信息成功！");
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 			result.error500("操作失败");
