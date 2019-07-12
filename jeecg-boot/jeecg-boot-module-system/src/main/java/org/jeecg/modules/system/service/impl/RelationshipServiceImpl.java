@@ -33,4 +33,9 @@ public class RelationshipServiceImpl extends ServiceImpl<RelationshipMapper, Rel
     public Integer selectBycommodityId(String commodityId) {
         return relationshipMapper.selectBycommodityId(commodityId);
     }
+
+    @Override
+    public void deletetypeId(String typeId) {
+        relationshipMapper.deletetypeId(typeId);
+    }
 }

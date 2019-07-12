@@ -28,4 +28,11 @@ public interface IRelationshipService extends IService<Relationship> {
      */
     Integer selectBycommodityId(String commodityId);
 
+    /**
+     * 根据类型id删除类型对应的滤芯记录
+     * @param typeId
+     * @return
+     */
+    void deletetypeId(String typeId);
+
 }

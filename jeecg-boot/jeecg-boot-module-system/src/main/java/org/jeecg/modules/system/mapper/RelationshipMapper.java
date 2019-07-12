@@ -15,21 +15,30 @@ import java.util.List;
  */
 public interface RelationshipMapper extends BaseMapper<Relationship> {
     /**
-     * 根据商品id查询滤芯
+     * 根据类型id查询滤芯
      * @param commodityId
      * @return
      */
-    @Select("SELECT r.relationship_id,f.filterelement_id filterelementId, f.filterelement_name filterelementName \n" +
+    @Select("SELECT r.relationship_id,f.filterelement_id filterelementId, f.filterelement_name filterelementName,f.validity,f.replacementdays  " +
             "FROM relationship r,filterelement f \n" +
             "WHERE r.filterelement_id = f.filterelement_id\n" +
-            "and commodity_id = #{commodityId}")
+            "and r.type_id = #{commodityId}")
     List<RelationshipVO> selectItemsByMainId(String commodityId);
+
     /**
-     * 根据商品id查询滤芯
+     * 根据类型id查询滤芯
      * @param commodityId
      * @return
      */
     @Select("SELECT count(1) FROM relationship\n" +
-            "where relationship.commodity_id=#{commodityId}")
+            "where relationship.type_id=#{commodityId}")
     Integer selectBycommodityId(String commodityId);
+
+    /**
+     * 根据类型id删除类型对应的滤芯记录
+     * @param typeId
+     * @return
+     */
+    @Select("delete FROM relationship where relationship.type_id=#{commodityId}")
+    void deletetypeId(String typeId);
 }

@@ -1,38 +1,28 @@
 <template>
   <a-card :bordered="false">
-    <!--商品列表页-->
+
     <!-- 查询区域 -->
     <div class="table-page-search-wrapper">
       <a-form layout="inline">
         <a-row :gutter="24">
 
           <a-col :md="6" :sm="8">
-            <a-form-item label="商品编号">
-              <a-input placeholder="请输入商品编号" v-model="queryParam.commodityId"></a-input>
+            <a-form-item label="商品类型id">
+              <a-input placeholder="请输入商品类型id" v-model="queryParam.typeId"></a-input>
             </a-form-item>
           </a-col>
           <a-col :md="6" :sm="8">
-            <a-form-item label="商品名称">
-              <a-input placeholder="请输入商品名称" v-model="queryParam.commodityName"></a-input>
+            <a-form-item label="类型名称">
+              <a-input placeholder="请输入类型名称" v-model="queryParam.typeName"></a-input>
             </a-form-item>
           </a-col>
-        <template v-if="toggleSearchStatus">
-        <a-col :md="6" :sm="8">
-            <a-form-item label="商品价格">
-              <a-input placeholder="请输入商品价格" v-model="queryParam.commodityPrices"></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :md="6" :sm="8">
-            <a-form-item label="商品租价">
-              <a-input placeholder="请输入商品租价" v-model="queryParam.commodityRent"></a-input>
-            </a-form-item>
-          </a-col>
-          <a-col :md="6" :sm="8">
-            <a-form-item label="商品描述">
-              <a-input placeholder="请输入商品描述" v-model="queryParam.description"></a-input>
-            </a-form-item>
-          </a-col>
-        </template>
+          <template v-if="toggleSearchStatus">
+            <a-col :md="6" :sm="8">
+              <a-form-item label="滤芯规格">
+                <a-input placeholder="请输入滤芯规格" v-model="queryParam.specification"></a-input>
+              </a-form-item>
+            </a-col>
+          </template>
           <a-col :md="6" :sm="8" >
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
               <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
@@ -51,7 +41,7 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('商品表')">导出</a-button>
+      <a-button type="primary" icon="download" @click="handleExportXls('商品类型')">导出</a-button>
       <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
       </a-upload>
@@ -82,24 +72,18 @@
         :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
         @change="handleTableChange">
 
-        <template slot="avatarslot" slot-scope="text, record, index">
-          <div class="anty-img-wrap">
-            <a-avatar shape="square" :src="getAvatarView(record.images)" icon="user"/>
-          </div>
-        </template>
         <span slot="action" slot-scope="text, record">
-
           <a @click="handleEdit(record)">编辑</a>
-           <a-divider type="vertical" />
+          <a-divider type="vertical" />
           <a-dropdown>
-          <a @click="editDictItem(record)"><a-icon type="setting"/>商品使用滤芯</a>
+          <a @click="editDictItem(record)"><a-icon type="setting"/>配置滤芯</a>
           </a-dropdown>
           <a-divider type="vertical" />
           <a-dropdown>
             <a class="ant-dropdown-link">更多 <a-icon type="down" /></a>
             <a-menu slot="overlay">
               <a-menu-item>
-                <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.commodityId)">
+                <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.typeId)">
                   <a>删除</a>
                 </a-popconfirm>
               </a-menu-item>
@@ -112,27 +96,25 @@
     <!-- table区域-end -->
 
     <!-- 表单区域 -->
-    <commodity-modal ref="modalForm" @ok="modalFormOk"></commodity-modal>
+    <commodityType-modal ref="modalForm" @ok="modalFormOk"></commodityType-modal>
     <RelationshipList ref="relationshipList" ></RelationshipList>
   </a-card>
 </template>
 
 <script>
-  import { filterObj } from '@/utils/util';
-  import CommodityModal from '../modules/CommodityModal'
-  import RelationshipList from '../Commodity/RelationshipList'
+  import CommodityTypeModal from '../modules/CommodityTypeModal'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
+  import RelationshipList from '../CommodityType/RelationshipList'
 
   export default {
-    name: "CommodityList",
+    name: "CommodityTypeList",
     mixins:[JeecgListMixin],
     components: {
-      CommodityModal,
-      RelationshipList
+      CommodityTypeModal,RelationshipList
     },
     data () {
       return {
-        description: '商品表管理页面',
+        description: '商品类型管理页面',
         // 表头
         columns: [
           {
@@ -144,63 +126,22 @@
             customRender:function (t,r,index) {
               return parseInt(index)+1;
             }
-           },/*,
-		   {
-            title: '商品编号',
-            align:"center",
-            dataIndex: 'commodityId'
-           }*/
-		   {
-            title: '商品名称',
-            align:"center",
-            dataIndex: 'commodityName'
-           },
-		   {
-            title: '商品价格',
-            align:"center",
-            dataIndex: 'commodityPrices'
-           },
-		   {
-            title: '商品租价',
-            align:"center",
-            dataIndex: 'commodityRent'
-           },
-		   {
-            title: '商品描述',
-            align:"center",
-            dataIndex: 'description'
-           },
-          {
-            title: '商品缩略图',
-            align: "center",
-            dataIndex: 'images',
-            scopedSlots: {customRender: "avatarslot"}
           },
-		   {
-            title: '商品类型',
+          {
+            title: '商品类型id',
+            align:"center",
+            dataIndex: 'typeId'
+          },
+          {
+            title: '类型名称',
             align:"center",
             dataIndex: 'typeName'
-           },
-          /*{
-            title: '创建人',
-            align:"center",
-            dataIndex: 'createBy'
           },
           {
-            title: '创建时间',
+            title: '滤芯规格',
             align:"center",
-            dataIndex: 'createTime'
+            dataIndex: 'specification'
           },
-          {
-            title: '更新人',
-            align:"center",
-            dataIndex: 'updateBy'
-          },
-          {
-            title: '更新时间',
-            align:"center",
-            dataIndex: 'updateTime'
-          },*/
           {
             title: '操作',
             dataIndex: 'action',
@@ -208,27 +149,23 @@
             scopedSlots: { customRender: 'action' },
           }
         ],
-		url: {
-          list: "/commodity/commodity/list",
-          delete: "/commodity/commodity/delete",
-          deleteBatch: "/commodity/commodity/deleteBatch",
-          exportXlsUrl: "commodity/commodity/exportXls",
-          importExcelUrl: "commodity/commodity/importExcel",
-          imgerver: window._CONFIG['domianURL'] + "/sys/common/view",
-       },
-    }
-  },
-  computed: {
-    importExcelUrl: function(){
-      return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
-    }
-  },
+        url: {
+          list: "/dome/commodityType/list",
+          delete: "/dome/commodityType/delete",
+          deleteBatch: "/dome/commodityType/deleteBatch",
+          exportXlsUrl: "dome/commodityType/exportXls",
+          importExcelUrl: "dome/commodityType/importExcel",
+        },
+      }
+    },
+    computed: {
+      importExcelUrl: function(){
+        return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
+      }
+    },
     methods: {
       editDictItem(record) {
         this.$refs.relationshipList.edit(record);
-      },
-      getAvatarView: function (avatar) {
-        return this.url.imgerver + "/" + avatar;
       },
     }
   }

@@ -2,6 +2,7 @@ package org.jeecg.modules.system.entity;
 
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
@@ -15,18 +16,22 @@ import org.jeecgframework.poi.excel.annotation.Excel;
 @TableName("commodity_type")
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="commodity_type对象", description="商品类型表")
+@ApiModel(value="commodity_type对象", description="商品类型")
 public class CommodityType {
+
     /**商品类型id*/
-    @Excel(name = "商品类型", width = 15)
-    @ApiModelProperty(value = "商品类型")
-    @TableId(type = IdType.UUID)
-    private java.lang.Integer typeId;
-    /**商品类型名称*/
+    @Excel(name = "商品类型id", width = 15)
+    @ApiModelProperty(value = "商品类型id")
+    @TableId(type=IdType.UUID)
+    private java.lang.String typeId;
+    /**类型名称*/
     @Excel(name = "类型名称", width = 15)
     @ApiModelProperty(value = "类型名称")
-    @TableId(type = IdType.UUID)
-    private java.lang.Integer typeName;
+    private java.lang.String typeName;
+    /**滤芯规格*/
+    @Excel(name = "滤芯规格", width = 15)
+    @ApiModelProperty(value = "滤芯规格")
+    private java.lang.Integer specification;
     /**创建人*/
     @Excel(name = "创建人", width = 15)
     @ApiModelProperty(value = "创建人")

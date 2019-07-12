@@ -56,7 +56,7 @@ public class Commodity {
 	/**商品类型*/
 	@Excel(name = "商品类型", width = 15)
 	@ApiModelProperty(value = "商品类型")
-	private java.lang.Integer typeId;
+	private java.lang.String typeId;
 	/**创建人*/
 	@Excel(name = "创建人", width = 15)
 	@ApiModelProperty(value = "创建人")

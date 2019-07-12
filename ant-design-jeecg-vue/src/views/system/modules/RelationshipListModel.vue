@@ -34,7 +34,7 @@
         visible: false,
         visibleCheck: true,
         model: {},
-        commodityId:"",
+        typeId:"",
         purposeList:[],//滤芯
         status: 1,
         labelCol: {
@@ -60,8 +60,6 @@
         getAction("/demo/filterelement/selpurpose",null).then((res) => {
           console.log(res);
           this.purposeList = res;
-          console.log(this.commodityId);
-          console.log(this.purposeList);
         })
       },
       // 确定
@@ -74,7 +72,7 @@
             console.log(values.value);
             values.value = (values.value || '').trim()
             let formData = Object.assign(this.model, values);
-            formData.commodityId=this.commodityId;
+            formData.typeId=this.typeId;
             console.log(formData);
             let obj;
             obj=postAction("/dome/relationship/add",formData);

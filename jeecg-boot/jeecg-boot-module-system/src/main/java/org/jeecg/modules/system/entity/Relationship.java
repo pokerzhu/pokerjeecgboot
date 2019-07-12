@@ -36,7 +36,7 @@ public class Relationship {
 	/**商品类型id*/
 	@Excel(name = "商品类型", width = 15)
 	@ApiModelProperty(value = "商品类型")
-	private java.lang.Integer typeId;
+	private java.lang.String typeId;
 	/**滤芯编号，滤芯表外键*/
 	@Excel(name = "滤芯编号，滤芯表外键", width = 15)
     @ApiModelProperty(value = "滤芯编号，滤芯表外键")

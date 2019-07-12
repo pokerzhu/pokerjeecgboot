@@ -2,7 +2,7 @@
   <a-card :bordered="false">
     <!-- 抽屉 -->
     <a-drawer
-      title="查看商品使用滤芯"
+      title="配置滤芯"
       :width="screenWidth"
       @close="onClose"
       :visible="visible"
@@ -14,6 +14,16 @@
           border: '1px solid #e9e9e9',
           background: '#fff',
         }">
+
+        <div class="table-page-search-wrapper">
+          <a-form layout="inline" :form="form">
+            <a-row>
+              <a-col :md="2" :sm="24">
+                <a-button style="margin-bottom: 10px" type="primary" @click="handleAdd">新增滤芯</a-button>
+              </a-col>
+            </a-row>
+          </a-form>
+        </div>
         <div>
           <a-table
             ref="table"
@@ -25,6 +35,12 @@
             :loading="loading"
             @change="handleTableChange"
           >
+
+          <span slot="action" slot-scope="text, record">
+            <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.relationshipId)">
+              <a>删除</a>
+            </a-popconfirm>
+          </span>
           </a-table>
         </div>
       </div>
@@ -59,13 +75,13 @@
             title: '滤芯最低更换天数',
             align: "center",
             dataIndex: 'replacementdays',
-          }/*,
+          },
           {
             title: '操作',
             dataIndex: 'action',
             align: "center",
             scopedSlots: {customRender: 'action'},
-          }*/
+          }
         ],
         queryParam: {
           typeId: "",

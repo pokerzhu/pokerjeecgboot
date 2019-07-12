@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.jeecg.modules.system.entity.Commodity;
 import org.jeecg.modules.system.entity.Relationship;
+import org.jeecg.modules.system.service.ICommodityTypeService;
 import org.jeecg.modules.system.service.IRelationshipService;
 import org.jeecg.modules.system.vo.RelationshipVO;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
@@ -50,6 +51,8 @@ import io.swagger.annotations.ApiOperation;
 public class RelationshipController {
 	@Autowired
 	private IRelationshipService relationshipService;
+	 @Autowired
+	 private ICommodityTypeService iCommodityTypeService;
 
 	 /**
 	  * 分页列表查询
@@ -66,12 +69,12 @@ public class RelationshipController {
 													  @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
 													  @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
 													  HttpServletRequest req) {
-         commodityId.setCommodityId(req.getParameter("commodityId"));
+         commodityId.setTypeId(req.getParameter("typeId"));
 	     Result<IPage<RelationshipVO>> result = new Result<IPage<RelationshipVO>>();
 		 QueryWrapper<RelationshipVO> queryWrapper = QueryGenerator.initQueryWrapper(commodityId, req.getParameterMap());
 		 Page<RelationshipVO> page = new Page<RelationshipVO>(pageNo, pageSize);
 		 if (commodityId!=null){
-			 IPage<RelationshipVO> pageList = relationshipService.selectItemsByMainId(page,commodityId.getCommodityId());
+			 IPage<RelationshipVO> pageList = relationshipService.selectItemsByMainId(page,commodityId.getTypeId());
 			 result.setSuccess(true);
 			 result.setResult(pageList);
 		 }else {
@@ -91,12 +94,18 @@ public class RelationshipController {
      @PostMapping(value = "/add")
      public Result<Relationship> add(@RequestBody Relationship filterelement) {
          Result<Relationship> result = new Result<Relationship>();
+		 int count = relationshipService.selectBycommodityId(filterelement.getTypeId());
+		 int specification = iCommodityTypeService.selectspecification(filterelement.getTypeId());
          try {
-			filterelement.setCreateBy("张文");
-			filterelement.setCreateTime(new Date());
-			filterelement.setUpdateBy("张文");
-			relationshipService.save(filterelement);
-			result.success("添加成功！");
+         	if(count<specification){
+				filterelement.setCreateBy("张文");
+				filterelement.setCreateTime(new Date());
+				filterelement.setUpdateBy("张文");
+				relationshipService.save(filterelement);
+				result.success("添加成功！");
+			}else{
+				result.error500("该类型对应的滤芯规格只能添加"+specification+"根!");
+			}
          } catch (Exception e) {
              log.error(e.getMessage(), e);
              result.error500("操作失败");
@@ -125,6 +134,7 @@ public class RelationshipController {
 		 }
 		 return result;
 	 }
+
 
 
  }

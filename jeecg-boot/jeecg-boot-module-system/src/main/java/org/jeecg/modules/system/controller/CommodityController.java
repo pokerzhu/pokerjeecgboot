@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.jeecg.modules.system.entity.Commodity;
 import org.jeecg.modules.system.service.ICommodityService;
+import org.jeecg.modules.system.vo.CommodityVO;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.def.NormalExcelConstants;
 import org.jeecgframework.poi.excel.entity.ExportParams;
@@ -59,14 +60,14 @@ public class CommodityController {
 	 @AutoLog(value = "商品表-分页列表查询")
 	 @ApiOperation(value="商品表-分页列表查询", notes="商品表-分页列表查询")
 	 @GetMapping(value = "/list")
-	 public Result<IPage<Commodity>> queryPageList(Commodity commodity,
+	 public Result<IPage<CommodityVO>> queryPageList(Commodity commodity,
 												   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
 												   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
 												   HttpServletRequest req) {
-		 Result<IPage<Commodity>> result = new Result<IPage<Commodity>>();
-		 QueryWrapper<Commodity> queryWrapper = QueryGenerator.initQueryWrapper(commodity, req.getParameterMap());
-		 Page<Commodity> page = new Page<Commodity>(pageNo, pageSize);
-		 IPage<Commodity> pageList = commodityService.page(page, queryWrapper);
+		 Result<IPage<CommodityVO>> result = new Result<IPage<CommodityVO>>();
+/*		 QueryWrapper<CommodityVO> queryWrapper = QueryGenerator.initQueryWrapper(commodity, req.getParameterMap());*/
+		 Page<CommodityVO> page = new Page<CommodityVO>(pageNo, pageSize);
+		 IPage<CommodityVO> pageList = commodityService.selectCommodity(page);
 		 result.setSuccess(true);
 		 result.setResult(pageList);
 		 return result;
