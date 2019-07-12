@@ -22,11 +22,11 @@ public interface EquipmentMapper extends BaseMapper<Equipment> {
      * @return
      */
     @Select("select user_id,equipment_id,e.commodity_id,commodity_name,\n" +
-            "\t\t\t\trealname,client_name,ids,enabled\n" +
-            "\t\t\t\tFROM equipment as e\n" +
-            "\t\t\t\tleft join commodity as c on e.commodity_id=c.commodity_id\n" +
-            "\t\t\t\tleft join sys_user as s on e.user_id=s.id\n" +
-            "\t\t\t\tleft join client as l on e.client_id=l.client_id")
+            "            realname,client_name,ids,enabled,leasestate,mainboard,filterelement_Type,commodity_prices,commodity_rent\n" +
+            "            FROM equipment as e\n" +
+            "          left join commodity as c on e.commodity_id=c.commodity_id\n" +
+            "            left join sys_user as s on e.user_id=s.id\n" +
+            "          left join client as l on e.client_id=l.client_id")
     List<EquipmentVO> Equfindselect();
 
     /**
@@ -42,6 +42,13 @@ public interface EquipmentMapper extends BaseMapper<Equipment> {
      * @param equipment
      * @return
      */
-    @Update("UPDATE `jeecg-boot`.`equipment` SET `commodity_id` = #{commodityId}, `user_id` = #{userId},`ids` = #{ids}, `enabled` = #{enabled} WHERE `equipment_id` = #{equipmentId};")
-    boolean UpdEquipment(Equipment equipment);
+    @Update("UPDATE `jeecg-boot`.`equipment` SET `commodity_id` = #{commodityId}, `user_id` = #{userId},`ids` = #{ids}," +
+            "`enabled` = #{enabled},`leasestate`=#{leasestate} WHERE `equipment_id` = #{equipmentId};")
+            boolean UpdEquipment(Equipment equipment);
+
+    /**
+     * 设备客户编辑-何豪
+     */
+    @Update("UPDATE `jeecg-boot`.`equipment` SET  `client_id` = #{clientId} WHERE `equipment_id` = #{equipmentId}")
+    boolean UpdEquipmentClient(Equipment equipment);
 }

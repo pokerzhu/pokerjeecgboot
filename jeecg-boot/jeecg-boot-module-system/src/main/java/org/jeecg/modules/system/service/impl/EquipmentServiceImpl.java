@@ -38,4 +38,10 @@ public class EquipmentServiceImpl extends ServiceImpl<EquipmentMapper, Equipment
         boolean bool=equipmentMapper.UpdEquipment(equipment);
         return bool;
     }
+
+    @Override
+    public boolean UpdEquipmentClient(Equipment equipment) {
+        boolean bool=equipmentMapper.UpdEquipmentClient(equipment);
+        return bool;
+    }
 }

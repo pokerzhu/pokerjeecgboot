@@ -29,16 +29,16 @@ public class Equipment {
 
 	/**设备编号*/
 	@Excel(name = "设备编号", width = 15)
-	@ApiModelProperty(value = "设备编号")
-	@TableId(type = IdType.UUID)
+    @ApiModelProperty(value = "设备编号")
+    @TableId(type = IdType.UUID)
 	private String equipmentId;
 	/**商品编号，商品表外键*/
 	@Excel(name = "商品编号，商品表外键", width = 15)
 	@ApiModelProperty(value = "商品编号，商品表外键")
+    @TableId(type = IdType.UUID)
 	private String commodityId;
 	/**所属人，用户表外键，属于哪个代理的*/
 	@ApiModelProperty(value = "所属人，用户表外键，属于哪个代理的")
-	@TableId(type = IdType.UUID)
 	private String userId;
 	/**安装客户编号，客户表外键。*/
 	@Excel(name = "安装客户编号，客户表外键。", width = 15)
@@ -50,7 +50,7 @@ public class Equipment {
 	private String ids;
 	/**是否启用，字典*/
 	@Excel(name = "安装状态", width = 15)
-	@ApiModelProperty(value = "是否启用，字典")
+    @ApiModelProperty(value = "是否启用")
 	@Dict(dicCode = "enabled")
 	private Integer enabled;
 	/**创建人*/
@@ -73,4 +73,16 @@ public class Equipment {
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	@ApiModelProperty(value = "更新时间")
 	private Date updateTime;
+    @Excel(name="租赁状态",width = 20)
+    @ApiModelProperty(value = "租赁状态")
+    @Dict(dicCode = "leasestate")
+	private Integer leasestate;
+    @Excel(name="主板状态",width = 20)
+    @ApiModelProperty(value = "主板状态")
+    @Dict(dicCode = "mainboard")
+    private Integer mainboard;
+    @Excel(name="滤芯状态",width = 20)
+    @ApiModelProperty(value = "滤芯状态")
+    @Dict(dicCode = "filterelementType")
+    private Integer filterelementType;
 }

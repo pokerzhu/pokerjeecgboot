@@ -94,15 +94,23 @@
                   <a>删除</a>
                 </a-popconfirm>
               </a-menu-item>
-               <a-menu-item>
-                <a-popconfirm title="确定安装吗?" @confirm="() =>handleAddequipment(record.equipmentId)">
+               <a-menu-item v-if="record.clientName==null">
+                <a-popconfirm  title="确定安装吗?" @confirm="() =>handleAddequipment(record.equipmentId)">
                   <a>安装</a>
+                </a-popconfirm>
+              </a-menu-item>
+              <a-menu-item v-else>
+                <a-popconfirm title="确定撤回吗?" @confirm="() =>handEquipment(record.equipmentId)">
+                  <a>撤回</a>
                 </a-popconfirm>
               </a-menu-item>
             </a-menu>
           </a-dropdown>
         </span>
 
+        <span slot="leasestate" slot-scope="text, record">
+                {{record.leasestate==0?record.commodityRent:record.commodityPrices}}
+        </span>
       </a-table>
     </div>
     <!-- table区域-end -->
@@ -110,19 +118,21 @@
     <!-- 表单区域 -->
     <equipment-modal ref="modalForm" @ok="modalFormOk"></equipment-modal>
     <equipment-client-add ref="clientmodal"></equipment-client-add>
+    <equipment-client-x-z ref="equipmentclientxz"></equipment-client-x-z>
   </a-card>
 </template>
 
 <script>
   import EquipmentModal from '../modules/EquipmentModal'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import EquipmentClientAdd from '../modules/EquipmentClientAdd'
 
+  import EquipmentClientXZ from '../modules/EquipmentClientXZ'
+  import { httpAction,putAction } from '@/api/manage'
   export default {
     name: "EquipmentList",
     mixins:[JeecgListMixin],
-    components: {
-      EquipmentModal,EquipmentClientAdd
+    components: {/*EquipmentClientAdd*/
+      EquipmentModal,EquipmentClientXZ
     },
     data () {
       return {
@@ -139,11 +149,11 @@
           //     return parseInt(index)+1;
           //   }
           //  },
-          {
-            title: '设备编号',
-            align:"center",
-            dataIndex: 'equipmentId'
-          },
+          // {
+          //   title: '设备编号',
+          //   align:"center",
+          //   dataIndex: 'equipmentId'
+          // },
           {
             title: '商品编号',
             align:"center",
@@ -175,6 +185,36 @@
             dataIndex: 'enabled_dictText'
           },
           {
+            title: '租赁状态',
+            align:"center",
+            dataIndex: 'leasestate_dictText'
+          },
+          /*{
+            title: '租赁价格',
+            align:"center",
+            dataIndex: 'commodityRent'
+          },
+          {
+            title: '卖出价格',
+            align:"center",
+            dataIndex: 'commodityPrices'
+          },*/{
+            title: '价格',
+            dataIndex: 'leasestate',
+            align:"center",
+            scopedSlots: { customRender: 'leasestate' },
+          },
+          {
+            title: '主板状态',
+            align:"center",
+            dataIndex: 'mainboard_dictText'
+          },
+          {
+            title: '滤芯状态',
+            align:"center",
+            dataIndex: 'filterelementType_dictText'
+          },
+          {
             title: '操作',
             dataIndex: 'action',
             align:"center",
@@ -184,6 +224,7 @@
         url: {
           list: "/demo/equipment/list",
           delete: "/demo/equipment/delete",
+          update: "/demo/equipment/editA",
           deleteBatch: "/demo/equipment/deleteBatch",
           exportXlsUrl: "demo/equipment/exportXls",
           importExcelUrl: "demo/equipment/importExcel",
@@ -198,9 +239,24 @@
     methods: {
       // 添加字典数据
       handleAddequipment(equipmentId) {
-        this.$refs.clientmodal.add(equipmentId);
-        this.$refs.clientmodal.title="请填写安装客户信息";
-        this.$refs.clientmodal.visible=true;
+        this.$refs.equipmentclientxz.add(equipmentId);
+        this.$refs.equipmentclientxz.title="请选择安装客户信息";
+      },
+      handEquipment(equipmentId){
+        this.confirmLoading = true;
+            var record = {"equipmentId":equipmentId,"clientId":null};
+            putAction(this.url.update, record).then((res) => {//撤回设备，删除设备客户关联记录
+              if (res.success) {
+                console.log(this.dataSource);
+                this.$message.success(res.message);
+                that.$emit('ok');
+              }else{
+                this.$message.warning(res.message);
+              }
+            }).finally(() => {
+              this.confirmLoading = false;
+              this.loadData();
+            })
       },
     }
   }

@@ -11,30 +11,6 @@
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
 
-        <!--<a-form-item-->
-        <!--:labelCol="labelCol"-->
-        <!--:wrapperCol="wrapperCol"-->
-        <!--label="设备编号">-->
-        <!--<a-input placeholder="请输入设备编号" v-decorator="['equipmentId', validatorRules.equipmentId ]" />-->
-        <!--</a-form-item>-->
-        <!--<a-form-item-->
-        <!--:labelCol="labelCol"-->
-        <!--:wrapperCol="wrapperCol"-->
-        <!--label="商品编号，商品表外键">-->
-        <!--<a-input placeholder="请输入商品编号，商品表外键" v-decorator="['commodityId', validatorRules.commodityId ]" />-->
-        <!--</a-form-item>-->
-        <!--<a-form-item-->
-        <!--:labelCol="labelCol"-->
-        <!--:wrapperCol="wrapperCol"-->
-        <!--label="安装客户编号，客户表外键。">-->
-        <!--<a-input placeholder="请输入安装客户编号，客户表外键。" v-decorator="['clientId', validatorRules.clientId ]" />-->
-        <!--</a-form-item>-->
-        <!--<a-form-item-->
-        <!--:labelCol="labelCol"-->
-        <!--:wrapperCol="wrapperCol"-->
-        <!--label="所属代理">-->
-        <!--<a-input placeholder="请输入所属代理" v-decorator="['ids',validatorRules.ids ]" />-->
-        <!--</a-form-item>-->
         <a-spin :spinning="confirmLoading">
           <a-form :form="form">
             <a-form-item label="所属代理" :labelCol="labelCol" :wrapperCol="wrapperCol">
@@ -48,13 +24,13 @@
           </a-form>
 
           <!--<a-form :form="form">-->
-          <!--<a-form-item label="客户名" :labelCol="labelCol" :wrapperCol="wrapperCol">-->
-          <!--<a-select  placeholder="请选择客户名"  v-decorator="[ 'clientId',{}]" >-->
-          <!--<a-select-option v-for="(selpurpose) in ClientList"-->
-          <!--:value="selpurpose.clientId">-->
-          <!--{{ selpurpose.clientName }}-->
-          <!--</a-select-option>-->
-          <!--</a-select>-->
+              <!--<a-form-item label="客户名" :labelCol="labelCol" :wrapperCol="wrapperCol">-->
+                  <!--<a-select  placeholder="请选择客户名"  v-decorator="[ 'clientId',{}]" >-->
+                      <!--<a-select-option v-for="(selpurpose) in ClientList"-->
+                        <!--:value="selpurpose.clientId">-->
+                  <!--{{ selpurpose.clientName }}-->
+                  <!--</a-select-option>-->
+                <!--</a-select>-->
           <!--</a-form-item>-->
           <!--</a-form>-->
 
@@ -102,6 +78,14 @@
           </a-form-item>
         </a-form>
 
+        <a-form :form="form">
+          <a-form-item label="租赁状态" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-select  placeholder="请选择租赁状态"  v-decorator="[ 'leasestate',{}]" >
+              <a-select-option :value="0">  租 </a-select-option>
+              <a-select-option :value="1">  卖 </a-select-option>
+            </a-select>
+          </a-form-item>
+        </a-form>
       </a-form>
     </a-spin>
   </a-modal>
@@ -121,6 +105,7 @@
         visible: false,
         model: {},
         equipmentId:"",
+        leasestate:"",
         ClientList:[],
         SysUserList:[],
         CommodityList:[],
@@ -141,6 +126,7 @@
           clientId:{rules: [{ required: true, message: '请输入客户名。!' }]},
           ids:{rules: [{ required: true, message: '请输入硬件编号!' }]},
           enabled:{rules: [{ required: true, message: '请输入是否启用!' }]},
+          leasestate:{rules: [{ required: true, message: '请输入租赁状态!' }]},
         },
         url: {
           add: "/demo/equipment/add",
@@ -178,7 +164,7 @@
         this.model = Object.assign({},record);
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'userId','commodityId','ids','enabled'))
+          this.form.setFieldsValue(pick(this.model,'userId','commodityId','ids','enabled','leasestate'))
           //时间格式化
         });
       },

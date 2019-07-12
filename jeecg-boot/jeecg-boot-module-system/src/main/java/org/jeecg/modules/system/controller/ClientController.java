@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.jeecg.modules.system.entity.Client;
 import org.jeecg.modules.system.service.IClientService;
+import org.jeecg.modules.system.vo.EquipmentVO;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.def.NormalExcelConstants;
 import org.jeecgframework.poi.excel.entity.ExportParams;
@@ -257,5 +258,6 @@ public class ClientController {
       }
       return Result.ok("文件导入失败！");
   }
+
 
 }

@@ -22,7 +22,7 @@ public class AutoPoiConfig {
 	 */
 	@Bean
 	public ApplicationContextUtil applicationContextUtil() {
-		return new org.jeecgframework.core.util.ApplicationContextUtil();
+		return new ApplicationContextUtil();
 	}
 
 }

@@ -15,6 +15,6 @@ public interface FilterelementMapper extends BaseMapper<Filterelement> {
     /**
      *添加图片
      */
-    String insertImg(String name,String url,String mimeType,
-                     String Suffix,String Created,long Size);
+    String insertImg(String name, String url, String mimeType,
+                     String Suffix, String Created, long Size);
 }

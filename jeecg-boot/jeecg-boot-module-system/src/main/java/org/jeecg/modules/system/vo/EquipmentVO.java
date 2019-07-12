@@ -29,4 +29,24 @@ public class EquipmentVO implements Serializable {
     @TableField("enabled")
     @Dict(dicCode = "enabled")
     private Integer enabled;
+    @TableField("user_id")
+    private String userId;
+    //租赁
+    @TableField("leasestate")
+    @Dict(dicCode = "leasestate")
+    private Integer leasestate;
+    //主板状态
+    @TableField("mainboard")
+    @Dict(dicCode = "mainboard")
+    private Integer mainboard;
+    //滤芯状态
+    @TableField("filterelement_Type")
+    @Dict(dicCode = "filterelementType")
+    private Integer filterelementType;
+    //卖出价格
+    @TableField("commodity_prices")
+    private String commodityPrices;
+    //租赁价格
+    @TableField("commodity_rent")
+    private String commodityRent;
 }

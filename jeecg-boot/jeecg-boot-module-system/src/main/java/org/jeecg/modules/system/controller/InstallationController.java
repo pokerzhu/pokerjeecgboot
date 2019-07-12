@@ -69,7 +69,6 @@ public class InstallationController {
                 result.success("修改失败!");
             }
         }
-
         return result;
     }
     /**

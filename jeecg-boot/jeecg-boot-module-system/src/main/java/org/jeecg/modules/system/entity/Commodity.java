@@ -32,43 +32,43 @@ public class Commodity {
 	@Excel(name = "商品编号", width = 15)
 	@ApiModelProperty(value = "商品编号")
     @TableId(type = IdType.UUID)
-	private java.lang.String commodityId;
+	private String commodityId;
 	/**商品名称*/
 	@Excel(name = "商品名称", width = 15)
 	@ApiModelProperty(value = "商品名称")
-	private java.lang.String commodityName;
+	private String commodityName;
 	/**商品价格*/
 	@Excel(name = "商品价格", width = 15)
 	@ApiModelProperty(value = "商品价格")
-	private java.lang.String commodityPrices;
+	private String commodityPrices;
 	/**商品租价*/
 	@Excel(name = "商品租价", width = 15)
 	@ApiModelProperty(value = "商品租价")
-	private java.lang.String commodityRent;
+	private String commodityRent;
 	/**商品描述*/
 	@Excel(name = "商品描述", width = 15)
 	@ApiModelProperty(value = "商品描述")
-	private java.lang.String description;
+	private String description;
 	/**商品图片*/
 	@Excel(name = "商品图片", width = 15)
 	@ApiModelProperty(value = "商品图片")
-	private java.lang.String images;
+	private String images;
 	/**商品类型*/
 	@Excel(name = "商品类型", width = 15)
 	@ApiModelProperty(value = "商品类型")
-	private java.lang.String typeId;
+	private String typeId;
 	/**创建人*/
 	@Excel(name = "创建人", width = 15)
 	@ApiModelProperty(value = "创建人")
-	private java.lang.String createBy;
+	private String createBy;
 	/**创建时间*/
 	@ApiModelProperty(value = "创建时间")
-	private java.util.Date createTime;
+	private Date createTime;
 	/**更新人*/
 	@Excel(name = "更新人", width = 15)
 	@ApiModelProperty(value = "更新人")
-	private java.lang.String updateBy;
+	private String updateBy;
 	/**更新时间*/
 	@ApiModelProperty(value = "更新时间")
-	private java.util.Date updateTime;
+	private Date updateTime;
 }

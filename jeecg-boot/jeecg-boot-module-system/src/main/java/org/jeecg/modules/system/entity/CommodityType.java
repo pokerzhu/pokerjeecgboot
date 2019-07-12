@@ -23,26 +23,26 @@ public class CommodityType {
     @Excel(name = "商品类型id", width = 15)
     @ApiModelProperty(value = "商品类型id")
     @TableId(type=IdType.UUID)
-    private java.lang.String typeId;
+    private String typeId;
     /**类型名称*/
     @Excel(name = "类型名称", width = 15)
     @ApiModelProperty(value = "类型名称")
-    private java.lang.String typeName;
+    private String typeName;
     /**滤芯规格*/
     @Excel(name = "滤芯规格", width = 15)
     @ApiModelProperty(value = "滤芯规格")
-    private java.lang.Integer specification;
+    private Integer specification;
     /**创建人*/
     @Excel(name = "创建人", width = 15)
     @ApiModelProperty(value = "创建人")
-    private java.lang.String createBy;
+    private String createBy;
     /**创建时间*/
     @ApiModelProperty(value = "创建时间")
     private java.util.Date createTime;
     /**更新人*/
     @Excel(name = "更新人", width = 15)
     @ApiModelProperty(value = "更新人")
-    private java.lang.String updateBy;
+    private String updateBy;
     /**更新时间*/
     @ApiModelProperty(value = "更新时间")
     private java.util.Date updateTime;

@@ -95,6 +95,7 @@
       add (equipmentId) {
         this.equipmentId=equipmentId;
         console.log(equipmentId);
+        this.visible=true;
       },
       close () {
         this.$emit('close');
@@ -146,12 +147,8 @@
       handleCancel () {
         this.close()
       },
-
-
     }
   }
 </script>
-
 <style lang="less" scoped>
-
 </style>

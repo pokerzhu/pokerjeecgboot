@@ -2,7 +2,7 @@
   <a-card :bordered="false">
     <!-- 抽屉 -->
     <a-drawer
-      title="查看商品使用滤芯"
+      title="规格列表"
       :width="screenWidth"
       @close="onClose"
       :visible="visible"
@@ -14,6 +14,16 @@
           border: '1px solid #e9e9e9',
           background: '#fff',
         }">
+
+        <div class="table-page-search-wrapper">
+          <a-form layout="inline" :form="form">
+            <a-row>
+              <a-col :md="2" :sm="24">
+                <a-button style="margin-bottom: 10px" type="primary" @click="handleAdd">新增滤芯</a-button>
+              </a-col>
+            </a-row>
+          </a-form>
+        </div>
         <div>
           <a-table
             ref="table"
@@ -25,12 +35,17 @@
             :loading="loading"
             @change="handleTableChange"
           >
+
+          <span slot="action" slot-scope="text, record">
+            <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.relationshipId)">
+              <a>删除</a>
+            </a-popconfirm>
+          </span>
           </a-table>
         </div>
       </div>
     </a-drawer>
     <RelationshipList-model ref="modalForm" @ok="modalFormOk"></RelationshipList-model>
-
   </a-card>
 </template>
 
@@ -51,30 +66,20 @@
             dataIndex: 'filterelementName',
           },
           {
-            title: '滤芯可用天数',
-            align: "center",
-            dataIndex: 'validity',
-          },
-          {
-            title: '滤芯最低更换天数',
-            align: "center",
-            dataIndex: 'replacementdays',
-          }/*,
-          {
             title: '操作',
             dataIndex: 'action',
             align: "center",
             scopedSlots: {customRender: 'action'},
-          }*/
+          }
         ],
         queryParam: {
-          typeId: "",
+          commodityId: "",
         },
         title: "操作",
         visible: false,
         screenWidth: 800,
         model: {},
-        typeId: "",//类型id
+        commodityId: "",
         status: 1,
         labelCol: {
           xs: {span: 5},
@@ -100,24 +105,24 @@
     },
     methods: {
       add(id) {
-        this.typeId = id;
+        this.commodityId = id;
         this.edit({});
       },
       edit(record) {
-        this.typeId = record.typeId;
+        this.commodityId = record.commodityId;
         /*console.log(this.commodityId+"1111")*/
-        this.queryParam.typeId=record.typeId;
+        this.queryParam.commodityId=record.commodityId;
         this.form.resetFields();
         this.model = Object.assign({}, record);
-        this.model.typeId = this.typeId;
-        console.log(this.model.typeId)
+        this.model.commodityId = this.commodityId;
+        console.log(this.model.commodityId)
         this.visible = true;
         // 当其它模块调用该模块时,调用此方法加载字典数据
         this.loadData();
       },
       getQueryParams() {
         var param = Object.assign({}, this.queryParam);
-        param.typeId = this.typeId;
+        param.commodityId = this.commodityId;
         param.field = this.getQueryField();
         param.pageNo = this.ipagination.current;
         param.pageSize = this.ipagination.pageSize;
@@ -125,9 +130,9 @@
       },
       // 添加字典数据
       handleAdd() {
-        console.log(this.typeId);
+        console.log(this.commodityId);
         this.$refs.modalForm.visible=true;
-        this.$refs.modalForm.typeId=this.typeId;
+        this.$refs.modalForm.commodityId=this.commodityId;
         this.$refs.modalForm.title = "新增";
       },
       showDrawer() {

@@ -25,10 +25,10 @@
       <a-card :bordered="false">
         <a-tabs defaultActiveKey="2" @change="callback">
           <a-tab-pane tab="基本信息" key="1" forceRender>
-            <Dept-Base-Info ref="DeptBaseInfo"></Dept-Base-Info>
+            <Dept-Base-Info ref="RealBaseInfo"></Dept-Base-Info>
           </a-tab-pane>
           <a-tab-pane tab="用户信息" key="2">
-            <Dept-User-Info ref="DeptUserInfo"></Dept-User-Info>
+            <Dept-User-Info ref="RealUserInfo"></Dept-User-Info>
           </a-tab-pane>
         </a-tabs>
       </a-card>
@@ -36,17 +36,17 @@
   </a-row>
 </template>
 <script>
-  import DeptBaseInfo from './modules/DeptBaseInfo'
-  import DeptUserInfo from './modules/DeptUserInfo'
+  import RealBaseInfo from '../modules/RealBaseInfo'
+  import RealUserInfo from '../modules/RealUserInfo'
   import {queryDepartTreeList, searchByKeywords} from '@/api/api'
   import {JeecgListMixin} from '@/mixins/JeecgListMixin'
 
   export default {
-    name: 'DepartUserList',
+    name: 'RealUserList',
     mixins: [JeecgListMixin],
     components: {
-      DeptBaseInfo,
-      DeptUserInfo,
+     RealBaseInfo,
+     RealUserInfo,
     },
     data() {
       return {
@@ -157,8 +157,8 @@
         this.currentDeptId = record.id;
         this.checkedKeys.push(record.id);
 
-        this.$refs.DeptBaseInfo.open(record);
-        this.$refs.DeptUserInfo.open(record);
+        this.$refs.RealBaseInfo.open(record);
+        this.$refs.RealUserInfo.open(record);
         // }
         // else {
         //   this.checkedKeys = [];

@@ -34,4 +34,9 @@ public interface IEquipmentService extends IService<Equipment> {
      * @return
      */
     boolean UpdEquipment(Equipment equipment);
+
+    /**
+     * 设备客户编辑-何豪
+     */
+    boolean UpdEquipmentClient(Equipment equipment);
 }

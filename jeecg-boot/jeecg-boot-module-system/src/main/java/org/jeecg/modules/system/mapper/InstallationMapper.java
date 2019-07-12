@@ -19,7 +19,7 @@ public interface InstallationMapper extends BaseMapper<Installation> {
             "left join commodity as c on\n" +
             "e.commodity_id=c.commodity_id\n" +
             "where o.`client_id`=#{clientId}")
-    List<InstallationVO> findSelect(@Param("clientId")String clientId);
+    List<InstallationVO> findSelect(@Param("clientId") String clientId);
 
     /*
     UPDATE `jeecg-boot`.`installation_open` SET `client_id` = '2', `equipment_id` = '008', `open` = 1, `create_by` = '何豪', `create_time` = '2019-07-08 16:43:58', `update_by` = '何豪', `update_time` = '2019-07-08 16:44:03' WHERE `open_id` = '002';

@@ -20,6 +20,6 @@ public interface IFilterelementService extends IService<Filterelement> {
      * @param Size
      * @return
      */
-    String insertImg(String name,String url,String mimeType,
-                     String Suffix,String Created,long Size);
+    String insertImg(String name, String url, String mimeType,
+                     String Suffix, String Created, long Size);
 }

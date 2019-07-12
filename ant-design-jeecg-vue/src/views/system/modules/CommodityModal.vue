@@ -59,21 +59,20 @@
             </div>
           </a-upload>
         </a-form-item>
-        <a-form-item label="商品类型" :labelCol="labelCol" :wrapperCol="wrapperCol">
-          <a-select  placeholder="请选择商品类型"  v-decorator="[ 'typeId',{}]" >
-            <a-select-option v-for="(selpurpose) in SysCommodityType"
-                             :value="selpurpose.typeId">
-              {{ selpurpose.typeName }}
-            </a-select-option>
-          </a-select>
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="商品类型">
+          <a-input-number v-decorator="[ 'type', validatorRules.type ]" />
         </a-form-item>
+
       </a-form>
     </a-spin>
   </a-modal>
 </template>
 
 <script>
-  import { getAction,httpAction} from '@/api/manage'
+  import { httpAction } from '@/api/manage'
   import pick from 'lodash.pick'
   import moment from "moment"
 
@@ -92,7 +91,6 @@
           xs: { span: 24 },
           sm: { span: 16 },
         },
-        SysCommodityType:[],
         headers:{},
         uploadLoading:false,
         confirmLoading: false,
@@ -117,7 +115,6 @@
     },
     created () {
       this.getThumbnailView();
-      this.selUser()
     },
     computed:{
       uploadAction:function () {
@@ -125,12 +122,6 @@
       }
     },
     methods: {
-      /*获取商品类型*/
-      selUser(){
-        getAction("/dome/commodityType/selCommodityType",null).then((res) => {
-          this.SysCommodityType = res;
-        })
-      },
       add () {
         this.edit({});
       },
@@ -138,11 +129,9 @@
         this.form.resetFields();
         this.model = Object.assign({}, record);
         this.visible = true;
-        if(record.commodityId){
-          this.picUrl = "Has no pic url yet";
-        }
+        this.picUrl = "Has no pic url yet";
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'commodityId','commodityName','commodityPrices','commodityRent','description','images','typeId'))
+          this.form.setFieldsValue(pick(this.model,'commodityId','commodityName','commodityPrices','commodityRent','description','images','type'))
           //时间格式化
         });
       },
@@ -197,6 +186,7 @@
             }
             let formData = Object.assign(this.model, values);
             //时间格式化
+
             console.log(formData)
             httpAction(httpurl,formData,method).then((res)=>{
               if(res.success){

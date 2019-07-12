@@ -144,8 +144,6 @@
       handleCancel () {
         this.close()
       },
-
-
     }
   }
 </script>

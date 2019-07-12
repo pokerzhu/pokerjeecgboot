@@ -17,6 +17,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 
+import org.jeecg.modules.system.entity.Client;
 import org.jeecg.modules.system.entity.Commodity;
 import org.jeecg.modules.system.service.ICommodityService;
 import org.jeecg.modules.system.vo.CommodityVO;

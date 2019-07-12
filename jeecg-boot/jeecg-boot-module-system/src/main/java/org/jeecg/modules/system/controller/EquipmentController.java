@@ -1,6 +1,5 @@
 package org.jeecg.modules.system.controller;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.io.IOException;
@@ -46,9 +45,9 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/demo/equipment")
 public class EquipmentController {
-	@Autowired
-	private IEquipmentService equipmentService;
-	
+     @Autowired
+     private IEquipmentService equipmentService;
+
 
 	@AutoLog(value = "设备表-分页列表查询")
 	@ApiOperation(value="设备表-分页列表查询", notes="设备表-分页列表查询")
@@ -65,7 +64,7 @@ public class EquipmentController {
 		result.setResult(pageList);
 		return result;
 	}
-	
+
 	/**
 	  *   添加
 	 * @param equipment
@@ -124,15 +123,10 @@ public class EquipmentController {
 		 Result<Equipment> result = new Result<Equipment>();
 		 Equipment equipmentEntity = equipmentService.getById(equipment.getEquipmentId());
 		 System.out.println(equipmentEntity);
-		 System.out.println(equipmentEntity);
-		 System.out.println(equipmentEntity);
 		 if (equipmentEntity == null) {
 			 result.error500("未找到对应实体");
 		 } else {
 			 boolean ok = equipmentService.UpdEquipment(equipment);
-			 System.out.println(equipmentEntity);
-			 System.out.println(equipmentEntity);
-			 System.out.println(equipmentEntity);
 			 //TODO 返回false说明什么？
 			 if (ok) {
 				 result.success("修改成功!");
@@ -140,6 +134,31 @@ public class EquipmentController {
 		 }
 		 return result;
 	 }
+
+     /**
+      * 编辑
+      *
+      * @param equipment
+      * @return
+      */
+     @AutoLog(value = "设备表-编辑")
+     @ApiOperation(value = "设备表-编辑", notes = "设备表-编辑")
+     @PutMapping(value = "/editA")
+     public Result<Equipment> editA(@RequestBody Equipment equipment) {
+         Result<Equipment> result = new Result<Equipment>();
+         Equipment equipmentEntity = equipmentService.getById(equipment.getEquipmentId());
+         System.out.println(equipmentEntity+"111111111111111111111111");
+         if (equipmentEntity == null) {
+             result.error500("未找到对应实体");
+         } else {
+             boolean ok = equipmentService.UpdEquipmentClient(equipment);
+             //TODO 返回false说明什么？
+             if (ok) {
+                 result.success("修改成功!");
+             }
+         }
+         return result;
+     }
 //
 //		return result;
 //	}

@@ -12,9 +12,8 @@
       <a-form :form="form">
         <a-form-item label="滤芯" :labelCol="labelCol" :wrapperCol="wrapperCol">
           <a-select  placeholder="请选择滤芯"  v-decorator="[ 'filterelementId',{initialValue:'001'}]" >
-            <a-select-option v-for="(selpurpose) in purposeList"
-                             :value="selpurpose.filterelementId">
-              {{ selpurpose.filterelementName }}
+            <a-select-option v-for="(purpose) in purposeList" :value="purpose.filterelementId">
+              {{ purpose.filterelementName }}
             </a-select-option>
           </a-select>
         </a-form-item>
@@ -34,7 +33,7 @@
         visible: false,
         visibleCheck: true,
         model: {},
-        typeId:"",
+        commodityId:"",
         purposeList:[],//滤芯
         status: 1,
         labelCol: {
@@ -60,6 +59,8 @@
         getAction("/demo/filterelement/selpurpose",null).then((res) => {
           console.log(res);
           this.purposeList = res;
+          console.log(this.commodityId);
+          console.log(this.purposeList);
         })
       },
       // 确定
@@ -72,7 +73,7 @@
             console.log(values.value);
             values.value = (values.value || '').trim()
             let formData = Object.assign(this.model, values);
-            formData.typeId=this.typeId;
+            formData.commodityId=this.commodityId;
             console.log(formData);
             let obj;
             obj=postAction("/dome/relationship/add",formData);

@@ -17,6 +17,7 @@ import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.util.PasswordUtil;
 import org.jeecg.common.util.oConvertUtils;
+import org.jeecg.modules.system.entity.Client;
 import org.jeecg.modules.system.entity.SysUser;
 import org.jeecg.modules.system.entity.SysUserDepart;
 import org.jeecg.modules.system.entity.SysUserRole;
@@ -84,16 +85,6 @@ public class SysUserController {
 		result.setResult(pageList);
 		return result;
 	}
-
-    /*查询代理商*/
-    @GetMapping(value = "/selSysUser")
-    public List<SysUser> selSysUser(){
-        //获取滤芯表数据
-        List<SysUser> records = sysUserService.list();
-        System.out.println(records);
-        return records;
-    }
-
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
 	public Result<SysUser> add(@RequestBody JSONObject jsonObject) {
@@ -729,4 +720,12 @@ public class SysUserController {
         return result;
     }
 
+    /*查询代理商*/
+    @GetMapping(value = "/selSysUser")
+    public List<SysUser> selSysUser(){
+        //获取滤芯表数据
+        List<SysUser> records = sysUserService.list();
+        System.out.println(records);
+        return records;
+    }
 }
