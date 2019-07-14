@@ -8,9 +8,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.shiro.SecurityUtils;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.aspect.annotation.AutoLog;
+import org.jeecg.common.system.vo.LoginUser;
 import org.jeecg.common.util.oConvertUtils;
 import java.util.Date;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -129,11 +132,10 @@ public class CommodityTypeController {
 				 result.error500("未找到对应实体");
 			 }else {
 				 if(count<=commodityType.getSpecification()){
-					 boolean ok = commodityTypeService.updateById(commodityType);
-					 //TODO 返回false说明什么？
-					 if(ok) {
-						 result.success("修改成功!");
-					 }
+					 LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
+					 commodityType.setUpdateBy(sysUser.getRealname());
+					 commodityTypeService.updatebytypeid(commodityType);
+					 result.success("修改成功!");
 				 }else {
 					 result.error500("更新类型滤芯规格数量不能小于现有类型滤芯数量!");
 				 }

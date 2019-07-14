@@ -38,4 +38,9 @@ public class RelationshipServiceImpl extends ServiceImpl<RelationshipMapper, Rel
     public void deletetypeId(String typeId) {
         relationshipMapper.deletetypeId(typeId);
     }
+
+    @Override
+    public boolean insertByfilterelementid(List<Relationship> list) {
+        return relationshipMapper.insertByfilterelementid(list);
+    }
 }

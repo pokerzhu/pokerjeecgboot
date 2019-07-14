@@ -35,4 +35,11 @@ public interface IRelationshipService extends IService<Relationship> {
      */
     void deletetypeId(String typeId);
 
+    /**
+     * 添加类型对应的滤芯
+     * @param list
+     * @return
+     */
+    boolean insertByfilterelementid(List<Relationship> list);
+
 }

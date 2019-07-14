@@ -21,4 +21,13 @@ public interface CommodityTypeMapper extends BaseMapper<CommodityType> {
      */
     @Select("select specification from commodity_type where type_id = #{typeId}")
     Integer selectspecification(String typeId);
+
+    /**
+     * 商品类型_编辑
+     * @param commodityType
+     * @return
+     */
+    @Select("update commodity_type set type_name=#{typeName}," +
+            "`specification` = #{specification},`update_by` = #{updateBy},`update_time`= CURRENT_TIMESTAMP  WHERE `type_id` = #{typeId}")
+    void updatebytypeid(CommodityType commodityType);
 }

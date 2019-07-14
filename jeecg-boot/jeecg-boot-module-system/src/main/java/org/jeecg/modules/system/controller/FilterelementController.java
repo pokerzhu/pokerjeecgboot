@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.jeecg.modules.system.entity.Filterelement;
 import org.jeecg.modules.system.service.IFilterelementService;
+import org.jeecg.modules.system.vo.RelationshipVO;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.def.NormalExcelConstants;
 import org.jeecgframework.poi.excel.entity.ExportParams;
@@ -57,6 +58,12 @@ public class FilterelementController {
      @Value(value = "${jeecg.path.upload}")
      private String uploadpath;
 
+     /**
+      * 文件上传
+      * @param request
+      * @param response
+      * @return
+      */
      @PostMapping(value = "/upload")
      public Result<?> upload(HttpServletRequest request, HttpServletResponse response) {
          //结果集
@@ -117,6 +124,19 @@ public class FilterelementController {
          List<Filterelement> records = filterelementService.list();
          System.out.println(records);
          return records;
+     }
+     /*根据类型查询可添加滤芯*/
+     @GetMapping(value = "/selectbytypeId")
+     public Result<IPage<Filterelement>> selectbytypeId(RelationshipVO relationshipVO,
+                                                        @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+                                                        @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
+                                                        HttpServletRequest req){
+         Result<IPage<Filterelement>> result = new Result<IPage<Filterelement>>();
+         Page<Filterelement> page = new Page<Filterelement>(pageNo, pageSize);
+         IPage<Filterelement> pageList = filterelementService.selectbytypeId(relationshipVO.getTypeId(),page);
+         result.setSuccess(true);
+         result.setResult(pageList);
+         return result;
      }
      /**
       * 分页列表查询

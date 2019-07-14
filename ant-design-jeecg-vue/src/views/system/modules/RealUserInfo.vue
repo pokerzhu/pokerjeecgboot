@@ -225,7 +225,7 @@
       },
       hasSelectDept() {
         if (this.currentDeptId == null) {
-          this.$message.error("请选择一个部门!")
+          this.$message.error("!")
           return false;
         }
         return true;

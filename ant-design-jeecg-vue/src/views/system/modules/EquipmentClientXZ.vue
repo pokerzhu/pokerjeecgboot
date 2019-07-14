@@ -56,7 +56,7 @@
         confirmLoading: false,
         form: this.$form.createForm(this),
         validatorRules:{
-          clientName:{rules: [{ required: true, message: '请输入clientName!' }]},
+          clientName:{rules: [{ required: true, message: '请输入用户名!' }]},
         },
         url: {
           add: "/demo/equipment/editA",

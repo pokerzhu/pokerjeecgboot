@@ -1,6 +1,7 @@
 package org.jeecg.modules.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Select;
 import org.jeecg.modules.system.entity.CommodityType;
 
 /**
@@ -16,5 +17,11 @@ public interface ICommodityTypeService extends IService<CommodityType> {
      * @return
      */
     Integer selectspecification(String typeId);
+    /**
+     * 商品类型_编辑
+     * @param commodityType
+     * @return
+     */
+    void updatebytypeid(CommodityType commodityType);
 
 }

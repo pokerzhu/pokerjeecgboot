@@ -16,39 +16,50 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.jeecgframework.poi.excel.annotation.Excel;
 
 /**
- * @Description: 类型滤芯关联表
+ * @Description: 滤芯安装记录表
  * @Author: jeecg-boot
- * @Date:   2019-07-05
+ * @Date:   2019-07-12
  * @Version: V1.0
  */
 @Data
-@TableName("relationship")
+@TableName("filterelement_replace")
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="relationship对象", description="商品滤芯关联")
-public class Relationship {
-    
-	/**商品滤芯关系编号*/
-	@Excel(name = "商品滤芯关系编号", width = 15)
-    @ApiModelProperty(value = "商品滤芯关系编号")
-	@TableId(type = IdType.UUID)
-	private String relationshipId;
-	/**商品类型id*/
-	@Excel(name = "商品类型", width = 15)
-	@ApiModelProperty(value = "商品类型")
-	private String typeId;
-	/**滤芯编号，滤芯表外键*/
-	@Excel(name = "滤芯编号，滤芯表外键", width = 15)
-    @ApiModelProperty(value = "滤芯编号，滤芯表外键")
+@ApiModel(value="filterelement_replace对象", description="滤芯安装记录表")
+public class FilterelementReplace {
+	/**记录编号*/
+	@Excel(name = "记录编号", width = 15)
+    @ApiModelProperty(value = "记录编号")
+    @TableId(type=IdType.UUID)
+	private String recordId;
+	/**设备编号，设备表外键*/
+	@Excel(name = "设备编号，设备表外键", width = 15)
+    @ApiModelProperty(value = "设备编号，设备表外键")
+	private String equipmentId;
+	/**滤芯编号 */
+	@Excel(name = "滤芯编号 ", width = 15)
+    @ApiModelProperty(value = "滤芯编号 ")
 	private String filterelementId;
+	/**安装时间*/
+	@Excel(name = "安装时间", width = 15)
+    @ApiModelProperty(value = "安装时间")
+	private String installationTime;
+	/**安装人，用户表外键*/
+	@Excel(name = "安装人，用户表外键", width = 15)
+    @ApiModelProperty(value = "安装人，用户表外键")
+	private String installationUserid;
+	/**是否已经提醒，用字典*/
+	@Excel(name = "是否已经提醒，用字典", width = 15)
+    @ApiModelProperty(value = "是否已经提醒，用字典")
+	private Integer remind;
 	/**创建人*/
 	@Excel(name = "创建人", width = 15)
     @ApiModelProperty(value = "创建人")
 	private String createBy;
 	/**创建时间*/
 	@Excel(name = "创建时间", width = 20, format = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "创建时间")
 	private Date createTime;
 	/**更新人*/

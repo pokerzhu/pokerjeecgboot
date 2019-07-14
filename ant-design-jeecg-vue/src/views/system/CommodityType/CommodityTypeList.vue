@@ -127,11 +127,11 @@
               return parseInt(index)+1;
             }
           },
-          {
+          /*{
             title: '商品类型id',
             align:"center",
             dataIndex: 'typeId'
-          },
+          },*/
           {
             title: '类型名称',
             align:"center",

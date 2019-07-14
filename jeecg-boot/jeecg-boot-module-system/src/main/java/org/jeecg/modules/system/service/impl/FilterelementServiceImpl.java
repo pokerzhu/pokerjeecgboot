@@ -1,11 +1,15 @@
 package org.jeecg.modules.system.service.impl;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.jeecg.modules.system.entity.Filterelement;
 import org.jeecg.modules.system.mapper.FilterelementMapper;
 import org.jeecg.modules.system.service.IFilterelementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
+import java.util.List;
 
 /**
  * @Description: 滤芯表
@@ -26,5 +30,10 @@ public class FilterelementServiceImpl extends ServiceImpl<FilterelementMapper, F
     @Override
     public String insertImg(String name, String url, String mimeType, String Suffix, String Created, long Size) {
         return filterelementMapper.insertImg(name,url,mimeType,Suffix,Created,Size);
+    }
+
+    @Override
+    public IPage<Filterelement> selectbytypeId(String typeId, Page page) {
+        return page.setRecords(filterelementMapper.selectbytypeId(typeId));
     }
 }

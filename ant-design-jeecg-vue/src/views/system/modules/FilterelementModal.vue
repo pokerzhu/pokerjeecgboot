@@ -51,7 +51,13 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="有效时长">
-          <a-input placeholder="请输入有效时长" v-decorator="['validity', validatorRules.validity ]" />
+          <a-input-number style="width: 150px" placeholder="请输入有效时长" v-decorator="['validity', validatorRules.validity ]" />
+        </a-form-item>
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="滤芯最低更换天数">
+          <a-input-number style="width: 150px" placeholder="请输入滤芯最低更换天数" v-decorator="['replacementdays', validatorRules.replacementdays ]" />
         </a-form-item>
 		
       </a-form>
@@ -89,6 +95,7 @@
         filterelementName:{rules: [{ required: true, message: '请输入滤芯名称!' }]},
         images:{rules: [{ required: true, message: '请输入滤芯图!' }]},
         validity:{rules: [{ required: true, message: '请输入有效时长!' }]},
+        replacementdays:{rules: [{ required: true, message: '请输入滤芯最低更换时间！' }]}
         },
         url: {
           add: "/demo/filterelement/add",
@@ -113,9 +120,11 @@
         this.form.resetFields();
         this.model = Object.assign({}, record);
         this.visible = true;
-        this.picUrl = "Has no pic url yet";
+        if(record.filterelementName){
+          this.picUrl = "Has no pic url yet";
+        }
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'filterelementId','filterelementName','images','validity'))
+          this.form.setFieldsValue(pick(this.model,'filterelementId','filterelementName','images','validity','replacementdays'))
 		  //时间格式化
         });
 

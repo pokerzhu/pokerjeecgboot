@@ -126,11 +126,11 @@
               return parseInt(index)+1;
             }
            },
-		   {
+		   /*{
             title: '编号',
             align:"center",
             dataIndex: 'filterelementId'
-           },
+           },*/
 		   {
             title: '滤芯名称',
             align:"center",
@@ -147,6 +147,11 @@
             align:"center",
             dataIndex: 'validity'
            },
+          {
+            title: '滤芯最低更换天数',
+            align: "center",
+            dataIndex: 'replacementdays',
+          },
           {
             title: '操作',
             dataIndex: 'action',

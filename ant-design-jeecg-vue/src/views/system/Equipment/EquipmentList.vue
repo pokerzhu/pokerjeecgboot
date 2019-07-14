@@ -86,6 +86,9 @@
           <a @click="handleEdit(record)">编辑</a>
 
           <a-divider type="vertical" />
+          <a @click="handleDetailDemo(record)">详情</a>
+
+          <a-divider type="vertical" />
           <a-dropdown>
             <a class="ant-dropdown-link">更多 <a-icon type="down" /></a>
             <a-menu slot="overlay">
@@ -105,11 +108,16 @@
                 </a-popconfirm>
               </a-menu-item>
             </a-menu>
+
           </a-dropdown>
         </span>
-
         <span slot="leasestate" slot-scope="text, record">
                 {{record.leasestate==0?record.commodityRent:record.commodityPrices}}
+        </span>
+
+        <span slot="filtere" slot-scope="text, record">
+               <a v-if="record.filterelementType==0" @click="handleDetailDemo(record)">异常</a>
+                <span v-if="record.filterelementType==1" >正常</span>
         </span>
       </a-table>
     </div>
@@ -119,20 +127,22 @@
     <equipment-modal ref="modalForm" @ok="modalFormOk"></equipment-modal>
     <equipment-client-add ref="clientmodal"></equipment-client-add>
     <equipment-client-x-z ref="equipmentclientxz"></equipment-client-x-z>
+    <equipment-xq-modal ref="equipmentXq"></equipment-xq-modal>
   </a-card>
 </template>
 
 <script>
   import EquipmentModal from '../modules/EquipmentModal'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-
+  import EquipmentXqModal from '../modules/EquipmentXqModal'
   import EquipmentClientXZ from '../modules/EquipmentClientXZ'
   import { httpAction,putAction } from '@/api/manage'
+
   export default {
     name: "EquipmentList",
     mixins:[JeecgListMixin],
-    components: {/*EquipmentClientAdd*/
-      EquipmentModal,EquipmentClientXZ
+    components: {
+      EquipmentModal,EquipmentClientXZ,EquipmentXqModal,
     },
     data () {
       return {
@@ -149,16 +159,16 @@
           //     return parseInt(index)+1;
           //   }
           //  },
-          // {
-          //   title: '设备编号',
-          //   align:"center",
-          //   dataIndex: 'equipmentId'
-          // },
           {
+            title: '设备编号',
+            align:"center",
+            dataIndex: 'equipmentId'
+          },
+          /*{
             title: '商品编号',
             align:"center",
             dataIndex: 'commodityId'
-          },
+          },*/
           {
             title: '商品名称',
             align:"center",
@@ -189,16 +199,7 @@
             align:"center",
             dataIndex: 'leasestate_dictText'
           },
-          /*{
-            title: '租赁价格',
-            align:"center",
-            dataIndex: 'commodityRent'
-          },
           {
-            title: '卖出价格',
-            align:"center",
-            dataIndex: 'commodityPrices'
-          },*/{
             title: '价格',
             dataIndex: 'leasestate',
             align:"center",
@@ -209,10 +210,16 @@
             align:"center",
             dataIndex: 'mainboard_dictText'
           },
+          // {
+          //   title: '滤芯状态',
+          //   align:"center",
+          //   dataIndex: 'filterelementType_dictText'
+          // },
           {
             title: '滤芯状态',
+            dataIndex: 'filtere',
             align:"center",
-            dataIndex: 'filterelementType_dictText'
+            scopedSlots: { customRender: 'filtere' },
           },
           {
             title: '操作',
@@ -237,6 +244,9 @@
       }
     },
     methods: {
+      handleDetailDemo(record){
+        this.$refs.equipmentXq.visible=true;
+      },
       // 添加字典数据
       handleAddequipment(equipmentId) {
         this.$refs.equipmentclientxz.add(equipmentId);

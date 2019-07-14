@@ -2,7 +2,7 @@
   <a-card :bordered="false">
     <!-- 抽屉 -->
     <a-drawer
-      title="配置滤芯"
+      title="设备详情"
       :width="screenWidth"
       @close="onClose"
       :visible="visible"
@@ -14,17 +14,6 @@
           border: '1px solid #e9e9e9',
           background: '#fff',
         }">
-
-        <div class="table-page-search-wrapper">
-          <a-form layout="inline" :form="form">
-            <a-row>
-              <a-col :md="2" :sm="24">
-                <a-button @click="handleAddUserDepart" type="primary" icon="plus">添加滤芯</a-button>
-                <!--<a-button style="margin-bottom: 10px" type="primary" @click="handleAdd">新增滤芯</a-button>-->
-              </a-col>
-            </a-row>
-          </a-form>
-        </div>
         <div>
           <a-table
             ref="table"
@@ -36,12 +25,6 @@
             :loading="loading"
             @change="handleTableChange"
           >
-
-          <span slot="action" slot-scope="text, record">
-            <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.relationshipId)">
-              <a>删除</a>
-            </a-popconfirm>
-          </span>
           </a-table>
         </div>
       </div>
@@ -52,7 +35,7 @@
 
 <script>
   import {filterObj} from '@/utils/util';
-  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
+  import {JeecgListMixin } from '@/mixins/JeecgListMixin'
   import  RelationshipListModel from '../modules/RelationshipListModel'
   export default {
     name: "AttributeList",
@@ -77,11 +60,11 @@
             dataIndex: 'replacementdays',
           },
           {
-            title: '操作',
-            dataIndex: 'action',
-            align: "center",
-            scopedSlots: {customRender: 'action'},
-          }
+          title: '操作',
+          dataIndex: 'action',
+          align: "center",
+          scopedSlots: {customRender: 'action'},
+          },
         ],
         queryParam: {
           typeId: "",
@@ -91,7 +74,6 @@
         screenWidth: 800,
         model: {},
         typeId: "",//类型id
-        count:"",
         status: 1,
         labelCol: {
           xs: {span: 5},
@@ -116,23 +98,18 @@
       this.resetScreenSize();
     },
     methods: {
-      handleAddUserDepart() {
-        this.$refs.modalForm.visible=true;
-        this.$refs.modalForm.typeId=this.typeId;
-        this.$refs.modalForm.count=this.count;
-        this.$refs.modalForm.selectbytypeId();
-      },
       add(id) {
         this.typeId = id;
         this.edit({});
       },
       edit(record) {
         this.typeId = record.typeId;
-        this.count = record.specification;
+        /*console.log(this.commodityId+"1111")*/
         this.queryParam.typeId=record.typeId;
         this.form.resetFields();
         this.model = Object.assign({}, record);
         this.model.typeId = this.typeId;
+        console.log(this.model.typeId)
         this.visible = true;
         // 当其它模块调用该模块时,调用此方法加载字典数据
         this.loadData();
@@ -144,6 +121,13 @@
         param.pageNo = this.ipagination.current;
         param.pageSize = this.ipagination.pageSize;
         return filterObj(param);
+      },
+      // 添加字典数据
+      handleAdd() {
+        console.log(this.typeId);
+        this.$refs.modalForm.visible=true;
+        this.$refs.modalForm.typeId=this.typeId;
+        this.$refs.modalForm.title = "新增";
       },
       showDrawer() {
         this.visible = true

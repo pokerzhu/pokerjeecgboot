@@ -22,7 +22,7 @@ public interface RelationshipMapper extends BaseMapper<Relationship> {
     @Select("SELECT r.relationship_id,f.filterelement_id filterelementId, f.filterelement_name filterelementName,f.validity,f.replacementdays  " +
             "FROM relationship r,filterelement f \n" +
             "WHERE r.filterelement_id = f.filterelement_id\n" +
-            "and r.type_id = #{commodityId}")
+            "and r.type_id = #{commodityId}")//e19793c6d89f65db88fb517416169fb8
     List<RelationshipVO> selectItemsByMainId(String commodityId);
 
     /**
@@ -41,4 +41,11 @@ public interface RelationshipMapper extends BaseMapper<Relationship> {
      */
     @Select("delete FROM relationship where relationship.type_id=#{commodityId}")
     void deletetypeId(String typeId);
+
+    /**
+     * 添加类型对应的滤芯
+     * @param list
+     * @return
+     */
+    boolean insertByfilterelementid(List<Relationship> list);
 }

@@ -2,6 +2,7 @@ package org.jeecg.common.api.vo;
 
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.jeecg.common.constant.CommonConstant;
@@ -16,7 +17,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value="接口返回对象", description="接口返回对象")
-public class Result<T> implements Serializable {
+public class Result<T> implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 

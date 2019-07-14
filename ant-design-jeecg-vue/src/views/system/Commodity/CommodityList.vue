@@ -92,7 +92,7 @@
           <a @click="handleEdit(record)">编辑</a>
            <a-divider type="vertical" />
           <a-dropdown>
-          <a @click="editDictItem(record)"><a-icon type="setting"/>配置滤芯</a>
+          <a @click="editDictItem(record)"><a-icon type="setting"/>商品使用滤芯</a>
           </a-dropdown>
           <a-divider type="vertical" />
           <a-dropdown>
@@ -144,12 +144,12 @@
             customRender:function (t,r,index) {
               return parseInt(index)+1;
             }
-           },
+           },/*,
 		   {
             title: '商品编号',
             align:"center",
             dataIndex: 'commodityId'
-           },
+           }*/
 		   {
             title: '商品名称',
             align:"center",
@@ -176,12 +176,12 @@
             dataIndex: 'images',
             scopedSlots: {customRender: "avatarslot"}
           },
-		   /*{
+		   {
             title: '商品类型',
             align:"center",
-            dataIndex: 'type'
+            dataIndex: 'typeName'
            },
-          {
+          /*{
             title: '创建人',
             align:"center",
             dataIndex: 'createBy'
