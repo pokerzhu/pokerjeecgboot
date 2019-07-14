@@ -28,4 +28,15 @@ public class InstallationServiceImpI extends ServiceImpl<InstallationMapper, Ins
     public boolean Updeteopen(Installation installation) {
         return installationMapper.Updeteopen(installation);
     }
+
+    @Override
+    public boolean DeleteInstall(String equipmentId) {
+        return installationMapper.DeleteInstall(equipmentId);
+    }
+
+    @Override
+    public boolean EquAdd(Installation installation) {
+        return installationMapper.EquAdd(installation);
+    }
+
 }

@@ -1,15 +1,20 @@
 package org.jeecg.modules.system.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.shiro.SecurityUtils;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.aspect.annotation.AutoLog;
+import org.jeecg.common.system.vo.LoginUser;
 import org.jeecg.common.util.oConvertUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -17,7 +22,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 
 import org.jeecg.modules.system.entity.Equipment;
+import org.jeecg.modules.system.entity.FilterelementReplace;
+import org.jeecg.modules.system.entity.Installation;
 import org.jeecg.modules.system.service.IEquipmentService;
+import org.jeecg.modules.system.service.IFilterelementReplaceService;
+import org.jeecg.modules.system.service.IRelationshipService;
+import org.jeecg.modules.system.service.InstallationService;
 import org.jeecg.modules.system.vo.EquipmentVO;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.def.NormalExcelConstants;
@@ -45,11 +55,18 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/demo/equipment")
 public class EquipmentController {
-     @Autowired
-     private IEquipmentService equipmentService;
+	 @Autowired
+	 private IEquipmentService equipmentService;
+	 @Autowired
+	 private InstallationService installationService ;
+	 @Autowired
+	 private IRelationshipService iRelationshipService ;
+	 @Autowired
+	 private IFilterelementReplaceService iFilterelementReplaceService ;
 
 
-	@AutoLog(value = "设备表-分页列表查询")
+
+	 @AutoLog(value = "设备表-分页列表查询")
 	@ApiOperation(value="设备表-分页列表查询", notes="设备表-分页列表查询")
 	@GetMapping(value = "/list")
 	public Result<IPage<EquipmentVO>> queryPageList(EquipmentVO equipmentVO,
@@ -85,31 +102,6 @@ public class EquipmentController {
 		return result;
 	}
 
-	/**
-	  *  安装
-	 * @param equipment
-	 * @return
-	 */
-	@AutoLog(value = "设备表-安装")
-	@ApiOperation(value="设备表-安装", notes="设备表-安装")
-	@PutMapping(value = "/updateequipment")
-	public Result<Equipment> updateequipment(@RequestBody Equipment equipment) {
-		Result<Equipment> result = new Result<Equipment>();
-		Equipment equipmentEntity = equipmentService.getById(equipment.getEquipmentId());
-		if(equipmentEntity==null) {
-			result.error500("未找到对应实体");
-		}else {
-			boolean ok = equipmentService.updateequipment(equipment);
-			//TODO 返回false说明什么？
-			if(ok) {
-				result.success("添加成功!");
-			}else{
-				result.error500("添加异常，请联系管理员");
-			}
-		}
-
-		return result;
-	}
 	 /**
 	  * 编辑
 	  *
@@ -135,34 +127,71 @@ public class EquipmentController {
 		 return result;
 	 }
 
-     /**
-      * 编辑
-      *
-      * @param equipment
-      * @return
-      */
-     @AutoLog(value = "设备表-编辑")
-     @ApiOperation(value = "设备表-编辑", notes = "设备表-编辑")
-     @PutMapping(value = "/editA")
-     public Result<Equipment> editA(@RequestBody Equipment equipment) {
-         Result<Equipment> result = new Result<Equipment>();
-         Equipment equipmentEntity = equipmentService.getById(equipment.getEquipmentId());
-         System.out.println(equipmentEntity+"111111111111111111111111");
-         if (equipmentEntity == null) {
-             result.error500("未找到对应实体");
-         } else {
-             boolean ok = equipmentService.UpdEquipmentClient(equipment);
-             //TODO 返回false说明什么？
-             if (ok) {
-                 result.success("修改成功!");
-             }
-         }
-         return result;
-     }
-//
-//		return result;
-//	}
-//
+
+	 /**
+	  * 回收
+	  *
+	  * @param equipment
+	  * @return
+	  */
+	 @AutoLog(value = "设备表-回收与安装")
+	 @ApiOperation(value = "设备表-回收与安装", notes = "设备表-回收与安装")
+	 @PutMapping(value = "/editA")
+	 public Result<Equipment> editA(@RequestBody Equipment equipment) {
+		 Result<Equipment> result = new Result<Equipment>();
+		 Equipment equipmentEntity = equipmentService.getById(equipment.getEquipmentId());
+		 LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
+		 try {
+			 if (equipmentEntity == null) {
+				 result.error500("未找到对应实体");
+			 } else {
+				 boolean ok = equipmentService.UpdEquipmentClient(equipment);
+				 //TODO 返回false说明什么？
+				 if (ok) {
+					 System.out.println(equipment.getClientId());
+					 if(equipment.getClientId()==null){
+						 installationService.DeleteInstall(equipment.getEquipmentId());
+						 iFilterelementReplaceService.DelEquipmentId(equipment.getEquipmentId());
+						 System.out.println("撤回");
+					 }else{
+						 Installation installation=new Installation();
+						 installation.setOpenId(UUID.randomUUID().toString());
+						 installation.setClientId(equipment.getClientId());
+						 installation.setEquipmentId(equipment.getEquipmentId());
+						 installation.setCreateBy(sysUser.getRealname());
+						 installation.setUpdateBy(sysUser.getRealname());
+						 boolean a = installationService.EquAdd(installation);
+						 //根据设备id拿到类型
+						 List<String> LXids = iRelationshipService.selectLXid(equipment.getCommodityId());
+						 //新增设备对应的滤芯，生成滤芯安装记录表
+						 List<FilterelementReplace> list = new ArrayList<>();//保存对象
+						 for (int i = 0; i < LXids.size(); i++) {
+							 FilterelementReplace relationship = new FilterelementReplace();//初始化对象
+							 relationship.setRecordId(UUID.randomUUID().toString());
+							 relationship.setEquipmentId(equipment.getEquipmentId());
+							 relationship.setFilterelementId(LXids.get(i));
+							 relationship.setCreateBy(sysUser.getRealname());
+							 relationship.setUpdateBy(sysUser.getRealname());
+							 list.add(relationship);
+						 }
+						 boolean bo =  iFilterelementReplaceService.insertByfilterelementid(list);
+						 if(bo){
+							 result.success("操作成功!");
+						 }else{
+							 result.error500("操作失败");
+						 }
+					 }
+					 System.out.println(equipment.getEquipmentId()+"************");
+					 result.success("操作成功!");
+				 }
+			 }
+		 }catch (Exception e){
+			 log.error(e.getMessage(),e);
+			 result.error500("操作失败");
+		 }
+		 return result;
+	 }
+
 	 /**
 	  *   通过id删除
 	  * @param equipmentId

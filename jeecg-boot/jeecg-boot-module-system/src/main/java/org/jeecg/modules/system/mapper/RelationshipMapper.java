@@ -48,4 +48,16 @@ public interface RelationshipMapper extends BaseMapper<Relationship> {
      * @return
      */
     boolean insertByfilterelementid(List<Relationship> list);
+
+    /**
+     * 根据商品id查询，类型中配置的滤芯id集合
+     * @param SPid
+     * @return
+     */
+    @Select("select filterelement_id\n" +
+            "FROM relationship \n" +
+            "WHERE type_id = (SELECT type_id FROM commodity WHERE commodity_id = #{SPid})")
+    List<String> selectLXid(String SPid);
+
+
 }

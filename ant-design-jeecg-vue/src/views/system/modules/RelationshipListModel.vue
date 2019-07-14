@@ -138,6 +138,7 @@
         this.loadData(1);
       },
       handleCancel() {
+        this.onClearSelected();
         this.visible = false;
       },
       handleOk() {

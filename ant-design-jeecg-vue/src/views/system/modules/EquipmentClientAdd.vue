@@ -10,31 +10,18 @@
 
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
-
-        <a-form-item
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          label="地址">
-          <a-input placeholder="请输入地址" v-decorator="['address', validatorRules.address ]" />
-        </a-form-item>
-        <!--<a-form-item
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          label="编号">
-          <a-input placeholder="请输入编号" v-decorator="['clientId', validatorRules.clientId ]" />
-        </a-form-item>-->
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="用户名">
           <a-input placeholder="请输入用户名" v-decorator="['clientName', validatorRules.clientName ]" />
         </a-form-item>
-        <!--<a-form-item
+        <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          label="开关设备编号">
-          <a-input placeholder="请输入开关设备编号" v-decorator="['open', {}]" />
-        </a-form-item>-->
+          label="地址">
+          <a-input placeholder="请输入地址" v-decorator="['address', validatorRules.address ]" />
+        </a-form-item>
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
@@ -47,7 +34,18 @@
           label="手机号">
           <a-input placeholder="请输入手机号" v-decorator="['phone', validatorRules.phone ]" />
         </a-form-item>
-
+        <!--<a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="编号">
+          <a-input placeholder="请输入编号" v-decorator="['clientId', validatorRules.clientId ]" />
+        </a-form-item>-->
+        <!--<a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="开关设备编号">
+          <a-input placeholder="请输入开关设备编号" v-decorator="['open', {}]" />
+        </a-form-item>-->
       </a-form>
     </a-spin>
   </a-modal>
@@ -58,7 +56,7 @@
   import pick from 'lodash.pick'
 
   export default {
-    name: "ClientModal",
+    name: "EquipmentClientAdd",
     data () {
       return {
         title:"操作",
@@ -72,6 +70,7 @@
           xs: { span: 24 },
           sm: { span: 16 },
         },
+        commodityId:"",
         equipmentId:"",
         confirmLoading: false,
         form: this.$form.createForm(this),
@@ -85,20 +84,20 @@
         url: {
           add: "/demo/client/add",
           edit: "/demo/client/edit",
-          updateequipment:"/demo/equipment/updateequipment",
+          updateequipment:"/demo/equipment/editA",
         },
       }
     },
     created () {
     },
     methods: {
-      add (equipmentId) {
+      add (equipmentId,commodityId) {
+        this.commodityId = commodityId;
         this.equipmentId=equipmentId;
         console.log(equipmentId);
         this.visible=true;
       },
       close () {
-        this.$emit('close');
         this.visible = false;
       },
       handleOk () {
@@ -121,7 +120,7 @@
               if(res.success){//有success就表示添加客户信息成功，进行下一步操作更新设备客户信息
                 var clientId = res.result.clientId;
                 console.log(clientId);
-                var record = {"equipmentId":this.equipmentId,"clientId":clientId};
+                var record = {"equipmentId":this.equipmentId,"clientId":clientId,"commodityId":this.commodityId};
                 putAction(this.url.updateequipment, record).then((res) => {//更新设备信息，绑定客户id
                   if (res.success) {
                     console.log(this.dataSource);

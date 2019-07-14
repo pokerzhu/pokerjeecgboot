@@ -50,14 +50,13 @@
 
     <!-- 操作按钮区域 -->
     <div class="table-operator">
-      <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
       <a-button type="primary" icon="download" @click="handleExportXls('设备表')">导出</a-button>
       <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
       </a-upload>
       <a-dropdown v-if="selectedRowKeys.length > 0">
         <a-menu slot="overlay">
-          <a-menu-item key="1" @click="batchDel"><a-icon type="delete"/>删除</a-menu-item>
+          <a-menu-item key="1" @click="batchDel"><a-icon type="delete"/>调拨</a-menu-item>
         </a-menu>
         <a-button style="margin-left: 8px"> 批量操作 <a-icon type="down" /></a-button>
       </a-dropdown>
@@ -83,33 +82,9 @@
         @change="handleTableChange">
 
         <span slot="action" slot-scope="text, record">
-          <a @click="handleEdit(record)">编辑</a>
+          <a @click="handleEdit(record)">调拨</a>
 
           <a-divider type="vertical" />
-          <a @click="handleDetailDemo(record)">详情</a>
-
-          <a-divider type="vertical" />
-          <a-dropdown>
-            <a class="ant-dropdown-link">更多 <a-icon type="down" /></a>
-            <a-menu slot="overlay">
-              <a-menu-item>
-                <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.equipmentId)">
-                  <a>删除</a>
-                </a-popconfirm>
-              </a-menu-item>
-               <a-menu-item v-if="record.clientName==null">
-                <a-popconfirm  title="确定安装吗?" @confirm="() =>handleAddequipment(record.equipmentId,record.commodityId)">
-                  <a>安装</a>
-                </a-popconfirm>
-              </a-menu-item>
-              <a-menu-item v-else>
-                <a-popconfirm title="确定回收吗?" @confirm="() =>handEquipment(record.equipmentId)">
-                  <a>回收</a>
-                </a-popconfirm>
-              </a-menu-item>
-            </a-menu>
-
-          </a-dropdown>
         </span>
         <span slot="leasestate" slot-scope="text, record">
                 {{record.leasestate==0?record.commodityRent:record.commodityPrices}}
@@ -146,7 +121,7 @@
     },
     data () {
       return {
-        description: '设备表管理页面',
+        description: '设备调拨页面',
         // 表头
         columns: [
           // {
@@ -229,12 +204,7 @@
           }
         ],
         url: {
-          list:   "/demo/equipment/list",
-          delete: "/demo/equipment/delete",
-          update: "/demo/equipment/editA",
-          deleteBatch: "/demo/equipment/deleteBatch",
-          exportXlsUrl: "demo/equipment/exportXls",
-          importExcelUrl: "demo/equipment/importExcel",
+          list:   "/demo/quipmentDb/list",
         },
       }
     },
@@ -260,19 +230,19 @@
       },
       handEquipment(equipmentId){
         this.confirmLoading = true;
-            var record = {"equipmentId":equipmentId,"clientId":null};
-            putAction(this.url.update,record).then((res) => {//撤回设备，删除设备客户关联记录
-              if (res.success) {
-                console.log(this.dataSource);
-                this.$message.success(res.message);
-                that.$emit('ok');
-              }else{
-                this.$message.warning(res.message);
-              }
-            }).finally(() => {
-              this.confirmLoading = false;
-              this.loadData();
-            })
+        var record = {"equipmentId":equipmentId,"clientId":null};
+        putAction(this.url.update,record).then((res) => {//撤回设备，删除设备客户关联记录
+          if (res.success) {
+            console.log(this.dataSource);
+            this.$message.success(res.message);
+            that.$emit('ok');
+          }else{
+            this.$message.warning(res.message);
+          }
+        }).finally(() => {
+          this.confirmLoading = false;
+          this.loadData();
+        })
       },
       hx(){
         this.loadData();

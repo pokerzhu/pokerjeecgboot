@@ -66,11 +66,11 @@
     data() {
       return {
         columns: [
-          {
+          /*{
             title: 'ID',
             align: "center",
             dataIndex: 'openId',
-          },
+          },*/
           {
             title: '商品名称',
             align: "center",
@@ -133,7 +133,6 @@
       // },
       edit(record) {
         console.log(record.clientId)
-
         this.form.resetFields();
         this.model = Object.assign({},record);
         this.queryParam.clientId= record.clientId;

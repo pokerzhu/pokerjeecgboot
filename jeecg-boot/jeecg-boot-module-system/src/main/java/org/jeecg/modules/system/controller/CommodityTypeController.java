@@ -105,7 +105,9 @@ public class CommodityTypeController {
 	 @PostMapping(value = "/add")
 	 public Result<CommodityType> add(@RequestBody CommodityType commodityType) {
 		 Result<CommodityType> result = new Result<CommodityType>();
+		 LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
 		 try {
+			 commodityType.setUpdateBy(sysUser.getRealname());
 			 commodityTypeService.save(commodityType);
 			 result.success("添加成功！");
 		 } catch (Exception e) {

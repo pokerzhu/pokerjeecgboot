@@ -8,9 +8,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.shiro.SecurityUtils;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.aspect.annotation.AutoLog;
+import org.jeecg.common.system.vo.LoginUser;
 import org.jeecg.common.util.oConvertUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -92,7 +95,9 @@ public class ClientController {
 	@PostMapping(value = "/add")
 	public Result<Client> add(@RequestBody Client client) {
 		Result<Client> result = new Result<Client>();
+		LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
 		try {
+			client.setUpdateBy(sysUser.getRealname());
 			clientService.save(client);
 			Client client1 = new Client().setClientId(client.getClientId());
 			result.setResult(client1);//添加成功后返回客户实体

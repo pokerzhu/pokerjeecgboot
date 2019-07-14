@@ -43,4 +43,9 @@ public class RelationshipServiceImpl extends ServiceImpl<RelationshipMapper, Rel
     public boolean insertByfilterelementid(List<Relationship> list) {
         return relationshipMapper.insertByfilterelementid(list);
     }
+
+    @Override
+    public List<String> selectLXid(String SPid) {
+        return relationshipMapper.selectLXid(SPid);
+    }
 }

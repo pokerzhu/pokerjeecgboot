@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.jeecg.modules.demo.dome.mapper.FilterelementReplaceMapper">
+<mapper namespace="org.jeecg.modules.system.mapper.FilterelementReplaceMapper">
+    <insert id="insertByfilterelementid" parameterType="java.util.List">
+        INSERT INTO `jeecg-boot`.`filterelement_replace`( `record_id`, `equipment_id`, `filterelement_id`, `installation_time`,  `create_by`, `create_time`, `update_by`, `update_time`)
+        VALUES
+        <foreach separator="," item="list" collection="list">
+            (#{list.recordId}, #{list.equipmentId}, #{list.filterelementId}, CURRENT_TIMESTAMP, #{list.createBy}, CURRENT_TIMESTAMP, #{list.updateBy}, CURRENT_TIMESTAMP)
+        </foreach>
+    </insert>
 
 </mapper>

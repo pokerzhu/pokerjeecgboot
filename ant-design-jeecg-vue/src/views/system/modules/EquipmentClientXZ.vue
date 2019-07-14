@@ -24,7 +24,7 @@
       </a-form-item>
     </a-form>
     </a-spin>
-    <equipment-client-add ref="clientmodal" ></equipment-client-add>
+    <equipment-client-add ref="clientmodal"  @ok="close"></equipment-client-add>
   </a-modal>
 </template>
 
@@ -51,6 +51,7 @@
           xs: { span: 24 },
           sm: { span: 16 },
         },
+        commodityId:"",
         equipmentId:"",
         ClientList:[],
         confirmLoading: false,
@@ -68,15 +69,16 @@
       this.sleClient();
     },
     methods: {
-      add (equipmentId) {
+      add (equipmentId,commodityId) {
         this.visible=true;
+        this.commodityId = commodityId;
         this.equipmentId=equipmentId;
         console.log(equipmentId+"111111111111111");
       },
       close () {
-        this.$emit('close');
+        this.$emit('ok');
         this.visible = false;
-        this.loadData();
+        // this.loadData();
       },
       sleClient(){
         getAction("/demo/client/selClient",null).then((res) => {
@@ -86,7 +88,7 @@
       // 添加客户信息
       handleequipment() {
         console.log(this.equipmentId);
-        this.$refs.clientmodal.add(this.equipmentId);
+        this.$refs.clientmodal.add(this.equipmentId,this.commodityId);
         this.$refs.clientmodal.title="请填写安装客户信息";
         this.close();
       },
@@ -96,11 +98,10 @@
         this.form.validateFields((err,values) => {
           if (!err) {
             values.equipmentId=this.equipmentId;
+            values.commodityId=this.commodityId;
             that.confirmLoading = true;
             let httpurl = '';
             let method = '';
-            httpurl+=this.url.add;
-            method = 'put';
             let formData = Object.assign(this.model,values);
             putAction(this.url.add, formData).then((res) => {//更新设备信息，绑定客户id
               if (res.success) {
@@ -112,7 +113,7 @@
             }).finally(() => {
               that.confirmLoading = false;
               that.close();
-              this.loadData();
+              // this.hx();
             })
           }
         })

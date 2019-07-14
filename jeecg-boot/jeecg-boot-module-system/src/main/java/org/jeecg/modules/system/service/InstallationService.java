@@ -17,4 +17,18 @@ public interface InstallationService extends IService<Installation> {
      * @return
      */
     boolean Updeteopen(Installation installationVO);
+
+    /**
+     * 删除
+     * @param clientId
+     * @return
+     */
+    boolean DeleteInstall(@Param("equipmentId") String equipmentId);
+
+    /**
+     * 客户设备添加
+     * @param installation
+     */
+    boolean EquAdd(Installation installation);
+
 }

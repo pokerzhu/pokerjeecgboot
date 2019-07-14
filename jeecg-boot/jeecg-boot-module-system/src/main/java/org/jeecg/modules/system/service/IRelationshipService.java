@@ -42,4 +42,11 @@ public interface IRelationshipService extends IService<Relationship> {
      */
     boolean insertByfilterelementid(List<Relationship> list);
 
+    /**
+     * 根据商品id查询，类型中配置的滤芯id集合
+     * @param SPid
+     * @return
+     */
+    List<String> selectLXid(String SPid);
+
 }
