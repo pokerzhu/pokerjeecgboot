@@ -64,8 +64,6 @@ public class EquipmentController {
 	 @Autowired
 	 private IFilterelementReplaceService iFilterelementReplaceService ;
 
-
-
 	 @AutoLog(value = "设备表-分页列表查询")
 	@ApiOperation(value="设备表-分页列表查询", notes="设备表-分页列表查询")
 	@GetMapping(value = "/list")
@@ -82,6 +80,20 @@ public class EquipmentController {
 		return result;
 	}
 
+     @AutoLog(value = "设备详情查询")
+     @ApiOperation(value="设备详情查询", notes="设备详情查询")
+     @GetMapping(value = "/equipmentlist")
+     public Result<IPage<EquipmentVO>>equipmentList(String equipmentId,
+                                                    @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+                                                    @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
+                                                    HttpServletRequest req) {
+         Result<IPage<EquipmentVO>> result = new Result<IPage<EquipmentVO>>();
+         Page<EquipmentVO> page = new Page<EquipmentVO>(pageNo,pageSize);
+         IPage<EquipmentVO> pageList = equipmentService.SelectByEquId(page,equipmentId);
+         result.setSuccess(true);
+         result.setResult(pageList);
+         return result;
+     }
 	/**
 	  *   添加
 	 * @param equipment

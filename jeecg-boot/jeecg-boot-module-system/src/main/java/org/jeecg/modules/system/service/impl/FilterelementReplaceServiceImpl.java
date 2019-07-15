@@ -1,5 +1,7 @@
 package org.jeecg.modules.system.service.impl;
 
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 import org.jeecg.modules.system.entity.FilterelementReplace;
 import org.jeecg.modules.system.mapper.FilterelementReplaceMapper;
 import org.jeecg.modules.system.service.IFilterelementReplaceService;
@@ -32,4 +34,8 @@ public class FilterelementReplaceServiceImpl extends ServiceImpl<FilterelementRe
         return filterelementReplaceMapper.DelEquipmentId(equipmentId);
     }
 
+    @Override
+    public boolean UpdfiletereMent(String updateBy, String id) {
+        return filterelementReplaceMapper.UpdfiletereMent(updateBy,id);
+    }
 }

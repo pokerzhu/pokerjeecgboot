@@ -100,16 +100,14 @@
 
     <!-- 表单区域 -->
     <equipment-modal ref="modalForm" @ok="modalFormOk"></equipment-modal>
-    <!--<equipment-client-add ref="clientmodal"></equipment-client-add>-->
     <equipment-client-x-z ref="equipmentclientxz" @ok="modalFormOk"></equipment-client-x-z>
-    <equipment-xq-modal ref="equipmentXq"></equipment-xq-modal>
+    <!--<equipment-xq-modal ref="equipmentXq"></equipment-xq-modal>-->
   </a-card>
 </template>
 
 <script>
   import EquipmentModal from '../modules/EquipmentModal'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import EquipmentXqModal from '../modules/EquipmentXqModal'
   import EquipmentClientXZ from '../modules/EquipmentClientXZ'
   import { httpAction,putAction } from '@/api/manage'
 
@@ -117,7 +115,7 @@
     name: "EquipmentList",
     mixins:[JeecgListMixin],
     components: {
-      EquipmentModal,EquipmentClientXZ,EquipmentXqModal,
+      EquipmentModal,EquipmentClientXZ,
     },
     data () {
       return {
@@ -152,7 +150,7 @@
           {
             title: '所属代理',
             align:"center",
-            dataIndex: 'realname'
+            dataIndex: 'departname'
           },
           {
             title: '客户名',

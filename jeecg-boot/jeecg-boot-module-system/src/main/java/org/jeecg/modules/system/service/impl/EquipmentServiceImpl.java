@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @Description: 设备表
  * @Author: jeecg-boot
@@ -43,5 +45,10 @@ public class EquipmentServiceImpl extends ServiceImpl<EquipmentMapper, Equipment
     public boolean UpdEquipmentClient(Equipment equipment) {
         boolean bool=equipmentMapper.UpdEquipmentClient(equipment);
         return bool;
+    }
+
+    @Override
+    public IPage<EquipmentVO> SelectByEquId(Page page,String equipmentId) {
+        return page.setRecords(equipmentMapper.SelectByEquId(equipmentId));
     }
 }

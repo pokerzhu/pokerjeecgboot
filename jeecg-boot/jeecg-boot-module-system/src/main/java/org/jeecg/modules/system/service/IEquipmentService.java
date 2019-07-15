@@ -3,8 +3,9 @@ package org.jeecg.modules.system.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.Select;
 import org.jeecg.modules.system.entity.Equipment;
+import org.jeecg.modules.system.entity.Filterelement;
 import org.jeecg.modules.system.vo.EquipmentVO;
 
 import java.util.List;
@@ -39,4 +40,11 @@ public interface IEquipmentService extends IService<Equipment> {
      * 设备客户编辑-何豪
      */
     boolean UpdEquipmentClient(Equipment equipment);
+
+    /**
+     * 根据设备Id获取一条信息
+     * @param equipmentId
+     * @return
+     */
+    IPage<EquipmentVO> SelectByEquId(Page page,String equipmentId);
 }

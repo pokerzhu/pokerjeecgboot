@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Update;
 import org.jeecg.modules.system.entity.FilterelementReplace;
 
 /**
@@ -30,4 +31,11 @@ public interface FilterelementReplaceMapper extends BaseMapper<FilterelementRepl
      */
     @Delete("delete FROM filterelement_replace WHERE equipment_id=#{equipmentId}")
     boolean DelEquipmentId(@Param("equipmentId") String equipmentId);
+
+    /**
+     * 更换滤芯
+     * @return
+     */
+    @Update("UPDATE `filterelement_replace` SET `installation_time` = CURRENT_TIMESTAMP ,update_by=#{updateBy} WHERE `record_id` = #{id}")
+    boolean UpdfiletereMent(@Param("updateBy") String updateBy,@Param("id")String id);
 }

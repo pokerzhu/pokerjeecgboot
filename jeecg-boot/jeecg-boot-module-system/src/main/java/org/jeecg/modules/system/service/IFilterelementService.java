@@ -2,9 +2,11 @@ package org.jeecg.modules.system.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.jeecg.modules.system.entity.Filterelement;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.jeecg.modules.system.vo.RelationshipVO;
 
 import java.util.List;
 
@@ -34,4 +36,10 @@ public interface IFilterelementService extends IService<Filterelement> {
      * @return
      */
     IPage<Filterelement> selectbytypeId(String typeId, Page page);
+
+    /**
+     * 设备更换记录详情
+     * @return
+     */
+    IPage<RelationshipVO> selectLxXQ(Page page,String equipmentId);
 }

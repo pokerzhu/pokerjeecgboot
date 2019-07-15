@@ -1,89 +1,104 @@
 <template>
-  <div>
-    <a-modal
-      centered
-      :title="title"
-      :width="1000"
+  <a-card :bordered="false">
+    <!-- 抽屉 -->
+    <a-drawer
+      title="设备详情"
+      :width="screenWidth"
+      @close="onClose"
       :visible="visible"
-      @ok="handleOk"
-      @cancel="handleCancel"
-      cancelText="关闭">
-
-      <!--&lt;!&ndash; 查询区域 &ndash;&gt;
-      <div class="table-page-search-wrapper">
-        <a-form layout="inline">
-          <a-row :gutter="24">
-
-            <a-col :span="10">
-              <a-form-item label="滤芯">
-                <a-input placeholder="请输入滤芯名" v-model="queryParam.filterelementName"></a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :span="10">
-              <a-form-item label="滤芯编号">
-                <a-input placeholder="请输入滤芯编号" v-model="queryParam.filterelementId"></a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-                    <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
-                      <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
-                      <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
-                    </span>
-            </a-col>
-
-          </a-row>
-        </a-form>
-      </div>-->
-      <!-- table区域-begin -->
-      <div>
-        <a-table
-          size="small"
-          bordered
-          rowKey="id"
-          :columns="columns"
-          :dataSource="dataSource1"
-          :pagination="ipagination"
-          :loading="loading"
-          :rowSelection="{selectedRowKeys: selectedRowKeys,onSelectAll:onSelectAll,onSelect:onSelect,onChange: onSelectChange}"
-          @change="handleTableChange">
-
-        </a-table>
+    >
+      <!-- 抽屉内容的border -->
+      <div
+        :style="{
+          padding:'10px',
+          border: '1px solid #e9e9e9',
+          background: '#fff',
+        }">
+        <div class="table-page-search-wrapper">
+          <a-form layout="inline" :form="form">
+            <a-row :gutter="10">
+              <a-col :md="9" :sm="24">
+                <a-form-item label="设备编号">
+                  {{RelationShip.equipmentId}}
+                </a-form-item>
+              </a-col>
+              <a-col :md="9" :sm="24">
+                <a-form-item label="所属代理">
+                  {{RelationShip.departname}}
+                </a-form-item>
+              </a-col>
+              <a-col :md="9" :sm="24">
+                <a-form-item label="客户名">
+                  {{RelationShip.clientName}}
+                </a-form-item>
+              </a-col>
+              <a-col :md="9" :sm="24">
+                <a-form-item label="硬件编号">
+                  {{RelationShip.ids}}
+                </a-form-item>
+              </a-col>
+              <a-col :md="9" :sm="24">
+                <a-form-item label="启用状态">
+                  {{RelationShip.enabled_dictText}}
+                </a-form-item>
+              </a-col>
+              <a-col :md="9" :sm="24">
+                <a-form-item label="租赁状态">
+                  {{RelationShip.leasestate_dictText}}
+                </a-form-item>
+              </a-col>
+              <a-col :md="9" :sm="24">
+                <a-form-item label="商品名称">
+                  {{RelationShip.commodityName}}
+                </a-form-item>
+              </a-col>
+              <a-col :md="9" :sm="24">
+                <a-form-item label="主板状态">
+                  {{RelationShip.mainboard_dictText}}
+                </a-form-item>
+              </a-col>
+              <a-col :md="9" :sm="24">
+                <a-form-item label="滤芯状态">
+                  {{RelationShip.filterelementType_dictText}}
+                </a-form-item>
+              </a-col>
+            </a-row>
+          </a-form>
+        </div>
+        <div>
+          <a-table
+            ref="table"
+            rowKey="id"
+            size="middle"
+            :columns="columns"
+            :loading="loading"
+            :dataSource="dataSource">
+            <span slot="action" slot-scope="text, record">
+          <a @click="filtereleReplace(record.recordId)">更换</a>
+            </span>
+          </a-table>
+        </div>
       </div>
-      <!-- table区域-end -->
-    </a-modal>
-  </div>
+
+    </a-drawer>
+  </a-card>
+
 </template>
 
 <script>
-  import {filterObj} from '@/utils/util'
-  import {getAction,postAction} from '@/api/manage'
+
+  import {filterObj} from '@/utils/util';
+  import  RelationshipListModel from '../modules/RelationshipListModel'
+  import { getAction,putAction} from '@/api/manage'
+  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
 
   export default {
-    name: "RelationshipListModel",
+    name: "RelationshipListModal",
+    components: {RelationshipListModel},
     data() {
       return {
-        title: "添加已有滤芯",
-        names: [],
-        visible: false,
-        placement: 'right',
-        description: '',
-        typeId:'',
-        count:'',
-        // 查询条件
-        queryParam: {
-          typeId:'',
-        },
         columns: [
           {
-            title: '#',
-            dataIndex: '',
-            key:'rowIndex',
-            width:60,
-            align:"center",
-            customRender:function (t,r,index) {
-              return parseInt(index)+1;
-            }
-          },{
             title: '使用滤芯',
             align: "center",
             dataIndex: 'filterelementName',
@@ -98,181 +113,148 @@
             align: "center",
             dataIndex: 'replacementdays',
           },
-        ],
-        //数据集
-        dataSource1: [],
-        dataSource2: [],
-        // 分页参数
-        ipagination: {
-          current: 1,
-          pageSize: 10,
-          pageSizeOptions: ['10', '20', '30'],
-          showTotal: (total, range) => {
-            return range[0] + "-" + range[1] + " 共" + total + "条"
+          {
+            title: '滤芯剩余使用天数',
+            align: "center",
+            dataIndex: 'remaining',
           },
-          showQuickJumper: true,
-          showSizeChanger: true,
-          total: 0
+          {
+            title: '滤芯已使用天数',
+            align: "center",
+            dataIndex: 'used',
+          },
+          {
+            title: '是否提醒',
+            align: "center",
+            dataIndex: 'remind_dictText',
+          },
+          {
+            title: '操作',
+            dataIndex: 'action',
+            align: "center",
+            scopedSlots: {customRender: 'action'},
+          },
+        ],
+        queryParam: {
+          typeId: "",
         },
-        isorter: {
-          column: 'createTime',
-          order: 'desc',
+        title: "操作",
+        visible: false,
+        screenWidth: 800,
+        model: {},
+        typeId: "",//类型id
+        RelationShip:{},
+        recordId:"",
+        equipmentId:"",
+        dataSource:[],
+        Query:{},
+        status: 1,
+        labelCol: {
+          xs: {span: 5},
+          sm: {span: 5},
         },
-        loading: false,
-        selectedRowKeys: [],
-        selectedRows: [],
+        wrapperCol: {
+          xs: {span: 12},
+          sm: {span: 12},
+        },
+        form: this.$form.createForm(this),
+        validatorRules: {
+          value: {rules: [{required: true, message: '请输入规格值!'}]},
+        },
         url: {
-          selectbytypeId: "/demo/filterelement/selectbytypeId",
-          add:"/dome/relationship/add",
-        }
+          // list: "/dome/relationship/list",
+          // delete: "/dome/relationship/delete",
+          equipmentlist: "/demo/equipment/equipmentlist",
+        },
       }
     },
     created() {
+      // 当页面初始化时,根据屏幕大小来给抽屉设置宽度
+      this.resetScreenSize();
     },
     methods: {
-      searchQuery() {
-        this.loadData(1);
-      },
-      searchReset() {
-        this.queryParam = {};
-        this.loadData(1);
-      },
-      handleCancel() {
-        this.onClearSelected();
-        this.visible = false;
-      },
-      handleOk() {
-        console.log("data:" + this.dataSource2);
-        /*this.selectOK(this.dataSource2);*/
-        /*this.visible = false;*/
-        let params = {};
-        params.typeId = this.typeId;
-        params.filterelementIds = '';
-        for (var a = 0; a < this.dataSource2.length; a++) {
-          params.filterelementIds += this.dataSource2[a].filterelementId + ','
-        }
-        /*for (var a = 0; a < this.dataSource2.length; a++) {
-          params.userIdList.push(this.dataSource2[a].filterelementId);
-        }*/
-        console.log(params);
-          postAction(this.url.add, params).then((res) => {
-            if (res.success) {
-              this.$message.success(res.message);
-
-              this.loadData();
-            } else {
-              this.$message.warning(res.message);
-            }
-          })
-        this.visible = false;
-        this.onClearSelected();
-        },
-      add() {
-        this.visible = true;
-      },
-      selectbytypeId() {
-        var params = {"typeId":this.typeId};
-        getAction(this.url.selectbytypeId, params).then((res) => {
+      filtereleReplace(recordId){
+        var C ={"recordId":recordId};
+        this.loading = true;
+        putAction("/dome/filterelementReplace/relation",C ).then((res) => {
           if (res.success) {
-            this.dataSource1 = res.result.records;
-            this.ipagination.total = res.result.total;
+            this.$message.success(res.message);
+          }else{
+            this.$message.warning(res.message);
           }
+        }).finally(() => {
+          this.relation(this.equipmentId);
+          this.loading = false;
         })
       },
+      relation(equipmentId){
+        this.equipmentId = equipmentId;
+        this.Quary(equipmentId);
+        var  A ={"equipmentId":equipmentId};
+        getAction(this.url.equipmentlist,A ).then((res) => {
+          var RelationShip = res.result.records;
+          this.RelationShip = RelationShip[0];
+          console.log(this.RelationShip);
+        })
+      },
+      Quary(equipmentId){
+        var F ={"equipmentId":equipmentId};
+        getAction("/demo/filterelement/query",F).then((res) => {
+              if (res.success) {
+                this.dataSource = res.result.records;
+                console.log(this.dataSource);
+              }
+        });
+      },
+      add(id) {
+        this.typeId = id;
+        this.edit({});
+      },
+      edit(record) {
+        this.typeId = record.typeId;
+        /*console.log(this.commodityId+"1111")*/
+        this.queryParam.typeId=record.typeId;
+        this.form.resetFields();
+        this.model = Object.assign({}, record);
+        this.model.typeId = this.typeId;
+        console.log(this.model.typeId);
+        this.visible = true;
+        // 当其它模块调用该模块时,调用此方法加载字典数据
+      },
       getQueryParams() {
-        var param = Object.assign({}, this.queryParam, this.isorter);
+        var param = Object.assign({}, this.queryParam);
+        param.typeId = this.typeId;
         param.field = this.getQueryField();
         param.pageNo = this.ipagination.current;
         param.pageSize = this.ipagination.pageSize;
         return filterObj(param);
       },
-      getQueryField() {
-        //TODO 字段权限控制
+      // 添加字典数据
+      handleAdd() {
+        console.log(this.typeId);
+        this.$refs.modalForm.visible=true;
+        this.$refs.modalForm.typeId=this.typeId;
+        this.$refs.modalForm.title = "新增";
       },
-      onSelectAll(selected, selectedRows, changeRows) {//判断点击全选事件发生后是否被选中
-        if (selected === true) {
-          for (var a = 0; a < changeRows.length; a++) {
-            this.dataSource2.push(changeRows[a]);
-            console.log(this.dataSource2)
-          }
+      showDrawer() {
+        this.visible = true
+      },
+      onClose() {
+        this.visible = false;
+        this.form.resetFields();
+        this.dataSource = [];
+      },
+      // 抽屉的宽度随着屏幕大小来改变
+      resetScreenSize() {
+        let screenWidth = document.body.clientWidth;
+        if (screenWidth < 600) {
+          this.screenWidth = screenWidth;
         } else {
-          for (var b = 0; b < changeRows.length; b++) {
-            this.dataSource2.splice(this.dataSource2.indexOf(changeRows[b]), 1);
-            console.log(this.dataSource2)
-          }
-        }
-        // console.log(selected, selectedRows, changeRows);
-      },
-      onSelect(record, selected) {
-        if (selected === true) {//判断点击事件发生后是否被选中
-          this.dataSource2.push(record);
-          console.log(this.dataSource2)//如果当前行被选中则加入到集合中
-        } else {
-          var index = this.dataSource2.indexOf(record);//得到该行在数据源中的索引
-          console.log(index);
-          console.log(this.dataSource2)
-          //console.log();
-          if (index >= 0) {
-            this.dataSource2.splice(this.dataSource2.indexOf(record), 1);//如果当前行被取消选中，则在集合中剪切掉该行
-            console.log(this.dataSource2)
-          }
-
+          this.screenWidth = 900;
         }
       },
-      onSelectChange(selectedRowKeys, selectedRows) {
-        this.selectedRowKeys = selectedRowKeys;
-        this.selectionRows = selectedRows;
-      },
-      onClearSelected() {
-        this.selectedRowKeys = [];
-        this.selectionRows = [];
-      },
-      handleDelete: function (record) {
-        this.dataSource2.splice(this.dataSource2.indexOf(record), 1);
-      },
-      handleTableChange(pagination, filters, sorter) {
-        //分页、排序、筛选变化时触发
-        console.log(sorter);
-        //TODO 筛选
-        if (Object.keys(sorter).length > 0) {
-          this.isorter.column = sorter.field;
-          this.isorter.order = "ascend" == sorter.order ? "asc" : "desc"
-        }
-        this.ipagination = pagination;
-        this.loadData();
-      }
     }
   }
 </script>
-<style lang="less" scoped>
-  .ant-card-body .table-operator {
-    margin-bottom: 18px;
-  }
-
-  .ant-table-tbody .ant-table-row td {
-    padding-top: 15px;
-    padding-bottom: 15px;
-  }
-
-  .anty-row-operator button {
-    margin: 0 5px
-  }
-
-  .ant-btn-danger {
-    background-color: #ffffff
-  }
-
-  .ant-modal-cust-warp {
-    height: 100%
-  }
-
-  .ant-modal-cust-warp .ant-modal-body {
-    height: calc(100% - 110px) !important;
-    overflow-y: auto
-  }
-
-  .ant-modal-cust-warp .ant-modal-content {
-    height: 90% !important;
-    overflow-y: hidden
-  }
+<style scoped>
 </style>

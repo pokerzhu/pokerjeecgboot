@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.jeecg.modules.system.entity.Filterelement;
 import org.jeecg.modules.system.service.IFilterelementService;
+import org.jeecg.modules.system.vo.EquipmentVO;
 import org.jeecg.modules.system.vo.RelationshipVO;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.def.NormalExcelConstants;
@@ -163,6 +164,22 @@ public class FilterelementController {
          return result;
      }
 
+     @AutoLog(value = "设备详情查询")
+     @ApiOperation(value="设备详情查询", notes="设备详情查询")
+     @GetMapping(value = "/query")
+     public Result<IPage<RelationshipVO>>equipmentList(RelationshipVO relationshipVO,
+                                                    @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+                                                    @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
+                                                    HttpServletRequest req) {
+         System.out.println("进来了了了了了了了了了了了了");
+         Result<IPage<RelationshipVO>> result = new Result<IPage<RelationshipVO>>();
+         Page<RelationshipVO> page = new Page<RelationshipVO>(pageNo,pageSize);
+         IPage<RelationshipVO> pageList = filterelementService.selectLxXQ(page,relationshipVO.getEquipmentId());
+         System.out.println(relationshipVO.getEquipmentId()+"/////////////");
+         result.setSuccess(true);
+         result.setResult(pageList);
+         return result;
+     }
      /**
       * 添加
       *
@@ -205,7 +222,6 @@ public class FilterelementController {
                  result.success("修改成功!");
              }
          }
-
          return result;
      }
 

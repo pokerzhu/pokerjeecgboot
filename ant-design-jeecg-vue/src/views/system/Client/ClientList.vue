@@ -81,10 +81,10 @@
             <a-icon type="edit"/>
             编辑
           </a>
-              <!--<a @click="ClientFF(record)">
-            <a-icon type="edit"/>
-            详情
-          </a>-->
+              <!--<a @click="ClientFF(record)">-->
+            <!--<a-icon type="edit"/>-->
+            <!--详情-->
+          <!--</a>-->
           <a-divider type="vertical"/>
           <a @click="ClientEdit(record)"><a-icon type="setting"/>可用设备</a>
           <a-divider type="vertical"/>
