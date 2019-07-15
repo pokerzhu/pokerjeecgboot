@@ -3,8 +3,11 @@ package org.jeecg.modules.system.mapper;
 import java.util.List;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.jeecg.modules.system.entity.Filterelement;
+import org.jeecg.modules.system.vo.RelationshipVO;
 
 /**
  * @Description: 滤芯表
@@ -41,4 +44,14 @@ public interface FilterelementMapper extends BaseMapper<Filterelement> {
             "FROM relationship\n" +
             "where relationship.type_id = #{typeId})")
     List<Filterelement> selectbytypeId(String typeId);
+
+    /**
+     * 设备更换记录详情
+     * @return
+     */
+    @Select("select r.record_id recordId,filterelement_name filterelementName,validity validity,replacementdays replacementdays,(DATEDIFF(now(),r.installation_time)) Used,(f.validity-DATEDIFF(now(),r.installation_time)) Remaining \n" +
+            "FROM filterelement f,filterelement_replace r \n" +
+            "WHERE f.filterelement_id=r.filterelement_id \n" +
+            "AND r.equipment_id=#{equipmentId}")
+    List<RelationshipVO> selectLxXQ(@Param("equipmentId") String equipmentId);
 }

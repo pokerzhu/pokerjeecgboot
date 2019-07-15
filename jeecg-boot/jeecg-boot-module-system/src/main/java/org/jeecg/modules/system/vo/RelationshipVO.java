@@ -13,6 +13,7 @@ import org.jeecg.common.aspect.annotation.Dict;
 import org.jeecgframework.poi.excel.annotation.Excel;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.security.PrivateKey;
 import java.util.Date;
 
 /**
@@ -23,6 +24,26 @@ import java.util.Date;
  */
 @Data
 public class RelationshipVO {
+    /**
+     * 记录Id
+     */
+    @TableField("record_id")
+    private String recordId;
+    /*剩余天数*/
+    @TableField("Remaining")
+    private String Remaining;
+    /*已使用天数*/
+    @TableField("Used")
+    private String Used;
+    /**
+     * 是否已提醒
+     */
+    @TableField("remind")
+    @Dict(dicCode = "remind")
+    private int remind;
+    //设备编号
+    @TableField("equipment_id")
+    private String equipmentId;
 	/*滤芯编号*/
     @TableField("filterelement_id")
 	private String filterelementId;
@@ -41,4 +62,7 @@ public class RelationshipVO {
 	/*最低更换天数*/
     @TableField("replacementdays")
 	private  String replacementdays;
+    /*最低更换天数*/
+    @TableField("updateBy")
+    private  String updateBy;
 }

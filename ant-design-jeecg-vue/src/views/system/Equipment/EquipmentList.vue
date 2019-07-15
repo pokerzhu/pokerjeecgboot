@@ -86,7 +86,7 @@
           <a @click="handleEdit(record)">编辑</a>
 
           <a-divider type="vertical" />
-          <a @click="handleDetailDemo(record)">详情</a>
+          <a @click="handleDetailDemo(record.equipmentId)">详情</a>
 
           <a-divider type="vertical" />
           <a-dropdown>
@@ -114,9 +114,8 @@
         <span slot="leasestate" slot-scope="text, record">
                 {{record.leasestate==0?record.commodityRent:record.commodityPrices}}
         </span>
-
         <span slot="filtere" slot-scope="text, record">
-               <a v-if="record.filterelementType==0" @click="handleDetailDemo(record)">异常</a>
+               <a v-if="record.filterelementType==0" @click="handleDetailDemo(record.equipmentId)">异常</a>
                 <span v-if="record.filterelementType==1" >正常</span>
         </span>
       </a-table>
@@ -125,24 +124,23 @@
 
     <!-- 表单区域 -->
     <equipment-modal ref="modalForm" @ok="modalFormOk"></equipment-modal>
-    <!--<equipment-client-add ref="clientmodal"></equipment-client-add>-->
     <equipment-client-x-z ref="equipmentclientxz" @ok="modalFormOk"></equipment-client-x-z>
-    <equipment-xq-modal ref="equipmentXq"></equipment-xq-modal>
+    <relationship-list-model ref="relation" @ok="modalFormOk"></relationship-list-model>
   </a-card>
 </template>
 
 <script>
   import EquipmentModal from '../modules/EquipmentModal'
-  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import EquipmentXqModal from '../modules/EquipmentXqModal'
+  import {JeecgListMixin } from '@/mixins/JeecgListMixin'
   import EquipmentClientXZ from '../modules/EquipmentClientXZ'
-  import { httpAction,putAction } from '@/api/manage'
+  import {httpAction,putAction } from '@/api/manage'
+  import RelationshipListModel from '../modules/RelationshipListModel'
 
   export default {
     name: "EquipmentList",
     mixins:[JeecgListMixin],
-    components: {
-      EquipmentModal,EquipmentClientXZ,EquipmentXqModal,
+    components: {//EquipmentXqModal,
+      EquipmentModal,EquipmentClientXZ,RelationshipListModel
     },
     data () {
       return {
@@ -177,7 +175,7 @@
           {
             title: '所属代理',
             align:"center",
-            dataIndex: 'realname'
+            dataIndex: 'departname'
           },
           {
             title: '客户名',
@@ -244,8 +242,9 @@
       }
     },
     methods: {
-      handleDetailDemo(record){
-        this.$refs.equipmentXq.visible=true;
+      handleDetailDemo(equipmentId){
+        this.$refs.relation.visible=true;
+        this.$refs.relation.relation(equipmentId);
       },
       //取消选择
       cancelDict() {

@@ -2,6 +2,7 @@ package org.jeecg.modules.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Select;
+import org.jeecg.modules.system.entity.Filterelement;
 import org.jeecg.modules.system.entity.Relationship;
 import org.jeecg.modules.system.vo.RelationshipVO;
 
@@ -58,6 +59,4 @@ public interface RelationshipMapper extends BaseMapper<Relationship> {
             "FROM relationship \n" +
             "WHERE type_id = (SELECT type_id FROM commodity WHERE commodity_id = #{SPid})")
     List<String> selectLXid(String SPid);
-
-
 }

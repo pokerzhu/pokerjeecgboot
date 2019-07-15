@@ -8,9 +8,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.shiro.SecurityUtils;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.aspect.annotation.AutoLog;
+import org.jeecg.common.system.vo.LoginUser;
 import org.jeecg.common.util.oConvertUtils;
 import java.util.Date;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -18,8 +21,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 
+import org.jeecg.modules.system.entity.Filterelement;
 import org.jeecg.modules.system.entity.FilterelementReplace;
+import org.jeecg.modules.system.entity.Relationship;
+import org.jeecg.modules.system.service.EquipmentDbService;
 import org.jeecg.modules.system.service.IFilterelementReplaceService;
+import org.jeecg.modules.system.vo.EquipmentVO;
+import org.jeecg.modules.system.vo.RelationshipVO;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.def.NormalExcelConstants;
 import org.jeecgframework.poi.excel.entity.ExportParams;
@@ -48,6 +56,23 @@ import io.swagger.annotations.ApiOperation;
 public class FilterelementReplaceController {
 	@Autowired
 	private IFilterelementReplaceService filterelementReplaceService;
+
+
+     @AutoLog(value = "滤芯更换")
+     @ApiOperation(value="滤芯更换", notes="滤芯更换")
+     @PutMapping(value = "/relation")
+     public Result<RelationshipVO> EquipmentDb(@RequestBody RelationshipVO filterelementReplace){
+         Result<RelationshipVO> result = new Result<RelationshipVO>();
+         LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
+         filterelementReplace.setUpdateBy(sysUser.getRealname());
+             boolean ok = filterelementReplaceService.UpdfiletereMent(filterelementReplace.getUpdateBy(),filterelementReplace.getRecordId());
+             if (ok) {
+                 result.success("更换成功!");
+             }else{
+                 result.error500("更换失败!");
+             }
+         return result;
+     }
 	
 	/**
 	  * 分页列表查询

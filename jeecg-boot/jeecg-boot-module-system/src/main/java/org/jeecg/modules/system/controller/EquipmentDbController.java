@@ -26,7 +26,6 @@ public class EquipmentDbController {
 
     @Autowired
     private EquipmentDbService equipmentDbService;
-
     @AutoLog(value = "设备调拨分页列表查询")
     @ApiOperation(value="设备调拨分页列表查询", notes="设备调拨分页列表查询")
     @GetMapping(value = "/list")
@@ -38,7 +37,7 @@ public class EquipmentDbController {
         QueryWrapper<EquipmentVO> queryWrapper = QueryGenerator.initQueryWrapper(equipmentVO, req.getParameterMap());
         Page<EquipmentVO> page = new Page<EquipmentVO>(pageNo, pageSize);
         LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
-        IPage<EquipmentVO> pageList = equipmentDbService.EquipmentDbShow(page,sysUser.getId());
+        IPage<EquipmentVO> pageList = equipmentDbService.EquipmentDbShow(page,sysUser.getOrgCode());
         result.setSuccess(true);
         result.setResult(pageList);
         return result;

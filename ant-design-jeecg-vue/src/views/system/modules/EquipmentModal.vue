@@ -10,7 +10,6 @@
 
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
-
         <a-spin :spinning="confirmLoading">
           <a-form :form="form">
             <a-form-item label="所属代理" :labelCol="labelCol" :wrapperCol="wrapperCol">
@@ -22,17 +21,6 @@
               </a-select>
             </a-form-item>
           </a-form>
-
-          <!--<a-form :form="form">-->
-              <!--<a-form-item label="客户名" :labelCol="labelCol" :wrapperCol="wrapperCol">-->
-                  <!--<a-select  placeholder="请选择客户名"  v-decorator="[ 'clientId',{}]" >-->
-                      <!--<a-select-option v-for="(selpurpose) in ClientList"-->
-                        <!--:value="selpurpose.clientId">-->
-                  <!--{{ selpurpose.clientName }}-->
-                  <!--</a-select-option>-->
-                <!--</a-select>-->
-          <!--</a-form-item>-->
-          <!--</a-form>-->
 
           <a-form :form="form">
             <a-form-item label="商品名称" :labelCol="labelCol" :wrapperCol="wrapperCol">
@@ -56,12 +44,7 @@
           <!--</a-form-item>-->
           <!--</a-form>-->
         </a-spin>
-        <!--<a-form-item-->
-        <!--:labelCol="labelCol"-->
-        <!--:wrapperCol="wrapperCol"-->
-        <!--label="客户名">-->
-        <!--<a-input placeholder="请输入客户名" v-decorator="['ids',validatorRules.clientName ]" />-->
-        <!--</a-form-item>-->
+
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
@@ -88,6 +71,7 @@
         </a-form>
       </a-form>
     </a-spin>
+
   </a-modal>
 </template>
 

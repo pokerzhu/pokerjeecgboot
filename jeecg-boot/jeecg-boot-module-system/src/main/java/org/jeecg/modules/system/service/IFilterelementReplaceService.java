@@ -1,6 +1,7 @@
 package org.jeecg.modules.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
 import org.jeecg.modules.system.entity.FilterelementReplace;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 public interface IFilterelementReplaceService extends IService<FilterelementReplace> {
     /**
      * 新增多条滤芯纪录
+     *
      * @param list
      * @return
      */
@@ -21,9 +23,17 @@ public interface IFilterelementReplaceService extends IService<FilterelementRepl
 
     /**
      * 删除滤芯记录
+     *
      * @param equipmentId
      * @return
      */
     boolean DelEquipmentId(String equipmentId);
 
+
+    /**
+     * 更换滤芯
+     *
+     * @return
+     */
+    boolean UpdfiletereMent(@Param("updateBy") String updateBy, @Param("id") String id);
 }

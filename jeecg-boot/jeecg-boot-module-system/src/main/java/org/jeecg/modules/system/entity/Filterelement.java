@@ -26,7 +26,6 @@ import java.util.Date;
 @Accessors(chain = true)
 @ApiModel(value="filterelement对象", description="滤芯表")
 public class Filterelement {
-    
 	/**filterelementId*/
 	@Excel(name = "filterelementId", width = 15)
     @ApiModelProperty(value = "filterelementId")

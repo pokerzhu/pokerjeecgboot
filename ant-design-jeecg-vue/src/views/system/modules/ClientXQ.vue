@@ -10,7 +10,6 @@
 
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
-
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
@@ -65,7 +64,7 @@
 </template>
 
 <script>
-  import { httpAction } from '@/api/manage'
+  import {httpAction } from '@/api/manage'
   import pick from 'lodash.pick'
 
   export default {
@@ -127,12 +126,8 @@
       handleCancel () {
         this.close()
       },
-
-
     }
   }
 </script>
-
 <style lang="less" scoped>
-
 </style>

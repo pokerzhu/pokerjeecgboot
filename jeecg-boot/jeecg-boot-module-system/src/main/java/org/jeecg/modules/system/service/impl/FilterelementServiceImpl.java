@@ -3,6 +3,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.jeecg.modules.system.entity.Filterelement;
 import org.jeecg.modules.system.mapper.FilterelementMapper;
 import org.jeecg.modules.system.service.IFilterelementService;
+import org.jeecg.modules.system.vo.RelationshipVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Service;
@@ -35,5 +36,10 @@ public class FilterelementServiceImpl extends ServiceImpl<FilterelementMapper, F
     @Override
     public IPage<Filterelement> selectbytypeId(String typeId, Page page) {
         return page.setRecords(filterelementMapper.selectbytypeId(typeId));
+    }
+
+    @Override
+    public IPage<RelationshipVO> selectLxXQ(Page page,String equipmentId) {
+        return page.setRecords(filterelementMapper.selectLxXQ(equipmentId));
     }
 }
