@@ -12,35 +12,19 @@
             </a-form-item>
           </a-col>
           <a-col :md="6" :sm="8">
-            <a-form-item label="商品编号，商品表外键">
-              <a-input placeholder="请输入商品编号，商品表外键" v-model="queryParam.commodityId"></a-input>
+            <a-form-item label="硬件编号">
+              <a-input placeholder="请输入硬件编号" v-model="queryParam.ids"></a-input>
             </a-form-item>
           </a-col>
-          <template v-if="toggleSearchStatus">
-            <a-col :md="6" :sm="8">
-              <a-form-item label="安装客户编号，客户表外键。">
-                <a-input placeholder="请输入安装客户编号，客户表外键。" v-model="queryParam.clientId"></a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :md="6" :sm="8">
-              <a-form-item label="硬件编号">
-                <a-input placeholder="请输入硬件编号" v-model="queryParam.ids"></a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :md="6" :sm="8">
-              <a-form-item label="安装状态">
-                <a-input placeholder="请输入是否安装" v-model="queryParam.enabled"></a-input>
-              </a-form-item>
-            </a-col>
-          </template>
+          <a-col :md="6" :sm="8">
+            <a-form-item label="安装状态">
+              <a-input placeholder="请输入是否安装" v-model="queryParam.enabled"></a-input>
+            </a-form-item>
+          </a-col>
           <a-col :md="6" :sm="8" >
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
               <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
               <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
-              <a @click="handleToggleSearch" style="margin-left: 8px">
-                {{ toggleSearchStatus ? '收起' : '展开' }}
-                <a-icon :type="toggleSearchStatus ? 'up' : 'down'"/>
-              </a>
             </span>
           </a-col>
 
@@ -83,7 +67,7 @@
         @change="handleTableChange">
 
         <span slot="action" slot-scope="text, record">
-          <a @click="handleEdit(record)">编辑</a>
+          <a @click="handleEdit(record)" v-if="record.clientName==null&&record.leasestate==0">编辑</a>
 
           <a-divider type="vertical" />
           <a @click="handleDetailDemo(record.equipmentId)">详情</a>
@@ -92,7 +76,7 @@
           <a-dropdown>
             <a class="ant-dropdown-link">更多 <a-icon type="down" /></a>
             <a-menu slot="overlay">
-              <a-menu-item>
+              <a-menu-item v-if="record.clientName==null">
                 <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.equipmentId)">
                   <a>删除</a>
                 </a-popconfirm>
@@ -102,7 +86,7 @@
                   <a>安装</a>
                 </a-popconfirm>
               </a-menu-item>
-              <a-menu-item v-else>
+              <a-menu-item v-if="record.clientName!=null&&record.leasestate=='0'">
                 <a-popconfirm title="确定回收吗?" @confirm="() =>handEquipment(record.equipmentId)">
                   <a>回收</a>
                 </a-popconfirm>

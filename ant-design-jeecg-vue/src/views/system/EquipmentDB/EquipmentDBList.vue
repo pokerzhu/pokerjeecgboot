@@ -11,17 +11,6 @@
               <a-input placeholder="请输入设备编号" v-model="queryParam.equipmentId"></a-input>
             </a-form-item>
           </a-col>
-          <a-col :md="6" :sm="8">
-            <a-form-item label="商品编号，商品表外键">
-              <a-input placeholder="请输入商品编号，商品表外键" v-model="queryParam.commodityId"></a-input>
-            </a-form-item>
-          </a-col>
-          <template v-if="toggleSearchStatus">
-            <a-col :md="6" :sm="8">
-              <a-form-item label="安装客户编号，客户表外键。">
-                <a-input placeholder="请输入安装客户编号，客户表外键。" v-model="queryParam.clientId"></a-input>
-              </a-form-item>
-            </a-col>
             <a-col :md="6" :sm="8">
               <a-form-item label="硬件编号">
                 <a-input placeholder="请输入硬件编号" v-model="queryParam.ids"></a-input>
@@ -32,15 +21,10 @@
                 <a-input placeholder="请输入是否安装" v-model="queryParam.enabled"></a-input>
               </a-form-item>
             </a-col>
-          </template>
           <a-col :md="6" :sm="8" >
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
               <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
               <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
-              <a @click="handleToggleSearch" style="margin-left: 8px">
-                {{ toggleSearchStatus ? '收起' : '展开' }}
-                <a-icon :type="toggleSearchStatus ? 'up' : 'down'"/>
-              </a>
             </span>
           </a-col>
 
@@ -50,13 +34,9 @@
 
     <!-- 操作按钮区域 -->
     <div class="table-operator">
-      <a-button type="primary" icon="download" @click="handleExportXls('设备表')">导出</a-button>
-      <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
-        <a-button type="primary" icon="import">导入</a-button>
-      </a-upload>
       <a-dropdown v-if="selectedRowKeys.length > 0">
-        <a-menu slot="overlay">
-          <a-menu-item key="1" @click="batchDel"><a-icon type="delete"/>调拨</a-menu-item>
+        <a-menu slot="overlay" style="width: 300px">
+          <j-select-depart v-model="bumens" :multi="true" @ok="EquipmentDB"/>
         </a-menu>
         <a-button style="margin-left: 8px"> 批量操作 <a-icon type="down" /></a-button>
       </a-dropdown>
@@ -78,12 +58,11 @@
         :dataSource="dataSource"
         :pagination="ipagination"
         :loading="loading"
-        :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
+        :rowSelection="{selectedRowKeys: selectedRowKeys, onSelectAll:onSelectAll,onSelect:onSelect,onChange: onSelectChange}"
         @change="handleTableChange">
 
         <span slot="action" slot-scope="text, record">
           <a @click="handleEdit(record)">调拨</a>
-
           <a-divider type="vertical" />
         </span>
         <span slot="leasestate" slot-scope="text, record">
@@ -96,26 +75,27 @@
         </span>
       </a-table>
     </div>
-    <!-- table区域-end -->
-
     <!-- 表单区域 -->
     <equipment-modal ref="modalForm" @ok="modalFormOk"></equipment-modal>
+    <!--<equipment-client-add ref="clientmodal"></equipment-client-add>-->
     <equipment-client-x-z ref="equipmentclientxz" @ok="modalFormOk"></equipment-client-x-z>
-    <!--<equipment-xq-modal ref="equipmentXq"></equipment-xq-modal>-->
+    <equipment-xq-modal ref="equipmentXq"></equipment-xq-modal>
   </a-card>
 </template>
 
 <script>
   import EquipmentModal from '../modules/EquipmentModal'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
+  import EquipmentXqModal from '../modules/EquipmentXqModal'
   import EquipmentClientXZ from '../modules/EquipmentClientXZ'
-  import { httpAction,putAction } from '@/api/manage'
+  import { httpAction,putAction ,getAction} from '@/api/manage'
+  import JSelectDepart from '@/components/jeecgbiz/JSelectDepart'
 
   export default {
     name: "EquipmentList",
     mixins:[JeecgListMixin],
     components: {
-      EquipmentModal,EquipmentClientXZ,
+      EquipmentModal,EquipmentClientXZ,EquipmentXqModal,JSelectDepart
     },
     data () {
       return {
@@ -148,7 +128,7 @@
             dataIndex: 'commodityName'
           },
           {
-            title: '所属代理',
+            title: '所属代理部门',
             align:"center",
             dataIndex: 'departname'
           },
@@ -201,6 +181,10 @@
             scopedSlots: { customRender: 'action' },
           }
         ],
+        form: this.$form.createForm(this),
+        bumen:"",
+        bumens:"",//保存选中的部门id
+        dataSource2:[],//保存选中的设备id
         url: {
           list:   "/demo/quipmentDb/list",
         },
@@ -212,6 +196,51 @@
       }
     },
     methods: {
+      onSelectAll(selected, selectedRows, changeRows) {//判断点击全选事件发生后是否被选中
+        if (selected === true) {
+          for (var a = 0; a < changeRows.length; a++) {
+            this.dataSource2.push(changeRows[a].equipmentId);//遍历数据源得到指定下标添加
+          }
+        } else {
+          for (var b = 0; b < changeRows.length; b++) {
+            this.dataSource2.splice(this.dataSource2.indexOf(changeRows[b].equipmentId), 1);//遍历数据源得到指定下标删除
+          }
+        }
+      },
+      onSelect(record, selected) {
+        if (selected === true) {//判断点击事件发生后是否被选中
+          this.dataSource2.push(record.equipmentId);//如果当前行被选中则加入到集合中
+        } else {
+          var index = this.dataSource2.indexOf(record.equipmentId);//得到该行在数据源中的索引
+          if (index >= 0) {
+            this.dataSource2.splice(this.dataSource2.indexOf(record.equipmentId), 1);//如果当前行被取消选中，则在集合中剪切掉该行
+          }
+        }
+      },
+      onSelectChange(selectedRowKeys, selectedRows) {
+        this.selectedRowKeys = selectedRowKeys;
+        this.selectionRows = selectedRows;
+      },
+      EquipmentDB(departIds){
+        this.bumens =departIds;//保存选中要调拨得部门
+        console.log(this.dataSource2);
+        var equipmentIds = '';
+        for (var a = 0; a < this.dataSource2.length; a++) {
+          equipmentIds += this.dataSource2[a] + ','
+        }
+        var record = {"departIds":this.bumens,"equipmentIds":equipmentIds}
+        this.confirmLoading = true;
+        putAction("/demo/quipmentDb/updateuserid",record ).then((res) =>{//将得到得设备id以及调拨得部门传回后台进行调拨
+          if (res.success) {
+            this.$message.success(res.message);
+          }else{
+            this.$message.warning(res.message);
+          }
+        }).finally(() => {
+          this.confirmLoading = false;
+          this.loadData();
+        });
+      },
       handleDetailDemo(record){
         this.$refs.equipmentXq.visible=true;
       },

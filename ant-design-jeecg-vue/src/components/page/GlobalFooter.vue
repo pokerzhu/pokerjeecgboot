@@ -1,18 +1,9 @@
 <template>
   <div class="footer">
     <div class="links">
-      <a href="http://www.jeecg.org" target="_blank">JEECG 首页</a>
-      <a href="https://github.com/zhangdaiscott/jeecg-boot" target="_blank">
-        <a-icon type="github"/>
-      </a>
-      <a href="https://ant.design/">Ant Design</a>
-      <a href="https://vuecomponent.github.io/ant-design-vue/docs/vue/introduce-cn/">Vue Antd</a>
+      <span target="_blank">弗瑞施净水器管理平台-首页</span>
     </div>
-    <div class="copyright">
-      Copyright
-      <a-icon type="copyright"/>
-      2019 <span>JEECG开源社区 出品</span>
-    </div>
+    <!--<div class="copyright">Copyright<a-icon type="copyright"/>2019<span>JEECG开源社区 出品</span> </div>-->
   </div>
 </template>
 

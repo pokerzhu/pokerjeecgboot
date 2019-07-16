@@ -159,7 +159,7 @@
         if (screenWidth < 600) {
           this.screenWidth = screenWidth;
         } else {
-          this.screenWidth = 600;
+          this.screenWidth = 650;
         }
       },
     }

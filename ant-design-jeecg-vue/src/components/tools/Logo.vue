@@ -13,7 +13,7 @@
     props: {
       title: {
         type: String,
-        default: 'Jeecg-Boot Pro',
+        default: '弗瑞施净水器',
         required: false
       },
       showTitle: {

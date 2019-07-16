@@ -94,9 +94,9 @@
         }
 
         if(this.triggerChange){
-          this.$emit("change",this.departIds)
+          this.$emit("ok",this.departIds)
         }else{
-          this.$emit("input",this.departIds)
+          this.$emit("ok",this.departIds)
         }
       },
       getDepartNames(){

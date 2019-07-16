@@ -57,6 +57,7 @@
 <script>
   import {filterObj} from '@/utils/util'
   import {getAction,postAction} from '@/api/manage'
+  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
 
   export default {
     name: "RelationshipListModel",
@@ -155,18 +156,19 @@
           params.userIdList.push(this.dataSource2[a].filterelementId);
         }*/
         console.log(params);
-          postAction(this.url.add, params).then((res) => {
-            if (res.success) {
-              this.$message.success(res.message);
-
-              this.loadData();
-            } else {
-              this.$message.warning(res.message);
-            }
-          })
+        postAction(this.url.add, params).then((res) => {
+          if (res.success) {
+            this.$message.success(res.message);
+            this.onClearSelected();
+            this.$emit('ok');
+          } else {
+            this.$message.warning(res.message);
+            this.onClearSelected();
+          }
+        })
         this.visible = false;
         this.onClearSelected();
-        },
+      },
       add() {
         this.visible = true;
       },
@@ -226,6 +228,7 @@
       onClearSelected() {
         this.selectedRowKeys = [];
         this.selectionRows = [];
+        this.dataSource2=[];
       },
       handleDelete: function (record) {
         this.dataSource2.splice(this.dataSource2.indexOf(record), 1);

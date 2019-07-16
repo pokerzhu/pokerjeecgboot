@@ -5,36 +5,32 @@
     <div class="table-page-search-wrapper">
       <a-form layout="inline">
         <a-row :gutter="24">
-          <a-col :md="6" :sm="8">
+          <!--<a-col :md="6" :sm="8">
             <a-form-item label="地址">
               <a-input placeholder="请输入地址" v-model="queryParam.address"></a-input>
             </a-form-item>
-          </a-col>
-          <a-col :md="6" :sm="8">
+          </a-col>-->
+          <!--<a-col :md="6" :sm="8">
             <a-form-item label="编号">
               <a-input placeholder="请输入编号" v-model="queryParam.clientId"></a-input>
             </a-form-item>
-          </a-col>
-        <template v-if="toggleSearchStatus">
+          </a-col>-->
+       <!-- <template v-if="toggleSearchStatus">-->
         <a-col :md="6" :sm="8">
             <a-form-item label="用户名">
               <a-input placeholder="请输入用户名" v-model="queryParam.clientName"></a-input>
             </a-form-item>
           </a-col>
           <a-col :md="6" :sm="8">
-            <a-form-item label="密码">
-              <a-input placeholder="请输入密码" v-model="queryParam.password"></a-input>
+            <a-form-item label="手机号码">
+              <a-input placeholder="请输入手机号码" v-model="queryParam.phone"></a-input>
             </a-form-item>
           </a-col>
-        </template>
+        <!--</template>-->
           <a-col :md="6" :sm="8" >
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
               <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
               <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
-              <a @click="handleToggleSearch" style="margin-left: 8px">
-                {{ toggleSearchStatus ? '收起' : '展开' }}
-                <a-icon :type="toggleSearchStatus ? 'up' : 'down'"/>
-              </a>
             </span>
           </a-col>
 
@@ -46,9 +42,9 @@
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
       <a-button type="primary" icon="download" @click="handleExportXls('客户表')">导出</a-button>
-      <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
+<!--      <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
-      </a-upload>
+      </a-upload>-->
       <a-dropdown v-if="selectedRowKeys.length > 0">
         <a-menu slot="overlay">
           <a-menu-item key="1" @click="batchDel"><a-icon type="delete"/>删除</a-menu-item>

@@ -71,7 +71,6 @@
             rowKey="id"
             size="middle"
             :columns="columns"
-            :loading="loading"
             :dataSource="dataSource">
             <span slot="action" slot-scope="text, record">
           <a @click="filtereleReplace(record.recordId)">更换</a>
@@ -200,10 +199,10 @@
       Quary(equipmentId){
         var F ={"equipmentId":equipmentId};
         getAction("/demo/filterelement/query",F).then((res) => {
-              if (res.success) {
-                this.dataSource = res.result.records;
-                console.log(this.dataSource);
-              }
+          if (res.success) {
+            this.dataSource = res.result.records;
+            console.log(this.dataSource);
+          }
         });
       },
       add(id) {

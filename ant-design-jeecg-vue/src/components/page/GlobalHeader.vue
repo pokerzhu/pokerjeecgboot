@@ -17,7 +17,7 @@
         :type="collapsed ? 'menu-unfold' : 'menu-fold'"
         @click.native="toggle"/>
 
-      <span v-if="device === 'desktop'">欢迎进入抉择净水器管理平台</span>
+      <span v-if="device === 'desktop'">欢迎进入弗瑞施净水器管理平台</span>
       <span v-else>Jeecg-Boot</span>
 
       <user-menu :theme="theme"/>
