@@ -67,7 +67,7 @@ public class Equipment {
 	/**更新人*/
 	@Excel(name = "更新人", width = 15)
 	@ApiModelProperty(value = "更新人")
-	private String updateBy;
+	private String updateBy;        
 	/**更新时间*/
 	@Excel(name = "更新时间", width = 20, format = "yyyy-MM-dd HH:mm:ss")
 	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")

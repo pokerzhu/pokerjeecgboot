@@ -11,16 +11,16 @@
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
         <a-spin :spinning="confirmLoading">
-          <a-form :form="form">
+          <!--<a-form :form="form">
             <a-form-item label="所属代理" :labelCol="labelCol" :wrapperCol="wrapperCol">
               <a-select  placeholder="请选择所属代理"  v-decorator="[ 'userId',{}]" >
-                <a-select-option v-for="(selpurpose) in SysUserList"
+                <a-select-option v-for="(selpurpose) in SysDepartList"
                                  :value="selpurpose.id">
-                  {{ selpurpose.realname }}
+                  {{ selpurpose.departName}}
                 </a-select-option>
               </a-select>
             </a-form-item>
-          </a-form>
+          </a-form>-->
 
           <a-form :form="form">
             <a-form-item label="商品名称" :labelCol="labelCol" :wrapperCol="wrapperCol">
@@ -91,7 +91,7 @@
         equipmentId:"",
         leasestate:"",
         ClientList:[],
-        SysUserList:[],
+        SysDepartList:[],
         CommodityList:[],
         status: 1,
         labelCol: {
@@ -106,7 +106,7 @@
         confirmLoading: false,
         form: this.$form.createForm(this),
         validatorRules:{
-          id:{rules: [{ required: true, message: '请输入所属代理!' }]},
+          userId:{rules: [{ required: true, message: '请输入所属代理!' }]},
           clientId:{rules: [{ required: true, message: '请输入客户名。!' }]},
           ids:{rules: [{ required: true, message: '请输入硬件编号!' }]},
           enabled:{rules: [{ required: true, message: '请输入是否启用!' }]},
@@ -119,14 +119,14 @@
       }
     },
     created () {
-      this.selUser();
+      this.selectDepart();
       this.sleClient();
       this.selCommodity();
     },
     methods: {
-      selUser(){
-        getAction("/sys/user/selSysUser",null).then((res) => {
-          this.SysUserList = res;
+      selectDepart(){
+        getAction("/sysdepart/sysDepart/selDepart",null).then((res) => {
+          this.SysDepartList = res;
         })
       },
       sleClient(){

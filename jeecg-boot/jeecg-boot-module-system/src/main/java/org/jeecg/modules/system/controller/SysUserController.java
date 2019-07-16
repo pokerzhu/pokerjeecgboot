@@ -719,13 +719,13 @@ public class SysUserController {
         }
         return result;
     }
-
-    /*查询代理商*/
-    @GetMapping(value = "/selSysUser")
-    public List<SysUser> selSysUser(){
-        //获取滤芯表数据
-        List<SysUser> records = sysUserService.list();
-        System.out.println(records);
-        return records;
-    }
+//
+//    /*查询代理商*/
+//    @GetMapping(value = "/selSysUser")
+//    public List<SysUser> selSysUser(){
+//        //获取滤芯表数据
+//        List<SysUser> records = sysUserService.list();
+//        System.out.println(records);
+//        return records;
+//    }
 }

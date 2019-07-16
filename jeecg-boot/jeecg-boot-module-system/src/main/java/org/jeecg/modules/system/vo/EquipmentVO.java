@@ -17,7 +17,7 @@ public class EquipmentVO implements Serializable {
     @TableField("commodity_name")
     private String commodityName;
     //所属代理
-    @TableField("realname")
+    @TableField("departname")
     private String departname;
     //客户名
     @TableField("client_name")
