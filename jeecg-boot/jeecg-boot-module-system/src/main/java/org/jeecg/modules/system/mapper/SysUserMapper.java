@@ -3,6 +3,7 @@ package org.jeecg.modules.system.mapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.jeecg.modules.system.entity.SysUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -44,4 +45,14 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 	 * @param departId
 	 */
 	void updateUserDepart(@Param("username") String username, @Param("orgCode") String orgCode);
+
+
+    /***
+     * 根据当前登录用户查处用户部门id
+     * @param id
+     * @return
+     */
+    @Select("select s1.id FROM sys_user s,sys_depart s1\n" +
+            "WHERE s.org_code = s1.org_code AND s.id=#{id}")
+	String setUser(@Param("id")String id);
 }

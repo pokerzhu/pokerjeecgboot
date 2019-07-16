@@ -24,10 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jeecg.modules.system.entity.Equipment;
 import org.jeecg.modules.system.entity.FilterelementReplace;
 import org.jeecg.modules.system.entity.Installation;
-import org.jeecg.modules.system.service.IEquipmentService;
-import org.jeecg.modules.system.service.IFilterelementReplaceService;
-import org.jeecg.modules.system.service.IRelationshipService;
-import org.jeecg.modules.system.service.InstallationService;
+import org.jeecg.modules.system.service.*;
 import org.jeecg.modules.system.vo.EquipmentVO;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.def.NormalExcelConstants;
@@ -63,6 +60,8 @@ public class EquipmentController {
 	 private IRelationshipService iRelationshipService ;
 	 @Autowired
 	 private IFilterelementReplaceService iFilterelementReplaceService ;
+     @Autowired
+     private ISysUserService iSysUserService ;
 
 	 @AutoLog(value = "设备表-分页列表查询")
 	@ApiOperation(value="设备表-分页列表查询", notes="设备表-分页列表查询")
@@ -268,6 +267,9 @@ public class EquipmentController {
 	 public Result<?> importExcel(HttpServletRequest request, HttpServletResponse response) {
 		 MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		 Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
+         LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
+         //获取部门id
+            String equId= iSysUserService.setUser(sysUser.getId());
 		 for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
 			 MultipartFile file = entity.getValue();// 获取上传文件对象
 			 ImportParams params = new ImportParams();
@@ -275,10 +277,13 @@ public class EquipmentController {
 			 params.setHeadRows(1);
 			 params.setNeedSave(true);
 			 try {
-				 List<Equipment> listEquipments = ExcelImportUtil.importExcel(file.getInputStream(), Equipment.class, params);
+				 List<Equipment> listEquipments = ExcelImportUtil.importExcel(file.getInputStream(),Equipment.class, params);
 				 System.out.println(Equipment.class+"****************");
 				 for (Equipment equipmentExcel : listEquipments) {
+				     //获得当前登录人的部门id
+				     equipmentExcel.setUserId(equId);
 					 equipmentService.save(equipmentExcel);
+
 				 }
 				 return Result.ok("文件导入成功！数据行数:" + listEquipments.size());
 			 } catch (Exception e) {

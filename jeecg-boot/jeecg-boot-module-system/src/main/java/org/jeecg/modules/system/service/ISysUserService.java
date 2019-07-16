@@ -6,6 +6,8 @@ import java.util.Set;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.jeecg.common.system.vo.SysUserCacheInfo;
 import org.jeecg.modules.system.entity.SysUser;
 
@@ -88,4 +90,11 @@ public interface ISysUserService extends IService<SysUser> {
 	 * @param orgCode
 	 */
 	void updateUserDepart(String username, String orgCode);
+
+    /***
+     * 根据当前登录用户查处用户部门id
+     * @param id
+     * @return
+     */
+    String setUser(@Param("id")String id);
 }

@@ -187,4 +187,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		baseMapper.updateUserDepart(username, orgCode);
 	}
 
+    @Override
+    public String setUser(String id) {
+        return userMapper.setUser(id);
+    }
+
 }
