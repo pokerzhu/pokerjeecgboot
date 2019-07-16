@@ -46,18 +46,18 @@
         </div>
       </div>
     </a-drawer>
-    <RelationshipList-model ref="modalForm" @ok="modalFormOk"></RelationshipList-model>
+    <RelationshipListAdd-model ref="modalForm" @ok="modalFormOk"></RelationshipListAdd-model>
   </a-card>
 </template>
 
 <script>
   import {filterObj} from '@/utils/util';
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import  RelationshipListModel from '../modules/RelationshipListModel'
+  import  RelationshipListAddModel from '../modules/RelationshipListAddModel'
   export default {
     name: "AttributeList",
     mixins: [JeecgListMixin],
-    components: {RelationshipListModel},
+    components: {RelationshipListAddModel},
     data() {
       return {
         columns: [
