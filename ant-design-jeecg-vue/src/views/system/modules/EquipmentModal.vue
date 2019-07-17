@@ -24,7 +24,7 @@
 
           <a-form :form="form">
             <a-form-item label="商品名称" :labelCol="labelCol" :wrapperCol="wrapperCol">
-              <a-select  placeholder="请选择商品名称"  v-decorator="[ 'commodityId',{}]" >
+              <a-select  placeholder="请选择商品名称"  v-decorator="[ 'commodityId',validatorRules.commodityId]" >
                 <a-select-option v-for="(selpurpose) in CommodityList"
                                  :value="selpurpose.commodityId">
                   {{ selpurpose.commodityName }}
@@ -53,20 +53,30 @@
         </a-form-item>
 
         <a-form :form="form">
-          <a-form-item label="是否启用" :labelCol="labelCol" :wrapperCol="wrapperCol">
-            <a-select  placeholder="请选择是否激活"  v-decorator="[ 'enabled',{}]" >
+          <a-form-item label="设备是否启用" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <!--<a-select  placeholder="请选择是否激活"  v-decorator="[ 'enabled',{}]" >
               <a-select-option :value="0">  未激活 </a-select-option>
               <a-select-option :value="1">  已激活 </a-select-option>
-            </a-select>
+            </a-select>-->
+            <j-dict-select-tag
+              v-decorator="['enabled',validatorRules.enabled]"
+              :triggerChange="true"
+              placeholder="请选择设备是否激活"
+              dictCode="enabled"/>
           </a-form-item>
         </a-form>
 
         <a-form :form="form">
           <a-form-item label="租赁状态" :labelCol="labelCol" :wrapperCol="wrapperCol">
-            <a-select  placeholder="请选择租赁状态"  v-decorator="[ 'leasestate',{}]" >
+           <!-- <a-select  placeholder="请选择租赁状态"  v-decorator="[ 'leasestate',{}]" >
               <a-select-option :value="0">  租 </a-select-option>
               <a-select-option :value="1">  卖 </a-select-option>
-            </a-select>
+            </a-select>-->
+            <j-dict-select-tag
+              v-decorator="['leasestate',validatorRules.leasestate]"
+              :triggerChange="true"
+              placeholder="请选择租赁状态"
+              dictCode="leasestate"/>
           </a-form-item>
         </a-form>
       </a-form>
@@ -106,11 +116,11 @@
         confirmLoading: false,
         form: this.$form.createForm(this),
         validatorRules:{
-          userId:{rules: [{ required: true, message: '请输入所属代理!' }]},
-          clientId:{rules: [{ required: true, message: '请输入客户名。!' }]},
+          commodityId:{rules: [{ required: true, message: '请选择商品类型!' }]},
+          clientId:{rules: [{ required: true, message: '请输入客户名!' }]},
           ids:{rules: [{ required: true, message: '请输入硬件编号!' }]},
-          enabled:{rules: [{ required: true, message: '请输入是否启用!' }]},
-          leasestate:{rules: [{ required: true, message: '请输入租赁状态!' }]},
+          enabled:{rules: [{ required: true, message: '请选择设备是否启用!' }]},
+          leasestate:{rules: [{ required: true, message: '请选择租赁状态!' }]},
         },
         url: {
           add: "/demo/equipment/add",
@@ -119,12 +129,12 @@
       }
     },
     created () {
-      this.selectDepart();
-      this.sleClient();
+     /* this.selectDepart();
+      this.sleClient();*/
       this.selCommodity();
     },
     methods: {
-      selectDepart(){
+      /*selectDepart(){
         getAction("/sysdepart/sysDepart/selDepart",null).then((res) => {
           this.SysDepartList = res;
         })
@@ -133,7 +143,7 @@
         getAction("/demo/client/selClient",null).then((res) => {
           this.ClientList = res;
         })
-      },
+      },*/
       selCommodity(){
         getAction("/commodity/commodity/selCommodity",null).then((res) => {
           this.CommodityList = res;
