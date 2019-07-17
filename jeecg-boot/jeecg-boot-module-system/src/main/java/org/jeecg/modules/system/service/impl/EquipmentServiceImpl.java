@@ -51,4 +51,10 @@ public class EquipmentServiceImpl extends ServiceImpl<EquipmentMapper, Equipment
     public IPage<EquipmentVO> SelectByEquId(Page page,String equipmentId) {
         return page.setRecords(equipmentMapper.SelectByEquId(equipmentId));
     }
+
+    @Override
+    public IPage<EquipmentVO> likeEquipment(Page page, String equipmentId, String ids, Integer enabled) {
+        return page.setRecords(equipmentMapper.likeEquipment(page,equipmentId,ids,enabled));
+    }
+
 }

@@ -3,6 +3,7 @@ package org.jeecg.modules.system.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.jeecg.modules.system.entity.Equipment;
 import org.jeecg.modules.system.entity.Filterelement;
@@ -47,4 +48,19 @@ public interface IEquipmentService extends IService<Equipment> {
      * @return
      */
     IPage<EquipmentVO> SelectByEquId(Page page,String equipmentId);
+
+
+    /**
+     * 模糊查询
+     * @return
+     */
+    IPage<EquipmentVO> likeEquipment(Page page,String equipmentId,String ids,Integer enabled);
+
+//    /**
+//     * 根据硬件编号模糊查询
+//     * @param page
+//     * @param ids
+//     * @return
+//     */
+//    IPage<EquipmentVO> likeEquipmentIds(Page page,@Param("ids") String ids);
 }

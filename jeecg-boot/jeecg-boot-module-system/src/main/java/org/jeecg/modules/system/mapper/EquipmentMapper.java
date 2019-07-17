@@ -1,6 +1,7 @@
 package org.jeecg.modules.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -31,6 +32,22 @@ public interface EquipmentMapper extends BaseMapper<Equipment> {
             "left join sys_depart as s on e.user_id=s.id\n" +
             "left join client as l on e.client_id=l.client_id")
     List<EquipmentVO> Equfindselect();
+
+    /**
+     * 查询设备_何豪
+     * @return
+     */
+    @Select("select user_id,equipment_id,e.commodity_id,commodity_name,\n" +
+            "s.depart_name departname,client_name,ids,enabled,leasestate," +
+            "mainboard,filterelement_Type,commodity_prices,commodity_rent,lossratio \n" +
+            "FROM equipment as e\n" +
+            "left join commodity as c on e.commodity_id=c.commodity_id\n" +
+            "left join sys_depart as s on e.user_id=s.id\n" +
+            "left join client as l on e.client_id=l.client_id" +
+            "where e.equipment_id LIKE concat('%','#{equipmentId}','%') AND" +
+            "ids LIKE concat('%','#{ids}','%') AND " +
+            "enabled LIKE concat('%','#{enabled}','%')")
+    List<EquipmentVO> Equfindselectby();
 
     /**
      * 更新设备客户_张文
@@ -80,4 +97,38 @@ public interface EquipmentMapper extends BaseMapper<Equipment> {
             "left join sys_depart as s on e.user_id=s.id\n" +
             "left join client as l on e.client_id=l.client_id WHERE equipment_id=#{equipmentId}")
     List<EquipmentVO> SelectByEquId(@Param("equipmentId") String equipmentId);
+
+    /**
+     * 设备模糊查询
+     *
+     *  AND" +
+     *             "ids LIKE concat('%','#{ids}','%') AND " +
+     *             "enabled LIKE concat('%','#{enabled}','%')
+     * @return
+     */
+//    @Select("select user_id,equipment_id,e.commodity_id,commodity_name,s.depart_name departname,client_name,ids, " +
+//            "enabled,leasestate,mainboard,filterelement_Type,commodity_prices,commodity_rent " +
+//            "FROM equipment as e  " +
+//            "left join commodity as c on e.commodity_id=c.commodity_id  " +
+//            "left join sys_depart as s on e.user_id=s.id " +
+//            "left join client as l on e.client_id=l.client_id " +
+//            "WHERE e.equipment_id LIKE concat('%',#{equipmentId},'%') AND ids LIKE concat('%',#{ids},'%') and enabled LIKE concat('%',#{enabled},'%')")
+    List<EquipmentVO> likeEquipment(Page page,@Param("equipmentId") String equipmentId,@Param("ids") String ids,@Param("enabled") Integer enabled);
+
+    /**
+     * 设备模糊查询
+     *
+     *  AND" +
+     *             "ids LIKE concat('%','#{ids}','%') AND " +
+     *             "enabled LIKE concat('%','#{enabled}','%')
+     * @return
+//     */
+//    @Select("select user_id,equipment_id,e.commodity_id,commodity_name,s.depart_name departname,client_name,ids, " +
+//            "enabled,leasestate,mainboard,filterelement_Type,commodity_prices,commodity_rent " +
+//            "FROM equipment as e  " +
+//            "left join commodity as c on e.commodity_id=c.commodity_id  " +
+//            "left join sys_depart as s on e.user_id=s.id " +
+//            "left join client as l on e.client_id=l.client_id " +
+//            "WHERE e.ids LIKE concat('%',#{ids},'%')")
+//    List<EquipmentVO> likeEquipmentIds(Page page,@Param("ids") String ids);
 }

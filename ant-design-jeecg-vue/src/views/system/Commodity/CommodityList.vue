@@ -13,7 +13,7 @@
           </a-col>
           <a-col :md="6" :sm="8" >
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
-              <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
+              <a-button type="primary" @click="searchQuerylike" icon="search">查询</a-button>
               <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
             </span>
           </a-col>
@@ -80,7 +80,6 @@
             </a-menu>
           </a-dropdown>
         </span>
-
       </a-table>
     </div>
     <!-- table区域-end -->
@@ -95,7 +94,8 @@
   import { filterObj } from '@/utils/util';
   import CommodityModal from '../modules/CommodityModal'
   import RelationshipList from '../Commodity/RelationshipList'
-  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
+  import {JeecgListMixin } from '@/mixins/JeecgListMixin'
+  import {getAction,putAction} from '@/api/manage'
 
   export default {
     name: "CommodityList",
@@ -112,6 +112,7 @@
           {
             title: '#',
             dataIndex: '',
+            // commodityName:'',
             key:'rowIndex',
             width:60,
             align:"center",
@@ -182,6 +183,8 @@
             scopedSlots: { customRender: 'action' },
           }
         ],
+        queryParam:{},
+    commodityName:'',
 		url: {
           list: "/commodity/commodity/list",
           delete: "/commodity/commodity/delete",
@@ -198,6 +201,15 @@
     }
   },
     methods: {
+      searchQuerylike(){
+        var name =this.queryParam;
+        getAction("/commodity/commodity/likeCommodity",name).then((res) => {
+          if (res.success) {
+            this.dataSource = res.result.records;
+            console.log(this.dataSource);
+          }
+        });
+      },
       editDictItem(record) {
         this.$refs.relationshipList.edit(record);
       },

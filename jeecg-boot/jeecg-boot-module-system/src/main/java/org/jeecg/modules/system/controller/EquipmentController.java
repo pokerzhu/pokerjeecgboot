@@ -25,6 +25,7 @@ import org.jeecg.modules.system.entity.Equipment;
 import org.jeecg.modules.system.entity.FilterelementReplace;
 import org.jeecg.modules.system.entity.Installation;
 import org.jeecg.modules.system.service.*;
+import org.jeecg.modules.system.vo.CommodityVO;
 import org.jeecg.modules.system.vo.EquipmentVO;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.def.NormalExcelConstants;
@@ -300,4 +301,39 @@ public class EquipmentController {
 		 }
 		 return Result.ok("文件导入失败！");
 	 }
+
+
+     @AutoLog(value = "模糊查询")
+     @ApiOperation(value="模糊查询", notes="模糊查询")
+     @GetMapping(value = "/likeSelect")
+     public Result<IPage<EquipmentVO>> likeSelect(EquipmentVO equipmentVO,
+                                                     @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+                                                     @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
+                                                     HttpServletRequest req) {
+         Result<IPage<EquipmentVO>> result = new Result<IPage<EquipmentVO>>();
+         QueryWrapper<EquipmentVO> queryWrapper = QueryGenerator.initQueryWrapper(equipmentVO, req.getParameterMap());
+         Page<EquipmentVO> page = new Page<EquipmentVO>(pageNo, pageSize);
+         IPage<EquipmentVO> pageList = equipmentService.likeEquipment(page,equipmentVO.getEquipmentId(),equipmentVO.getIds(),equipmentVO.getEnabled());
+         System.out.println(equipmentVO.getEquipmentId()+"888888888888888");
+         result.setSuccess(true);
+         result.setResult(pageList);
+         return result;
+     }
+
+//     @AutoLog(value = "模糊查询")
+//     @ApiOperation(value="模糊查询", notes="模糊查询")
+//     @GetMapping(value = "/likeSelectIds")
+//     public Result<IPage<EquipmentVO>> likeSelectIds(EquipmentVO equipmentVO,
+//                                                  @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+//                                                  @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
+//                                                  HttpServletRequest req) {
+//         Result<IPage<EquipmentVO>> result = new Result<IPage<EquipmentVO>>();
+//         QueryWrapper<EquipmentVO> queryWrapper = QueryGenerator.initQueryWrapper(equipmentVO, req.getParameterMap());
+//         Page<EquipmentVO> page = new Page<EquipmentVO>(pageNo, pageSize);
+//         IPage<EquipmentVO> pageList = equipmentService.likeEquipmentIds(page,equipmentVO.getIds());
+//         System.out.println(equipmentVO.getEquipmentId()+"888888888888888");
+//         result.setSuccess(true);
+//         result.setResult(pageList);
+//         return result;
+//     }
 }

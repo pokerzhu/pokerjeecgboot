@@ -1,5 +1,6 @@
 package org.jeecg.modules.system.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -73,6 +74,39 @@ public class CommodityController {
 		 result.setResult(pageList);
 		 return result;
 	 }
+     /**
+      * 分页列表查询
+      * @param commodity
+      * @param pageNo
+      * @param pageSize
+      * @param req
+      * @return
+      */
+     @AutoLog(value = "模糊查询商品")
+     @ApiOperation(value="模糊查询商品", notes="模糊查询商品")
+     @GetMapping(value = "/likeCommodity")
+     public Result<IPage<CommodityVO>> likeCommodity(CommodityVO commodityVO,
+                                                     @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+                                                     @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
+                                                     HttpServletRequest req) {
+         Result<IPage<CommodityVO>> result = new Result<IPage<CommodityVO>>();
+         /*		 QueryWrapper<CommodityVO> queryWrapper = QueryGenerator.initQueryWrapper(commodity, req.getParameterMap());*/
+         Page<CommodityVO> page = new Page<CommodityVO>(pageNo, pageSize);
+         IPage<CommodityVO> pageList = commodityService.selectLike(page,commodityVO.getCommodityName());
+         result.setSuccess(true);
+         result.setResult(pageList);
+         return result;
+     }
+
+//     /*模糊查询商品*/
+//     @GetMapping(value = "/likeCommodity")
+//     public List<CommodityVO> likeCommodity(CommodityVO commodityVO){
+//         //获取商品表数据
+//         List<CommodityVO> records = commodityService.selectLike(commodityVO.getCommodityName());
+//         System.out.println("进来了哦哦哦哦哦哦哦哦哦哦哦哦");
+//         System.out.println(records);
+//         return records;
+//     }
 
 	 /*查询商品*/
 	 @GetMapping(value = "/selCommodity")

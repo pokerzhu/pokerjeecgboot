@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import java.util.List;
+
 /**
  * @Description: 商品表
  * @Author: jeecg-boot
@@ -32,4 +34,11 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
     public IPage<CommodityVO> selectCommodity(Page page) {
         return page.setRecords(commodityMapper.selectCommodity());
     }
+
+    @Override
+    public IPage<CommodityVO> selectLike(Page page, String commodityName) {
+        return page.setRecords(commodityMapper.selectLike(commodityName));
+    }
+
+
 }

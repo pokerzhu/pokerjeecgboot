@@ -92,7 +92,7 @@
   import JSelectDepart from '@/components/jeecgbiz/JSelectDepart'
 
   export default {
-    name: "EquipmentList",
+    name: "EquipmentDbList",
     mixins:[JeecgListMixin],
     components: {
       EquipmentModal,EquipmentClientXZ,EquipmentXqModal,JSelectDepart
@@ -186,7 +186,7 @@
         bumens:"",//保存选中的部门id
         dataSource2:[],//保存选中的设备id
         url: {
-          list:   "/demo/quipmentDb/list",
+          list:   "/demo/equipmentDb/list",
         },
       }
     },

@@ -14,6 +14,7 @@ import org.jeecg.common.system.vo.LoginUser;
 import org.jeecg.modules.system.entity.Equipment;
 import org.jeecg.modules.system.entity.Relationship;
 import org.jeecg.modules.system.service.EquipmentDbService;
+import org.jeecg.modules.system.vo.CommodityVO;
 import org.jeecg.modules.system.vo.EquipmentVO;
 import org.jeecg.modules.system.vo.equipmentDBVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ import java.util.List;
 @Slf4j
 @Api(tags="设备表")
 @RestController
-@RequestMapping("/demo/quipmentDb")
+@RequestMapping("/demo/equipmentDb")
 public class EquipmentDbController {
 
     @Autowired
@@ -43,7 +44,6 @@ public class EquipmentDbController {
         QueryWrapper<EquipmentVO> queryWrapper = QueryGenerator.initQueryWrapper(equipmentVO, req.getParameterMap());
         Page<EquipmentVO> page = new Page<EquipmentVO>(pageNo, pageSize);
         LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
-
         IPage<EquipmentVO> pageList = equipmentDbService.EquipmentDbShow(page,sysUser.getOrgCode());
         result.setSuccess(true);
         result.setResult(pageList);

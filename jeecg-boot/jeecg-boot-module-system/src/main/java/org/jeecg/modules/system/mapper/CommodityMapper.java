@@ -2,6 +2,8 @@ package org.jeecg.modules.system.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.jeecg.modules.system.entity.Commodity;
 import org.jeecg.modules.system.vo.CommodityVO;
@@ -37,4 +39,13 @@ public interface CommodityMapper extends BaseMapper<Commodity> {
             "commodity_type t\n" +
             "where c.type_id=t.type_id")
     List<CommodityVO> selectCommodity();
+
+    /**
+     * 模糊查询商品
+     * @param commodityName
+     * @return
+     */
+    @Select("select commodity_name,commodity_prices,commodity_rent,description,Images," +
+            "type_name from commodity c,commodity_type t WHERE c.type_id=t.type_id AND commodity_name like concat('%',#{commodityName},'%')")
+    List<CommodityVO> selectLike(@Param("commodityName")String commodityName);
 }

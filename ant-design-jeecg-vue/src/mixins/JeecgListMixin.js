@@ -67,9 +67,8 @@ export const JeecgListMixin = {
       }
       var params = this.getQueryParams();//查询条件
       this.loading = true;
-      getAction(this.url.list, params).then((res) => {
+      getAction(this.url.list,params).then((res) => {
         if (res.success) {
-
           this.dataSource = res.result.records;
           this.ipagination.total = res.result.total;
           console.log(this.dataSource);
@@ -93,7 +92,7 @@ export const JeecgListMixin = {
     },
     getQueryParams() {
       //获取查询条件
-      let sqp = {}
+      let sqp = {};
       if(this.superQueryParams){
         sqp['superQueryParams']=encodeURI(this.superQueryParams)
       }

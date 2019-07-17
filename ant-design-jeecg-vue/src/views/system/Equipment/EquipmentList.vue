@@ -18,20 +18,21 @@
           </a-col>
           <a-col :md="6" :sm="8">
             <a-form-item label="安装状态">
-              <a-input placeholder="请输入是否安装" v-model="queryParam.enabled"></a-input>
+              <a-select  placeholder="请选择安装状态" v-model="queryParam.enabled">
+                <a-select-option :value="0">  未激活 </a-select-option>
+                <a-select-option :value="1">  已激活 </a-select-option>
+              </a-select>
             </a-form-item>
           </a-col>
           <a-col :md="6" :sm="8" >
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
-              <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
+              <a-button type="primary" @click="likeEquipment" icon="search">查询</a-button>
               <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
             </span>
           </a-col>
-
         </a-row>
       </a-form>
     </div>
-
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
@@ -119,6 +120,7 @@
   import EquipmentClientXZ from '../modules/EquipmentClientXZ'
   import {httpAction,putAction } from '@/api/manage'
   import RelationshipListModel from '../modules/RelationshipListModel'
+  import {getAction} from '@/api/manage'
 
   export default {
     name: "EquipmentList",
@@ -210,6 +212,10 @@
             scopedSlots: { customRender: 'action' },
           }
         ],
+        equipmentId:'',
+        ids:'',
+        enabled:'',
+        queryParam:{},
         url: {
           list:   "/demo/equipment/list",
           delete: "/demo/equipment/delete",
@@ -226,6 +232,16 @@
       }
     },
     methods: {
+      likeEquipment(){
+          var A =this.queryParam
+          getAction("/demo/equipment/likeSelect",A).then((res) => {
+            console.log(A+"55555555555");
+            if (res.success) {
+              this.dataSource = res.result.records;
+              console.log(this.dataSource);
+            }
+          });
+      },
       handleDetailDemo(equipmentId){
         this.$refs.relation.visible=true;
         this.$refs.relation.relation(equipmentId);
