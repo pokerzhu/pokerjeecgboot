@@ -5,7 +5,10 @@
         INSERT INTO `jeecg-boot`.`filterelement_replace`( `record_id`, `equipment_id`, `filterelement_id`, `installation_time`,  `create_by`, `create_time`, `update_by`, `update_time`)
         VALUES
         <foreach separator="," item="list" collection="list">
-            (#{list.recordId}, #{list.equipmentId}, #{list.filterelementId}, CURRENT_TIMESTAMP, #{list.createBy}, CURRENT_TIMESTAMP, #{list.updateBy}, CURRENT_TIMESTAMP)
+            (#{list.recordId}, #{list.equipmentId}, #{list.filterelementId},
+            CURRENT_TIMESTAMP, #{list.createBy},
+            CURRENT_TIMESTAMP, #{list.updateBy},
+            CURRENT_TIMESTAMP)
         </foreach>
     </insert>
 

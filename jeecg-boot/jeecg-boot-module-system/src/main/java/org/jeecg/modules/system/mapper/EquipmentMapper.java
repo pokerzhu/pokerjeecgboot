@@ -24,7 +24,8 @@ public interface EquipmentMapper extends BaseMapper<Equipment> {
      * @return
      */
     @Select("select user_id,equipment_id,e.commodity_id,commodity_name,\n" +
-            "s.depart_name departname,client_name,ids,enabled,leasestate,mainboard,filterelement_Type,commodity_prices,commodity_rent\n" +
+            "s.depart_name departname,client_name,ids,enabled,leasestate," +
+            "mainboard,filterelement_Type,commodity_prices,commodity_rent,lossratio \n" +
             "FROM equipment as e\n" +
             "left join commodity as c on e.commodity_id=c.commodity_id\n" +
             "left join sys_depart as s on e.user_id=s.id\n" +
@@ -51,7 +52,7 @@ public interface EquipmentMapper extends BaseMapper<Equipment> {
     /**
      * 设备客户编辑-何豪
      */
-    @Update("UPDATE `jeecg-boot`.`equipment` SET  `client_id` = #{clientId} WHERE `equipment_id` = #{equipmentId}")
+    @Update("UPDATE `jeecg-boot`.`equipment` SET  `client_id` = #{clientId},lossratio = #{lossratio} WHERE `equipment_id` = #{equipmentId}")
     boolean UpdEquipmentClient(Equipment equipment);
 
     /**
@@ -72,7 +73,8 @@ public interface EquipmentMapper extends BaseMapper<Equipment> {
      * @return
      */
     @Select("select user_id,equipment_id,e.commodity_id,commodity_name,\n" +
-            "s.depart_name departname,client_name,ids,enabled,leasestate,mainboard,filterelement_Type,commodity_prices,commodity_rent\n" +
+            "s.depart_name departname,client_name,ids,enabled,leasestate,mainboard," +
+            "filterelement_Type,commodity_prices,commodity_rent,e.lossratio\n" +
             "FROM equipment as e\n" +
             "left join commodity as c on e.commodity_id=c.commodity_id\n" +
             "left join sys_depart as s on e.user_id=s.id\n" +

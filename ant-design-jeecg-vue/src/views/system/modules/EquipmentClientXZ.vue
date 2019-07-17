@@ -22,6 +22,9 @@
           </a-select-option>
         </a-select>
       </a-form-item>
+      <a-form-item label="特殊地区设备损耗比例" :labelCol="labelCol" :wrapperCol="wrapperCol">
+        <a-input placeholder="请输入损耗比例" v-decorator="['lossratio', validatorRules.lossratio ]" />
+      </a-form-item>
     </a-form>
     </a-spin>
     <equipment-client-add ref="clientmodal"  @ok="close"></equipment-client-add>
@@ -58,6 +61,7 @@
         form: this.$form.createForm(this),
         validatorRules:{
           clientName:{rules: [{ required: true, message: '请输入用户名!' }]},
+          lossratio:{rules: [{ required: true, message: '请输入损耗比例' }]},
         },
         url: {
           add: "/demo/equipment/editA",
@@ -100,9 +104,9 @@
             values.equipmentId=this.equipmentId;
             values.commodityId=this.commodityId;
             that.confirmLoading = true;
-            let httpurl = '';
-            let method = '';
             let formData = Object.assign(this.model,values);
+            console.log(formData);
+            debugger
             putAction(this.url.add, formData).then((res) => {//更新设备信息，绑定客户id
               if (res.success) {
                 this.$message.success(res.message);

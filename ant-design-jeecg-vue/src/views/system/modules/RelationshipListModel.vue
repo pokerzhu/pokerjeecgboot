@@ -62,6 +62,11 @@
                   {{RelationShip.filterelementType_dictText}}
                 </a-form-item>
               </a-col>
+              <a-col :md="9" :sm="24">
+                <a-form-item label="特殊地区设备损耗比例">
+                  {{RelationShip.lossratio}}
+                </a-form-item>
+              </a-col>
             </a-row>
           </a-form>
         </div>

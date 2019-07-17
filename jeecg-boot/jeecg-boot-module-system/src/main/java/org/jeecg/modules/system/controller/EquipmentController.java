@@ -156,26 +156,26 @@ public class EquipmentController {
 			 if (equipmentEntity == null) {
 				 result.error500("未找到对应实体");
 			 } else {
-				 boolean ok = equipmentService.UpdEquipmentClient(equipment);
+				 boolean ok = equipmentService.UpdEquipmentClient(equipment);//修改设备客户信息
 				 //TODO 返回false说明什么？
 				 if (ok) {
 					 System.out.println(equipment.getClientId());
-					 if(equipment.getClientId()==null){
+					 if(equipment.getClientId()==null){//判断是否有返回客户id，没有则跳安装
 						 installationService.DeleteInstall(equipment.getEquipmentId());
 						 iFilterelementReplaceService.DelEquipmentId(equipment.getEquipmentId());
 						 System.out.println("撤回");
 					 }else{
+					 	//创建开关权限表对象
 						 Installation installation=new Installation();
-						 installation.setOpenId(UUID.randomUUID().toString());
-						 installation.setClientId(equipment.getClientId());
-						 installation.setEquipmentId(equipment.getEquipmentId());
-						 installation.setCreateBy(sysUser.getRealname());
-						 installation.setUpdateBy(sysUser.getRealname());
-						 boolean a = installationService.EquAdd(installation);
-						 //根据设备id拿到类型
+						 installation.setOpenId(UUID.randomUUID().toString());//生成id
+						 installation.setClientId(equipment.getClientId());//客户id
+						 installation.setEquipmentId(equipment.getEquipmentId());//设备id
+						 installation.setCreateBy(sysUser.getRealname());//创建人
+						 installation.setUpdateBy(sysUser.getRealname());//更新人
+						 boolean a = installationService.EquAdd(installation);//新增设备客户权限记录
+						 //根据商品id得到类型对饮的滤芯id集合
 						 List<String> LXids = iRelationshipService.selectLXid(equipment.getCommodityId());
-						 //新增设备对应的滤芯，生成滤芯安装记录表
-						 List<FilterelementReplace> list = new ArrayList<>();//保存对象
+						 List<FilterelementReplace> list = new ArrayList<>();//保存滤芯安装记录表对象
 						 for (int i = 0; i < LXids.size(); i++) {
 							 FilterelementReplace relationship = new FilterelementReplace();//初始化对象
 							 relationship.setRecordId(UUID.randomUUID().toString());
@@ -185,6 +185,7 @@ public class EquipmentController {
 							 relationship.setUpdateBy(sysUser.getRealname());
 							 list.add(relationship);
 						 }
+						 //新增设备对应的滤芯，生成滤芯安装记录表
 						 boolean bo =  iFilterelementReplaceService.insertByfilterelementid(list);
 						 if(bo){
 							 result.success("操作成功!");

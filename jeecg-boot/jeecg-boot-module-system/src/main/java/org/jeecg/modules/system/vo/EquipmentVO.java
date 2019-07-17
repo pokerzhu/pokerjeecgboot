@@ -49,4 +49,7 @@ public class EquipmentVO implements Serializable {
     //租赁价格
     @TableField("commodity_rent")
     private String commodityRent;
+    //特殊地区设备损耗比例
+    @TableField("lossrati")
+    private String lossratio;
 }

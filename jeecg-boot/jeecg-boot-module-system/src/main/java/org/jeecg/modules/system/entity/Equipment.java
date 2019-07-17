@@ -27,63 +27,86 @@ import org.jeecgframework.poi.excel.annotation.Excel;
 @ApiModel(value="equipment对象", description="设备表")
 public class Equipment {
 
-	/**设备编号*/
+	/**
+	 * 设备编号
+	 */
 	@Excel(name = "设备编号", width = 15)
-    @ApiModelProperty(value = "设备编号")
-    @TableId(type = IdType.UUID)
+	@ApiModelProperty(value = "设备编号")
+	@TableId(type = IdType.UUID)
 	private String equipmentId;
-	/**商品编号，商品表外键*/
+	/**
+	 * 商品编号，商品表外键
+	 */
 	@Excel(name = "商品编号", width = 15)
 	@ApiModelProperty(value = "商品编号")
-    @TableId(type = IdType.UUID)
+	@TableId(type = IdType.UUID)
 	private String commodityId;
-	/**所属人，用户表外键，属于哪个代理的*/
-    @Excel(name = "所属部门", width = 15)
+	/**
+	 * 所属人，用户表外键，属于哪个代理的
+	 */
+	@Excel(name = "所属部门", width = 15)
 	@ApiModelProperty(value = "所属部门")
 	private String userId;
-	/**安装客户编号，客户表外键。*/
+	/**
+	 * 安装客户编号，客户表外键。
+	 */
 	@Excel(name = "安装客户编号", width = 15)
 	@ApiModelProperty(value = "安装客户编号")
 	private String clientId;
-	/**硬件编号*/
+	/**
+	 * 硬件编号
+	 */
 	@Excel(name = "硬件编号", width = 15)
 	@ApiModelProperty(value = "硬件编号")
 	private String ids;
-	/**是否启用，字典*/
-	@Excel(name = "安装状态", width = 15,dicCode="enabled")
-    @ApiModelProperty(value = "是否启用")
+	/**
+	 * 是否启用，字典
+	 */
+	@Excel(name = "安装状态", width = 15, dicCode = "enabled")
+	@ApiModelProperty(value = "是否启用")
 	@Dict(dicCode = "enabled")
 	private Integer enabled;
-	/**创建人*/
+	/**
+	 * 创建人
+	 */
 	@Excel(name = "创建人", width = 15)
 	@ApiModelProperty(value = "创建人")
 	private String createBy;
-	/**创建时间*/
+	/**
+	 * 创建时间
+	 */
 	@Excel(name = "创建时间", width = 20, format = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@ApiModelProperty(value = "创建时间")
 	private Date createTime;
-	/**更新人*/
+	/**
+	 * 更新人
+	 */
 	@Excel(name = "更新人", width = 15)
 	@ApiModelProperty(value = "更新人")
-	private String updateBy;        
-	/**更新时间*/
+	private String updateBy;
+	/**
+	 * 更新时间
+	 */
 	@Excel(name = "更新时间", width = 20, format = "yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@ApiModelProperty(value = "更新时间")
 	private Date updateTime;
-    @Excel(name="租赁状态",width = 20,dicCode="leasestate")
-    @ApiModelProperty(value = "租赁状态")
-    @Dict(dicCode = "leasestate")
+	@Excel(name = "租赁状态", width = 20, dicCode = "leasestate")
+	@ApiModelProperty(value = "租赁状态")
+	@Dict(dicCode = "leasestate")
 	private Integer leasestate;
-    @Excel(name="主板状态",width = 20,dicCode="mainboard")
-    @ApiModelProperty(value = "主板状态")
-    @Dict(dicCode = "mainboard")
-    private Integer mainboard;
-    @Excel(name="滤芯状态",width = 20,dicCode="filterelementType")
-    @ApiModelProperty(value = "滤芯状态")
-    @Dict(dicCode = "filterelementType")
-    private Integer filterelementType;
+	@Excel(name = "主板状态", width = 20, dicCode = "mainboard")
+	@ApiModelProperty(value = "主板状态")
+	@Dict(dicCode = "mainboard")
+	private Integer mainboard;
+	@Excel(name = "滤芯状态", width = 20, dicCode = "filterelementType")
+	@ApiModelProperty(value = "滤芯状态")
+	@Dict(dicCode = "filterelementType")
+	private Integer filterelementType;
+	@Excel(name = "特殊地区设备损耗比例", width = 20)
+	@ApiModelProperty(value = "特殊地区设备损耗比例")
+	private String lossratio;
 }

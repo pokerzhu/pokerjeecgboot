@@ -313,8 +313,6 @@ public class SysDepartController {
     public List<SysDepart> selDepart(){
         //获取部门表数据
         List<SysDepart> records = sysDepartService.list();
-        System.out.println("进来了部门呀"+records+"77777777");
-        System.out.println(records);
         return records;
     }
 }
