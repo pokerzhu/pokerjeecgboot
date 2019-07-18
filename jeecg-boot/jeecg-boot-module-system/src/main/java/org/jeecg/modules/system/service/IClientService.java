@@ -1,6 +1,8 @@
 package org.jeecg.modules.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.jeecg.modules.system.entity.Client;
 
 /**
@@ -11,4 +13,10 @@ import org.jeecg.modules.system.entity.Client;
  */
 public interface IClientService extends IService<Client> {
 //    Boolean ClientUpd(Client client);
+    /**
+     * 查询该设备关联的用户
+     * @param equipmentId
+     * @return
+     */
+    Integer ClientById(@Param("clientId") String clientId);
 }

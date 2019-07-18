@@ -55,6 +55,7 @@ public class CommodityTypeController {
 	 @Autowired
 	 private IRelationshipService relationshipService;
 
+
 	 /**
 	  * 分页列表查询
 	  * @param commodityType
@@ -160,13 +161,17 @@ public class CommodityTypeController {
 		 if(commodityType==null) {
 			 result.error500("未找到对应实体");
 		 }else {
-			 boolean ok = commodityTypeService.removeById(id);
-			 if(ok) {
-				 relationshipService.deletetypeId(id);
-				 result.success("删除成功!");
-			 }
+             Integer integer = commodityTypeService.CommodityById(id);
+             if (integer>0){
+                 result.error500("该类型下存有商品 不能删除");
+             }else {
+                 boolean ok = commodityTypeService.removeById(id);
+                 if(ok) {
+                     relationshipService.deletetypeId(id);
+                     result.success("删除成功!");
+                 }
+             }
 		 }
-
 		 return result;
 	 }
 

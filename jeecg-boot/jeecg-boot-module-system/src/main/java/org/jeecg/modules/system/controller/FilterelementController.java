@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.jeecg.modules.system.entity.Filterelement;
 import org.jeecg.modules.system.service.IFilterelementService;
+import org.jeecg.modules.system.service.IRelationshipService;
 import org.jeecg.modules.system.vo.EquipmentVO;
 import org.jeecg.modules.system.vo.RelationshipVO;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
@@ -54,7 +55,8 @@ import io.swagger.annotations.ApiOperation;
 public class FilterelementController {
      @Autowired
      private IFilterelementService filterelementService;
-
+    @Autowired
+    private IRelationshipService iRelationshipService;
 
      @Value(value = "${jeecg.path.upload}")
      private String uploadpath;
@@ -240,12 +242,16 @@ public class FilterelementController {
          if (filterelement == null) {
              result.error500("未找到对应实体");
          } else {
-             boolean ok = filterelementService.removeById(id);
-             if (ok) {
-                 result.success("删除成功!");
-             }
+        Integer  count=iRelationshipService.SelectById(id);
+        if (count>0){
+            result.error500("该滤芯已被类型关联，不能删除");
+        }else {
+            boolean ok = filterelementService.removeById(id);
+            if (ok) {
+                result.success("删除成功!");
+            }
+            }
          }
-
          return result;
      }
 

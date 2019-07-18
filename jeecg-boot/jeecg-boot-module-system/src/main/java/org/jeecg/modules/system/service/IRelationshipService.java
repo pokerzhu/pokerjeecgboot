@@ -3,6 +3,8 @@ package org.jeecg.modules.system.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.jeecg.modules.system.entity.Relationship;
 import org.jeecg.modules.system.vo.RelationshipVO;
 
@@ -48,5 +50,11 @@ public interface IRelationshipService extends IService<Relationship> {
      * @return
      */
     List<String> selectLXid(String SPid);
+
+    /**
+     * 根据滤芯id查询关联的数量
+     * @return
+     */
+    Integer SelectById(@Param("LvId") String LvId);
 
 }

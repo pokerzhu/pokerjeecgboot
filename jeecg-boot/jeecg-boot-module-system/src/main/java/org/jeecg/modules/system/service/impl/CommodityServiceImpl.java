@@ -40,5 +40,10 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         return page.setRecords(commodityMapper.selectLike(commodityName));
     }
 
+    @Override
+    public Integer EquipmentById(String commodityId) {
+        return commodityMapper.EquipmentById(commodityId);
+    }
+
 
 }

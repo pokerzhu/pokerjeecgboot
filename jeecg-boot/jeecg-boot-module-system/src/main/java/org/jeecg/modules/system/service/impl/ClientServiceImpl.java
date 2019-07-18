@@ -16,6 +16,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
  */
 @Service
 public class ClientServiceImpl extends ServiceImpl<ClientMapper,Client> implements IClientService {
+    @Autowired
+    private ClientMapper clientMapper;
+    @Override
+    public Integer ClientById(String clientId) {
+        return clientMapper.ClientById(clientId);
+    }
 //    @Autowired
 //    private ClientMapper clientMapper;
 //    @Override

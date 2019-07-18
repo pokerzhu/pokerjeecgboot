@@ -219,10 +219,15 @@ public class EquipmentController {
 		 if(equipment==null) {
 			 result.error500("未找到对应实体");
 		 }else {
-			 boolean ok = equipmentService.removeById(equipmentId);
-			 if(ok) {
-				 result.success("删除成功!");
-			 }
+             Integer integer = equipmentService.EquipmentById(equipmentId);
+             if (integer>0){
+                 result.error500("该设备已被用户安装,不能删除");
+             }else{
+                 boolean ok = equipmentService.removeById(equipmentId);
+                 if(ok) {
+                     result.success("删除成功!");
+                 }
+             }
 		 }
 		 return result;
 	 }

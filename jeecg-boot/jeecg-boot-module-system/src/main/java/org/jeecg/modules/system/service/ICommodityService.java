@@ -29,4 +29,11 @@ public interface ICommodityService extends IService<Commodity> {
      * @return
      */
     IPage<CommodityVO> selectLike(Page page,@Param("commdityName")String commodityName);
+
+    /**
+     * 查询被设备关联的商品
+     * @param commodityId
+     * @return
+     */
+    Integer EquipmentById(@Param("commodityId") String commodityId);
 }

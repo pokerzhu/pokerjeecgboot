@@ -1,6 +1,7 @@
 package org.jeecg.modules.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.jeecg.modules.system.entity.Filterelement;
 import org.jeecg.modules.system.entity.Relationship;
@@ -59,4 +60,11 @@ public interface RelationshipMapper extends BaseMapper<Relationship> {
             "FROM relationship \n" +
             "WHERE type_id = (SELECT type_id FROM commodity WHERE commodity_id = #{SPid})")
     List<String> selectLXid(String SPid);
+
+    /**
+     * 根据滤芯id查询关联的数量
+     * @return
+     */
+    @Select("SELECT count(1) FROM relationship WHERE filterelement_id=#{LvId}")
+    Integer SelectById(@Param("LvId") String LvId);
 }

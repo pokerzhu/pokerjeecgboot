@@ -48,4 +48,12 @@ public interface CommodityMapper extends BaseMapper<Commodity> {
     @Select("select commodity_name,commodity_prices,commodity_rent,description,Images," +
             "type_name from commodity c,commodity_type t WHERE c.type_id=t.type_id AND commodity_name like concat('%',#{commodityName},'%')")
     List<CommodityVO> selectLike(@Param("commodityName")String commodityName);
+
+    /**
+     * 查询被设备关联的商品
+     * @param commodityId
+     * @return
+     */
+    @Select("SELECT count(1) FROM equipment WHERE commodity_id='4ee02d27480631991af31224d276f656'")
+    Integer EquipmentById(@Param("commodityId") String commodityId);
 }

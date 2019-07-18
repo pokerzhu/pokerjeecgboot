@@ -1,5 +1,7 @@
 package org.jeecg.modules.system.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.jeecg.modules.system.entity.Client;
 
 /**
@@ -15,5 +17,13 @@ public interface ClientMapper extends BaseMapper<Client> {
 //     * @param client
 //     */
 //    Boolean ClientUpd(Client client);
+
+    /**
+     * 查询该设备关联的用户
+     * @param equipmentId
+     * @return
+     */
+    @Select("SELECT count(1) FROM installation_open WHERE client_id=#{clientId}")
+    Integer ClientById(@Param("clientId") String clientId);
 
 }

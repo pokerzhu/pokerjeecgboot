@@ -57,4 +57,9 @@ public class EquipmentServiceImpl extends ServiceImpl<EquipmentMapper, Equipment
         return page.setRecords(equipmentMapper.likeEquipment(page,equipmentId,ids,enabled));
     }
 
+    @Override
+    public Integer EquipmentById(String clientId) {
+        return equipmentMapper.EquipmentById(clientId);
+    }
+
 }

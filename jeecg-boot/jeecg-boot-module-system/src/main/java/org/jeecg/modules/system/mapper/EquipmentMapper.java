@@ -131,4 +131,12 @@ public interface EquipmentMapper extends BaseMapper<Equipment> {
 //            "left join client as l on e.client_id=l.client_id " +
 //            "WHERE e.ids LIKE concat('%',#{ids},'%')")
 //    List<EquipmentVO> likeEquipmentIds(Page page,@Param("ids") String ids);
+
+    /**
+     * 查询该用户关联的设备
+     * @param clientId
+     * @return
+     */
+    @Select("SELECT count(1) FROM equipment WHERE client_id=#{clientId}")
+    Integer EquipmentById(@Param("clientId")String clientId);
 }

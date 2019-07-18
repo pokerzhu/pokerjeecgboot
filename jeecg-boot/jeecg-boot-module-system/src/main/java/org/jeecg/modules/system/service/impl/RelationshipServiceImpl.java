@@ -48,4 +48,9 @@ public class RelationshipServiceImpl extends ServiceImpl<RelationshipMapper, Rel
     public List<String> selectLXid(String SPid) {
         return relationshipMapper.selectLXid(SPid);
     }
+
+    @Override
+    public Integer SelectById(String LvId) {
+        return relationshipMapper.SelectById(LvId);
+    }
 }

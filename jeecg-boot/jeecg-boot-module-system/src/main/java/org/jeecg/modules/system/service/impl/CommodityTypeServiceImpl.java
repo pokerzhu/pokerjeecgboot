@@ -29,4 +29,9 @@ public class CommodityTypeServiceImpl extends ServiceImpl<CommodityTypeMapper, C
     public void updatebytypeid(CommodityType commodityType) {
         commodityTypeMapper.updatebytypeid(commodityType);
     }
+
+    @Override
+    public Integer CommodityById(String TypeId) {
+        return commodityTypeMapper.CommodityById(TypeId);
+    }
 }

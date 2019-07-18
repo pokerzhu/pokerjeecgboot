@@ -146,12 +146,16 @@ public class ClientController {
 		if(client==null) {
 			result.error500("未找到对应实体");
 		}else {
-			boolean ok = clientService.removeById(clientId);
-			if(ok) {
-				result.success("删除成功!");
-			}
+            Integer integer = clientService.ClientById(clientId);
+            if (integer>0){
+                result.error500("该用户名下有安装设备不能删除");
+            }else {
+                boolean ok = clientService.removeById(clientId);
+                if(ok) {
+                    result.success("删除成功!");
+                }
+            }
 		}
-		
 		return result;
 	}
 	

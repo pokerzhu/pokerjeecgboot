@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jeecg.modules.system.entity.Client;
 import org.jeecg.modules.system.entity.Commodity;
 import org.jeecg.modules.system.service.ICommodityService;
+import org.jeecg.modules.system.service.ICommodityTypeService;
 import org.jeecg.modules.system.vo.CommodityVO;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.def.NormalExcelConstants;
@@ -50,7 +51,8 @@ import io.swagger.annotations.ApiOperation;
 public class CommodityController {
 	 @Autowired
 	 private ICommodityService commodityService;
-
+	 @Autowired
+     private ICommodityTypeService iCommodityTypeService;
 	 /**
 	  * 分页列表查询
 	  * @param commodity
@@ -76,8 +78,6 @@ public class CommodityController {
 	 }
      /**
       * 分页列表查询
-      * @param commodity
-      * @param pageNo
       * @param pageSize
       * @param req
       * @return
@@ -175,12 +175,16 @@ public class CommodityController {
 		 if(commodity==null) {
 			 result.error500("未找到对应实体");
 		 }else {
-			 boolean ok = commodityService.removeById(id);
-			 if(ok) {
-				 result.success("删除成功!");
-			 }
+             Integer integer = commodityService.EquipmentById(id);
+             if (integer>0){
+                 result.error500("该商品下存有设备,不能删除");
+             }else {
+                 boolean ok = commodityService.removeById(id);
+                 if(ok) {
+                     result.success("删除成功!");
+                 }
+             }
 		 }
-
 		 return result;
 	 }
 

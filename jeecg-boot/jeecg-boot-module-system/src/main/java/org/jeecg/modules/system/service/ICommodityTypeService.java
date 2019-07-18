@@ -1,6 +1,7 @@
 package org.jeecg.modules.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.jeecg.modules.system.entity.CommodityType;
 
@@ -24,4 +25,9 @@ public interface ICommodityTypeService extends IService<CommodityType> {
      */
     void updatebytypeid(CommodityType commodityType);
 
+    /**
+     * 根据商品类型查询关联的数量
+     * @return
+     */
+    Integer CommodityById(String TypeId);
 }

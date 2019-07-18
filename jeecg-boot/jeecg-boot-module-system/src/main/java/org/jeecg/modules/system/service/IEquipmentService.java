@@ -56,6 +56,13 @@ public interface IEquipmentService extends IService<Equipment> {
      */
     IPage<EquipmentVO> likeEquipment(Page page,String equipmentId,String ids,Integer enabled);
 
+    /**
+     * 查询该设备关联的用户
+     * @param clientId
+     * @return
+     */
+    Integer EquipmentById(@Param("clientId")String clientId);
+
 //    /**
 //     * 根据硬件编号模糊查询
 //     * @param page
