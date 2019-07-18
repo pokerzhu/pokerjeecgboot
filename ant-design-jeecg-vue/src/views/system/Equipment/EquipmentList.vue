@@ -64,7 +64,6 @@
         :dataSource="dataSource"
         :pagination="ipagination"
         :loading="loading"
-        :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
         @change="handleTableChange">
 
         <span slot="action" slot-scope="text, record">
@@ -74,7 +73,7 @@
           <a @click="handleDetailDemo(record.equipmentId)">详情</a>
 
           <a-divider type="vertical" />
-          <a-dropdown>
+          <a-dropdown v-if="record.leasestate=='0'">
             <a class="ant-dropdown-link">更多 <a-icon type="down" /></a>
             <a-menu slot="overlay">
               <a-menu-item v-if="record.clientName==null">
@@ -133,16 +132,16 @@
         description: '设备表管理页面',
         // 表头
         columns: [
-          // {
-          //   title: '#',
-          //   dataIndex: '',
-          //   key:'rowIndex',
-          //   width:60,
-          //   align:"center",
-          //   customRender:function (t,r,index) {
-          //     return parseInt(index)+1;
-          //   }
-          //  },
+          {
+            title: '#',
+            dataIndex: '',
+            key:'rowIndex',
+            width:60,
+            align:"center",
+            customRender:function (t,r,index) {
+              return parseInt(index)+1;
+            }
+           },
           {
             title: '设备编号',
             align:"center",
@@ -224,6 +223,7 @@
           exportXlsUrl: "demo/equipment/exportXls",
           importExcelUrl: "demo/equipment/importExcel",
         },
+
       }
     },
     computed: {
@@ -259,7 +259,7 @@
       },
       handEquipment(equipmentId){
         this.confirmLoading = true;
-            var record = {"equipmentId":equipmentId,"clientId":null};
+            var record = {"equipmentId":equipmentId,"clientId":null,"lossratio":0};
             putAction(this.url.update,record).then((res) => {//撤回设备，删除设备客户关联记录
               if (res.success) {
                 console.log(this.dataSource);

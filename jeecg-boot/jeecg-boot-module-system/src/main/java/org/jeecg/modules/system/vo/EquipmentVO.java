@@ -52,4 +52,8 @@ public class EquipmentVO implements Serializable {
     //特殊地区设备损耗比例
     @TableField("lossrati")
     private String lossratio;
+    //部门code
+    @TableField("orgCode")
+    private String orgCode;
+
 }

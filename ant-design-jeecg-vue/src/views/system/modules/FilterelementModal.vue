@@ -51,13 +51,13 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="有效时长">
-          <a-input-number style="width: 150px" placeholder="请输入有效时长" v-decorator="['validity', validatorRules.validity ]" />
+          <a-input-number style="width: 150px" placeholder="请输入有效时长" :min="1" v-decorator="['validity', validatorRules.validity ]" />
         </a-form-item>
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="滤芯最低更换天数">
-          <a-input-number style="width: 150px" placeholder="请输入滤芯最低更换天数" v-decorator="['replacementdays', validatorRules.replacementdays ]" />
+          <a-input-number style="width: 150px" placeholder="请输入滤芯最低更换天数" :min="1" v-decorator="['replacementdays', validatorRules.replacementdays ]" />
         </a-form-item>
 		
       </a-form>

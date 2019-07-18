@@ -29,4 +29,14 @@ public class EquipmentDbServiceImpI extends ServiceImpl<EquipmentDbMapper,Equipm
     public boolean updateuserid(String userId, List<equipmentDBVO> list) {
         return equipmentDbMapper.updateuserid(userId,list);
     }
+    @Override
+    public IPage<EquipmentVO> likeEquipmentDb(Page page,EquipmentVO equipmentVO) {
+        return page.setRecords(equipmentDbMapper.likeEquipmentDb(page,equipmentVO));
+    }
+
+    @Override
+    public String selectid(String orgCode) {
+        return equipmentDbMapper.selectid(orgCode);
+    }
+
 }

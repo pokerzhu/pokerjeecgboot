@@ -21,13 +21,13 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="类型名称">
-          <a-input placeholder="请输入类型名称" v-decorator="['typeName', {}]" />
+          <a-input placeholder="请输入类型名称" v-decorator="['typeName', validatorRules.typeName]" />
         </a-form-item>
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="滤芯规格">
-          <a-input-number v-decorator="[ 'specification', {}]" />
+          <a-input-number style="width: 150px" placeholder="请输入滤芯规格"  :min="1" v-decorator="[ 'specification', validatorRules.specification]" />
         </a-form-item>
 
       </a-form>
@@ -59,7 +59,8 @@
         confirmLoading: false,
         form: this.$form.createForm(this),
         validatorRules:{
-          typeId:{rules: [{ required: true, message: '请输入商品类型id!' }]},
+          typeName:{rules: [{ required: true, message: '请输入商品类型名称!' }]},
+          specification:{rules: [{ required: true, message: '请输入滤芯规格!' }]},
         },
         url: {
           add: "/dome/commodityType/add",

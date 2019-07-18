@@ -11,19 +11,22 @@
               <a-input placeholder="请输入设备编号" v-model="queryParam.equipmentId"></a-input>
             </a-form-item>
           </a-col>
-            <a-col :md="6" :sm="8">
-              <a-form-item label="硬件编号">
-                <a-input placeholder="请输入硬件编号" v-model="queryParam.ids"></a-input>
-              </a-form-item>
-            </a-col>
-            <a-col :md="6" :sm="8">
-              <a-form-item label="安装状态">
-                <a-input placeholder="请输入是否安装" v-model="queryParam.enabled"></a-input>
-              </a-form-item>
-            </a-col>
+          <a-col :md="6" :sm="8">
+            <a-form-item label="硬件编号">
+              <a-input placeholder="请输入硬件编号" v-model="queryParam.ids"></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :md="6" :sm="8">
+            <a-form-item label="安装状态">
+              <a-select  placeholder="请选择安装状态" v-model="queryParam.enabled">
+                <a-select-option :value="0">  未激活 </a-select-option>
+                <a-select-option :value="1">  已激活 </a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
           <a-col :md="6" :sm="8" >
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
-              <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
+              <a-button type="primary" @click="Eqlikeselect" icon="search">查询</a-button>
               <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
             </span>
           </a-col>
@@ -79,23 +82,21 @@
     <equipment-modal ref="modalForm" @ok="modalFormOk"></equipment-modal>
     <!--<equipment-client-add ref="clientmodal"></equipment-client-add>-->
     <equipment-client-x-z ref="equipmentclientxz" @ok="modalFormOk"></equipment-client-x-z>
-    <equipment-xq-modal ref="equipmentXq"></equipment-xq-modal>
   </a-card>
 </template>
 
 <script>
   import EquipmentModal from '../modules/EquipmentModal'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import EquipmentXqModal from '../modules/EquipmentXqModal'
   import EquipmentClientXZ from '../modules/EquipmentClientXZ'
   import { httpAction,putAction ,getAction} from '@/api/manage'
   import JSelectDepart from '@/components/jeecgbiz/JSelectDepart'
 
   export default {
-    name: "EquipmentDbList",
+    name: "EquipmentList",
     mixins:[JeecgListMixin],
     components: {
-      EquipmentModal,EquipmentClientXZ,EquipmentXqModal,JSelectDepart
+      EquipmentModal,EquipmentClientXZ,JSelectDepart
     },
     data () {
       return {
@@ -173,20 +174,16 @@
             dataIndex: 'filtere',
             align:"center",
             scopedSlots: { customRender: 'filtere' },
-          },
-          {
-            title: '操作',
-            dataIndex: 'action',
-            align:"center",
-            scopedSlots: { customRender: 'action' },
           }
         ],
         form: this.$form.createForm(this),
         bumen:"",
         bumens:"",//保存选中的部门id
         dataSource2:[],//保存选中的设备id
+        queryParam:{},//保存查询信息
         url: {
-          list:   "/demo/equipmentDb/list",
+          list:   "/demo/quipmentDb/list",
+          eqlikeselect:"/demo/quipmentDb/eqlikeselect",
         },
       }
     },
@@ -196,6 +193,19 @@
       }
     },
     methods: {
+      Eqlikeselect(){
+        var a = this.queryParam;
+        console.log(a)
+        this.loading = true;
+        getAction(this.url.eqlikeselect, a).then((res) => {
+          if (res.success) {
+            this.dataSource = res.result.records;
+            this.ipagination.total = res.result.total;
+            console.log(this.dataSource);
+          }
+          this.loading = false;
+        })
+      },
       onSelectAll(selected, selectedRows, changeRows) {//判断点击全选事件发生后是否被选中
         if (selected === true) {
           for (var a = 0; a < changeRows.length; a++) {

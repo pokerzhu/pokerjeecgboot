@@ -36,4 +36,19 @@ public interface EquipmentDbMapper extends BaseMapper<EquipmentVO> {
      * @return
      */
     boolean updateuserid(@Param("userId") String userId, @Param("list") List<equipmentDBVO> list);
+
+    /**
+     * 根据登陆用户
+     * @return
+     */
+    @Select("SELECT id FROM sys_depart WHERE org_code= #{orgCode}")
+    String selectid (String orgCode);
+
+
+
+    /**
+     * 模糊查询
+     * @return
+     */
+    List<EquipmentVO> likeEquipmentDb(Page page,@Param("equipmentVO") EquipmentVO equipmentVO);
 }

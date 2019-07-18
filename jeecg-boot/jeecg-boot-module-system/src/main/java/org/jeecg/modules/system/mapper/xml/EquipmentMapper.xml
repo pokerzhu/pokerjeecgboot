@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.system.mapper.EquipmentMapper">
+
+    <select id="likeEquipment" resultType="org.jeecg.modules.system.vo.EquipmentVO">
+        select user_id, equipment_id, e.commodity_id, commodity_name,
+        s.depart_name departname, client_name, ids, enabled, leasestate,
+        mainboard, filterelement_Type, commodity_prices, commodity_rent
+        FROM equipment as e
+        left join commodity as c on e.commodity_id=c.commodity_id
+        left join sys_depart as s on e.user_id=s.id
+        left join client as l on e.client_id=l.client_id
+        WHERE 1=1
+        <if test="equipmentId != null ">
+            AND  e.equipment_id LIKE concat('%',#{equipmentId},'%')
+        </if>
+        <if test="ids !=null">
+            AND e.ids LIKE concat('%',#{ids},'%')
+        </if>
+        <if test="enabled != null">
+            AND e.enabled = #{enabled}
+        </if>
+
+    </select>
+</mapper>

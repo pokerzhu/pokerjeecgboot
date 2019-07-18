@@ -54,29 +54,37 @@
 
         <a-form :form="form">
           <a-form-item label="设备是否启用" :labelCol="labelCol" :wrapperCol="wrapperCol">
-            <!--<a-select  placeholder="请选择是否激活"  v-decorator="[ 'enabled',{}]" >
+            <a-select  placeholder="请选择是否激活"  v-decorator="[ 'enabled',validatorRules.enabled]" >
               <a-select-option :value="0">  未激活 </a-select-option>
               <a-select-option :value="1">  已激活 </a-select-option>
-            </a-select>-->
-            <j-dict-select-tag
+            </a-select>
+            <!--<j-dict-select-tag
               v-decorator="['enabled',validatorRules.enabled]"
               :triggerChange="true"
               placeholder="请选择设备是否激活"
-              dictCode="enabled"/>
+              dictCode="enabled"/>-->
           </a-form-item>
         </a-form>
 
         <a-form :form="form">
           <a-form-item label="租赁状态" :labelCol="labelCol" :wrapperCol="wrapperCol">
-           <!-- <a-select  placeholder="请选择租赁状态"  v-decorator="[ 'leasestate',{}]" >
+            <a-select  placeholder="请选择租赁状态"  v-decorator="[ 'leasestate',validatorRules.leasestate]" >
               <a-select-option :value="0">  租 </a-select-option>
               <a-select-option :value="1">  卖 </a-select-option>
-            </a-select>-->
-            <j-dict-select-tag
+            </a-select>
+            <!--<j-dict-select-tag
               v-decorator="['leasestate',validatorRules.leasestate]"
               :triggerChange="true"
               placeholder="请选择租赁状态"
-              dictCode="leasestate"/>
+              dictCode="leasestate"/>-->
+          </a-form-item>
+        </a-form>
+        <a-form :form="form" v-if="this.lossratio">
+          <a-form-item
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+            label="特殊地区设备损耗比例">
+            <a-input placeholder="请输入损耗比例"  v-decorator="['lossratio', validatorRules.lossratio ]" />
           </a-form-item>
         </a-form>
       </a-form>
@@ -100,6 +108,7 @@
         model: {},
         equipmentId:"",
         leasestate:"",
+        lossratio:"",
         ClientList:[],
         SysDepartList:[],
         CommodityList:[],
@@ -121,6 +130,7 @@
           ids:{rules: [{ required: true, message: '请输入硬件编号!' }]},
           enabled:{rules: [{ required: true, message: '请选择设备是否启用!' }]},
           leasestate:{rules: [{ required: true, message: '请选择租赁状态!' }]},
+          lossratio:{rules: [{ required: true, message: '请输入损耗比例!' }]},
         },
         url: {
           add: "/demo/equipment/add",
@@ -156,9 +166,10 @@
         console.log(record+"************************************")
         this.form.resetFields();
         this.model = Object.assign({},record);
+        this.lossratio = record.lossratio;
         this.visible = true;
         this.$nextTick(() => {
-          this.form.setFieldsValue(pick(this.model,'userId','commodityId','ids','enabled','leasestate'))
+          this.form.setFieldsValue(pick(this.model,'userId','commodityId','ids','enabled','leasestate','lossratio'))
           //时间格式化
         });
       },

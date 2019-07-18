@@ -135,7 +135,6 @@
                   "lossratio":this.lossratio,
                 };
                 console.log(record);
-                debugger
                 putAction(this.url.updateequipment, record).then((res) => {//更新设备信息，绑定客户id
                   if (res.success) {
                     console.log(this.dataSource);

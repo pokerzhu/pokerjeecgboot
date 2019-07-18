@@ -6,8 +6,29 @@
         UPDATE `equipment` SET `user_id` = #{userId}
         WHERE `equipment_id` in(
         <foreach separator="," item="list" collection="list">
-          #{list.equipmentIds}
+            #{list.equipmentIds}
         </foreach>
         )
     </update>
+
+    <select id="likeEquipmentDb" resultType="org.jeecg.modules.system.vo.EquipmentVO">
+        select user_id, equipment_id, e.commodity_id, commodity_name,
+        s.depart_name departname, client_name, ids, enabled, leasestate,
+        mainboard, filterelement_Type, commodity_prices, commodity_rent
+        FROM equipment as e
+        left join commodity as c on e.commodity_id=c.commodity_id
+        left join sys_depart as s on e.user_id=s.id
+        left join client as l on e.client_id=l.client_id
+        WHERE e.user_id = (SELECT id FROM sys_depart WHERE org_code= #{equipmentVO.orgCode})
+        <if test="equipmentVO.equipmentId != null ">
+            AND  e.equipment_id LIKE concat('%',#{equipmentVO.equipmentId},'%')
+        </if>
+        <if test="equipmentVO.ids !=null">
+            AND e.ids LIKE concat('%',#{equipmentVO.ids},'%')
+        </if>
+        <if test="equipmentVO.enabled != null">
+            AND e.enabled = #{equipmentVO.enabled}
+        </if>
+
+    </select>
 </mapper>

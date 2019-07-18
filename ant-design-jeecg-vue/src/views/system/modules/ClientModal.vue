@@ -39,7 +39,7 @@
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
           label="密码">
-          <a-input placeholder="请输入密码" v-decorator="['password', validatorRules.password ]" />
+          <a-input  placeholder="请输入密码" v-decorator="['password', validatorRules.password ]" />
         </a-form-item>
         <a-form-item
           :labelCol="labelCol"
@@ -76,11 +76,10 @@
         confirmLoading: false,
         form: this.$form.createForm(this),
         validatorRules:{
-        address:{rules: [{ required: true, message: '请输入address!' }]},
-        clientId:{rules: [{ required: true, message: '请输入clientId!' }]},
-        clientName:{rules: [{ required: true, message: '请输入clientName!' }]},
-        password:{rules: [{ required: true, message: '请输入password!' }]},
-        phone:{rules: [{ required: true, message: '请输入phone!' }]},
+        address:{rules: [{ required: true, message: '请输入客户地址!' }]},
+        clientName:{rules: [{ required: true, message: '请输入客户名!' }]},
+        password:{rules: [{ required: true, message: '请输入密码!' }]},
+        phone:{rules: [{ required: true, message: '请输入手机号码!' }]},
         },
         url: {
           add: "/demo/client/add",

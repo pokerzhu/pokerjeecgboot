@@ -14,7 +14,6 @@ import org.jeecg.common.system.vo.LoginUser;
 import org.jeecg.modules.system.entity.Equipment;
 import org.jeecg.modules.system.entity.Relationship;
 import org.jeecg.modules.system.service.EquipmentDbService;
-import org.jeecg.modules.system.vo.CommodityVO;
 import org.jeecg.modules.system.vo.EquipmentVO;
 import org.jeecg.modules.system.vo.equipmentDBVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ import java.util.List;
 @Slf4j
 @Api(tags="设备表")
 @RestController
-@RequestMapping("/demo/equipmentDb")
+@RequestMapping("/demo/quipmentDb")
 public class EquipmentDbController {
 
     @Autowired
@@ -49,6 +48,24 @@ public class EquipmentDbController {
         result.setResult(pageList);
         return result;
     }
+
+    @AutoLog(value = "设备调拨-模糊查询")
+    @ApiOperation(value="设备调拨-模糊查询", notes="设备调拨-模糊查询")
+    @GetMapping(value = "/eqlikeselect")
+    public Result<IPage<EquipmentVO>> likeEquipmentDb(EquipmentVO equipmentVO,
+                                                      @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+                                                      @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
+                                                      HttpServletRequest req) {
+        Result<IPage<EquipmentVO>> result = new Result<IPage<EquipmentVO>>();
+        Page<EquipmentVO> page = new Page<EquipmentVO>(pageNo,pageSize);
+        LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
+        equipmentVO.setOrgCode(sysUser.getOrgCode());
+        IPage<EquipmentVO> pageList = equipmentDbService.likeEquipmentDb(page,equipmentVO);
+        result.setSuccess(true);
+        result.setResult(pageList);
+        return result;
+    }
+
 
     @AutoLog(value = "设备调拨根据部门id批量更新")
     @ApiOperation(value="设备调拨根据部门id批量更新", notes="设备调拨根据部门id批量更新")

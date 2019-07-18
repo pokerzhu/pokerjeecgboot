@@ -26,5 +26,19 @@ public interface EquipmentDbService extends IService<EquipmentVO> {
      * @param list
      * @return
      */
-    boolean updateuserid(@Param("userId") String userId, @Param("list") List<equipmentDBVO> list);
+    boolean updateuserid(String userId,List<equipmentDBVO> list);
+
+    /**
+     * 模糊查询
+     * @return
+     */
+    IPage<EquipmentVO> likeEquipmentDb(Page page,EquipmentVO equipmentVO);
+
+    /**
+     * 根据登陆用户
+     * @return
+     */
+    String selectid (String orgCode);
+
+
 }

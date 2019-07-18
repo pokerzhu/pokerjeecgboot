@@ -106,7 +106,6 @@
             that.confirmLoading = true;
             let formData = Object.assign(this.model,values);
             console.log(formData);
-            debugger
             putAction(this.url.add, formData).then((res) => {//更新设备信息，绑定客户id
               if (res.success) {
                 this.$message.success(res.message);
