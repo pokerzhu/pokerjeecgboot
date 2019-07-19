@@ -134,7 +134,7 @@
        //   dataIndex: 'clientId'
        //     },
 		   {
-         title: '用户名',
+         title: '客户名',
          align:"center",
          dataIndex: 'clientName'
            },

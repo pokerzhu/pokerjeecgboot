@@ -21,6 +21,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 
 import org.jeecg.modules.system.entity.Client;
+import org.jeecg.modules.system.entity.Equipment;
 import org.jeecg.modules.system.service.IClientService;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.def.NormalExcelConstants;
@@ -75,6 +76,22 @@ public class ClientController {
 		return result;
 	}
 
+
+     @AutoLog(value = "查询用户下的设备")
+     @ApiOperation(value="查询用户下的设备", notes="查询用户下的设备")
+     @GetMapping(value = "/selectEqu")
+     public Result<IPage<Equipment>> queryPageList(Equipment equipment,
+                                                @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+                                                @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
+                                                HttpServletRequest req) {
+         Result<IPage<Equipment>> result = new Result<IPage<Equipment>>();
+         QueryWrapper<Equipment> queryWrapper = QueryGenerator.initQueryWrapper(equipment, req.getParameterMap());
+         Page<Equipment> page = new Page<Equipment>(pageNo, pageSize);
+         IPage<Equipment> pageList = clientService.SelectByEquId(page,equipment.getClientId());
+         result.setSuccess(true);
+         result.setResult(pageList);
+         return result;
+     }
 	 /*查询客户*/
 	 @GetMapping(value = "/selClient")
 	 public List<Client> selClient(){
@@ -83,6 +100,7 @@ public class ClientController {
 		 System.out.println(records);
 		 return records;
 	 }
+
 
 	 /**
 	  *   添加
@@ -148,7 +166,7 @@ public class ClientController {
 		}else {
             Integer integer = clientService.ClientById(clientId);
             if (integer>0){
-                result.error500("该用户名下有安装设备不能删除");
+                result.error500("该客户名下有安装设备不能删除");
             }else {
                 boolean ok = clientService.removeById(clientId);
                 if(ok) {

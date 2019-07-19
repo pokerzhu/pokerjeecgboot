@@ -47,7 +47,6 @@
             </a-col>
           </a-row>
 
-
         </a-tab-pane>
         <a-tab-pane key="tab2" tab="手机号登陆">
           <a-form-item>

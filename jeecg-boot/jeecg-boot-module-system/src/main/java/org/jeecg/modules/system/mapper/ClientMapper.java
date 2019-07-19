@@ -3,6 +3,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.jeecg.modules.system.entity.Client;
+import org.jeecg.modules.system.entity.Equipment;
+
+import java.util.List;
 
 /**
  * @Description: 客户表
@@ -26,4 +29,11 @@ public interface ClientMapper extends BaseMapper<Client> {
     @Select("SELECT count(1) FROM installation_open WHERE client_id=#{clientId}")
     Integer ClientById(@Param("clientId") String clientId);
 
+    /**
+     * 查询该用户名下的设备
+     * @param clientId
+     * @return
+     */
+    @Select("SELECT equipment_id FROM equipment WHERE client_id=#{clientId}")
+    List<Equipment> SelectByEquId(@Param("clientId")String clientId);
 }

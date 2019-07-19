@@ -1,6 +1,9 @@
 package org.jeecg.modules.system.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.jeecg.modules.system.entity.Client;
+import org.jeecg.modules.system.entity.Equipment;
 import org.jeecg.modules.system.mapper.ClientMapper;
 import org.jeecg.modules.system.service.IClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,11 @@ public class ClientServiceImpl extends ServiceImpl<ClientMapper,Client> implemen
     @Override
     public Integer ClientById(String clientId) {
         return clientMapper.ClientById(clientId);
+    }
+
+    @Override
+    public IPage<Equipment> SelectByEquId(Page page, String clientId) {
+        return page.setRecords(clientMapper.SelectByEquId(clientId));
     }
 //    @Autowired
 //    private ClientMapper clientMapper;
