@@ -67,13 +67,13 @@
         @change="handleTableChange">
 
         <span slot="action" slot-scope="text, record">
-          <a @click="handleEdit(record)" v-if="record.clientName==null&&record.leasestate==0">编辑</a>
+          <a @click="handleEdit(record)" v-if="record.clientName==null||record.leasestate==0">编辑</a>
 
           <a-divider type="vertical" />
           <a @click="handleDetailDemo(record.equipmentId)">详情</a>
 
           <a-divider type="vertical" />
-          <a-dropdown v-if="record.leasestate=='0'">
+          <a-dropdown v-if="record.leasestate=='0'||record.clientName==null">
             <a class="ant-dropdown-link">更多 <a-icon type="down" /></a>
             <a-menu slot="overlay">
               <a-menu-item v-if="record.clientName==null">
@@ -235,7 +235,6 @@
       likeEquipment(){
           var A =this.queryParam
           getAction("/demo/equipment/likeSelect",A).then((res) => {
-            console.log(A+"55555555555");
             if (res.success) {
               this.dataSource = res.result.records;
               console.log(this.dataSource);

@@ -1,12 +1,9 @@
 package org.jeecg.modules.system.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -105,6 +102,11 @@ public class EquipmentController {
 	public Result<Equipment> add(@RequestBody Equipment equipment) {
 		Result<Equipment> result = new Result<Equipment>();
 		try {
+			LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
+			String userId =  iSysUserService.setUser(sysUser.getId());
+			equipment.setUserId(userId);
+			equipment.setCreateBy(sysUser.getRealname());
+			equipment.setUpdateBy(sysUser.getRealname());
 			equipmentService.save(equipment);
 			result.success("添加成功！");
 		} catch (Exception e) {
@@ -130,6 +132,7 @@ public class EquipmentController {
 		 if (equipmentEntity == null) {
 			 result.error500("未找到对应实体");
 		 } else {
+			 equipment.setUpdateTime(new Date());
 			 boolean ok = equipmentService.UpdEquipment(equipment);
 			 //TODO 返回false说明什么？
 			 if (ok) {

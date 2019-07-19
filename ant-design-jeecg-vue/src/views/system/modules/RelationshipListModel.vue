@@ -206,6 +206,7 @@
         getAction("/demo/filterelement/query",F).then((res) => {
           if (res.success) {
             this.dataSource = res.result.records;
+            this.dataSource.remaining=
             console.log(this.dataSource);
           }
         });

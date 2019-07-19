@@ -194,6 +194,7 @@ public class FilterelementController {
      public Result<Filterelement> add(@RequestBody Filterelement filterelement) {
          Result<Filterelement> result = new Result<Filterelement>();
          try {
+
              filterelementService.save(filterelement);
              result.success("添加成功！");
          } catch (Exception e) {
