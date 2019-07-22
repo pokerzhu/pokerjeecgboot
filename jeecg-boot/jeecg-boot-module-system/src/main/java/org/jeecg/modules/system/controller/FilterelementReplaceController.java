@@ -67,9 +67,9 @@ public class FilterelementReplaceController {
          filterelementReplace.setUpdateBy(sysUser.getRealname());
          boolean ok = filterelementReplaceService.UpdfiletereMent(filterelementReplace.getUpdateBy(),filterelementReplace.getRecordId());
          if (ok) {
-            String equipmentID= filterelementReplaceService.UpdZT();
+			 List<EquipmentVO> equipmentID= filterelementReplaceService.UpdZT();
             //判断是否有异常设备id
-            if (equipmentID==null){//id为空，修改设备状态
+            if (equipmentID.size()==0){//id为空，修改设备状态
                 //通過滤芯记录id得到设备id
                 filterelementReplaceService.UpdZC(filterelementReplaceService.findbyid(filterelementReplace.getRecordId()));
             }

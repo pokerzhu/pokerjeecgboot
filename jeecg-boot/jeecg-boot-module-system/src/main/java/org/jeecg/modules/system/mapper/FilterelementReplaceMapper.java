@@ -7,7 +7,9 @@ import org.apache.ibatis.annotations.Param;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.jeecg.modules.system.entity.Client;
 import org.jeecg.modules.system.entity.FilterelementReplace;
+import org.jeecg.modules.system.vo.EquipmentVO;
 
 /**
  * @Description: 滤芯安装记录表
@@ -69,7 +71,7 @@ public interface FilterelementReplaceMapper extends BaseMapper<FilterelementRepl
      * 查询为空的设备ID
      * @return
      */
-    String UpdZT();
+    List<EquipmentVO> UpdZT();
 
     /**
      * 根据记录id得到对应的设备id
@@ -78,4 +80,11 @@ public interface FilterelementReplaceMapper extends BaseMapper<FilterelementRepl
      */
     @Select("select equipment_id from filterelement_replace WHERE record_id=#{recordId} ")
     String findbyid(String recordId);
+
+    /**
+     * 根据设备id集合，得到客户信息
+     * @param equipmentids
+     * @return
+     */
+    List<Client> findbyequipmentid(@Param("list") List<String> equipmentids);
 }

@@ -51,7 +51,8 @@ import io.swagger.annotations.ApiOperation;
 public class ClientController {
 	@Autowired
 	private IClientService clientService;
-	
+
+
 	/**
 	  * 分页列表查询
 	 * @param client
@@ -75,6 +76,31 @@ public class ClientController {
 		result.setResult(pageList);
 		return result;
 	}
+
+	 /**
+	  * 判断手机号码与短信验证码
+	  * @return
+	  */
+	 @GetMapping(value = "/selbyphone")
+	public  Result<Client> selbyphone( String phone,String cody,
+	 @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+									   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize){
+		 Result<Client> result = new Result<Client>();
+		 Page<Client> page = new Page<Client>(pageNo, pageSize);
+	 	if(cody.equals("123456")){//判断短信验证码是否正确
+	 	Client client =  clientService.ClientByphone(phone);
+			if(client!=null){//判断手机号码是否存在
+				result.setSuccess(true);
+				result.setResult(client);
+				result.success("欢迎您");//登陆成功
+			}else{
+				result.error500("手机号码没有注册客户信息！");
+			}
+		}else{
+			result.error500("验证码错误，请重新点击获取");
+		}
+		return result;
+	 }
 
 
      @AutoLog(value = "查询用户下的设备")
@@ -115,16 +141,60 @@ public class ClientController {
 		LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
 		try {
 			client.setUpdateBy(sysUser.getRealname());
-			clientService.save(client);
-			Client client1 = new Client().setClientId(client.getClientId());
-			result.setResult(client1);//添加成功后返回客户实体
-			result.success("添加客户信息成功！");
+			/*//需要判断手机号码是否已经存在
+			int count = clientService.countphone(client.getPhone());
+			if(count==0){*/
+				clientService.save(client);
+				Client client1 = new Client().setClientId(client.getClientId());
+				result.setResult(client1);//添加成功后返回客户实体
+				result.success("添加客户信息成功！");
+			/*}else{
+				result.error500("您输入的手机号码已经被使用，请换一个手机号码！");
+			}*/
 		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 			result.error500("操作失败");
 		}
 		return result;
 	}
+
+	 /**
+	  *  判断手机号码是否唯一
+	  * @param client
+	  * @return
+	  */
+	 @AutoLog(value = "客户表-手机号码唯一验证")
+	 @ApiOperation(value="客户表-手机号码唯一验证", notes="客户表-手机号码唯一验证")
+	 @RequestMapping(value = "/countphone", method = RequestMethod.GET)
+	 public Result<Boolean> checkUsername(Client client) {
+		 Result<Boolean> result = new Result<>();
+		 result.setResult(true);//如果此参数为false则程序发生异常
+		 try {
+			 Client count = clientService.countphone(client.getPhone());//根据前端传回的手机号码得到实体，如果==null，表示手机可用
+			 if (count!=null) {//不为空，则判断，是新增还是修改
+				 //如果根据传入信息查询到用户了，那么就需要做校验了。
+				 if (client.getClientId() == null) {
+					 //前端传回的id为空=>新增模式=>只要根据用户信息存在则返回false
+					 result.setSuccess(false);
+					 result.setMessage("该手机号码已被使用,请更换一个手机号码!");
+					 return result;
+				 } else if (!client.getClientId().equals(count.getClientId())) {
+					 //前端id不为空=>编辑模式=>判断两者ID是否一致-不一致则手机号码不可用
+					 result.setSuccess(false);
+					 result.setMessage("该手机号码已被使用,请更换一个手机号码!");
+					 return result;
+				 }
+			 }
+
+		 } catch (Exception e) {
+			 result.setSuccess(false);
+			 result.setResult(false);
+			 result.setMessage(e.getMessage());
+			 return result;
+		 }
+		 result.setSuccess(true);
+		 return result;
+	 }
 	
 	/**
 	  *  编辑
@@ -166,7 +236,7 @@ public class ClientController {
 		}else {
             Integer integer = clientService.ClientById(clientId);
             if (integer>0){
-                result.error500("该客户名下有安装设备不能删除");
+                result.error500("该客户名下有已安装设备不能删除");
             }else {
                 boolean ok = clientService.removeById(clientId);
                 if(ok) {

@@ -17,7 +17,8 @@ import java.net.UnknownHostException;
 @SpringBootApplication
 @EnableAutoConfiguration
 public class JeecgApplication {
-
+//上午要完成的事情：1/根据手机号登陆的接口，
+// 2根据用户Id查询用户下的设备接口
   public static void main(String[] args) throws UnknownHostException {
     //System.setProperty("spring.devtools.restart.enabled", "true");
     JeecgTimer.showTimer();

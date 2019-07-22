@@ -55,4 +55,6 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     @Select("select s1.id FROM sys_user s,sys_depart s1\n" +
             "WHERE s.org_code = s1.org_code AND s.id=#{id}")
 	String setUser(@Param("id")String id);
+
+
 }

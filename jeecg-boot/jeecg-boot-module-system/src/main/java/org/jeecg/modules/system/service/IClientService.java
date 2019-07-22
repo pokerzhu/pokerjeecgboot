@@ -23,12 +23,25 @@ public interface IClientService extends IService<Client> {
      * @param equipmentId
      * @return
      */
-    Integer ClientById(@Param("clientId") String clientId);
+    Integer ClientById( String clientId);
+    /**
+     * 根据手机号判断客户登陆,并得到用户信息
+     * @param
+     * @return
+     */
+    Client ClientByphone(String phone);
 
     /**
      * 查询该用户名下的设备
      * @param clientId
      * @return
      */
-    IPage<Equipment> SelectByEquId(Page page,@Param("clientId")String clientId);
+    IPage<Equipment> SelectByEquId(Page page, @Param("clientId")String clientId);
+
+    /**
+     * 判断手机号码的唯一验证
+     * @param phone
+     * @return
+     */
+    Client countphone(String phone);
 }

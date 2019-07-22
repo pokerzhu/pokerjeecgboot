@@ -7,6 +7,8 @@ import org.jeecg.modules.system.entity.Equipment;
 
 import java.util.List;
 
+import java.util.List;
+
 /**
  * @Description: 客户表
  * @Author: jeecg-boot
@@ -30,10 +32,26 @@ public interface ClientMapper extends BaseMapper<Client> {
     Integer ClientById(@Param("clientId") String clientId);
 
     /**
+     * 根据手机号判断客户登陆
+     * @param
+     * @return
+     */
+    @Select("select client_id,client_name,phone,address FROM client WHERE phone = #{phone}")
+    Client ClientByphone(@Param("phone") String phone);
+
+    /**
      * 查询该用户名下的设备
      * @param clientId
      * @return
      */
     @Select("SELECT equipment_id FROM equipment WHERE client_id=#{clientId}")
     List<Equipment> SelectByEquId(@Param("clientId")String clientId);
+
+    /**
+     * 判断手机号码的唯一验证
+     * @param phone
+     * @return
+     */
+    @Select("select * from client WHERE phone = #{phone}")
+    Client countphone(String phone);
 }

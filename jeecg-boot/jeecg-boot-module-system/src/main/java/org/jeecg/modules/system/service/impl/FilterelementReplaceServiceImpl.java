@@ -2,9 +2,11 @@ package org.jeecg.modules.system.service.impl;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
+import org.jeecg.modules.system.entity.Client;
 import org.jeecg.modules.system.entity.FilterelementReplace;
 import org.jeecg.modules.system.mapper.FilterelementReplaceMapper;
 import org.jeecg.modules.system.service.IFilterelementReplaceService;
+import org.jeecg.modules.system.vo.EquipmentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,12 +53,17 @@ public class FilterelementReplaceServiceImpl extends ServiceImpl<FilterelementRe
     }
 
     @Override
-    public String UpdZT() {
+    public List<EquipmentVO> UpdZT() {
         return filterelementReplaceMapper.UpdZT();
     }
 
     @Override
     public String findbyid(String recordId) {
         return filterelementReplaceMapper.findbyid(recordId);
+    }
+
+    @Override
+    public List<Client> findbyequipmentid(List<String> equipmentids) {
+        return filterelementReplaceMapper.findbyequipmentid(equipmentids);
     }
 }

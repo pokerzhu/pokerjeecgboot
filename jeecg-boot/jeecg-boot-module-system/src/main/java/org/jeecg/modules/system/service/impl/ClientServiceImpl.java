@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import java.util.List;
+
 /**
  * @Description: 客户表
  * @Author: jeecg-boot
@@ -30,6 +32,11 @@ public class ClientServiceImpl extends ServiceImpl<ClientMapper,Client> implemen
     public IPage<Equipment> SelectByEquId(Page page, String clientId) {
         return page.setRecords(clientMapper.SelectByEquId(clientId));
     }
+
+    @Override
+    public Client countphone(String phone) {
+        return clientMapper.countphone(phone);
+    }
 //    @Autowired
 //    private ClientMapper clientMapper;
 //    @Override
@@ -37,4 +44,7 @@ public class ClientServiceImpl extends ServiceImpl<ClientMapper,Client> implemen
 //       Boolean bool=clientMapper.ClientUpd(client);
 //        return bool;
 //    }
+
+    @Override
+    public Client ClientByphone(String phone) { return clientMapper.ClientByphone(phone); }
 }

@@ -3,7 +3,9 @@ package org.jeecg.modules.system.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
+import org.jeecg.modules.system.entity.Client;
 import org.jeecg.modules.system.entity.FilterelementReplace;
+import org.jeecg.modules.system.vo.EquipmentVO;
 
 import java.util.List;
 
@@ -55,7 +57,7 @@ public interface IFilterelementReplaceService extends IService<FilterelementRepl
      * 查寻滤芯状态为异常的设备id
      * @return
      */
-    String UpdZT();
+    List<EquipmentVO> UpdZT();
 
     /**
      * 根据记录id得到对应的设备id
@@ -63,4 +65,10 @@ public interface IFilterelementReplaceService extends IService<FilterelementRepl
      * @return
      */
     String findbyid(String recordId);
+    /**
+     * 根据设备id集合，得到客户信息
+     * @param equipmentids
+     * @return
+     */
+    List<Client> findbyequipmentid( List<String> equipmentids);
 }

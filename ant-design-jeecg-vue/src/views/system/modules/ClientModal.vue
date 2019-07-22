@@ -56,6 +56,7 @@
 <script>
   import { httpAction } from '@/api/manage'
   import pick from 'lodash.pick'
+  import {checkClient } from '@/api/api'
 
   export default {
     name: "ClientModal",
@@ -79,7 +80,7 @@
         address:{rules: [{ required: true, message: '请输入客户地址!' }]},
         clientName:{rules: [{ required: true, message: '请输入客户名!' }]},
         password:{rules: [{ required: true, message: '请输入密码!' }]},
-        phone:{rules: [{ required: true, message: '请输入手机号码!' }]},
+        phone:{rules: [{validator: this.validatePhone}]},
         },
         url: {
           add: "/demo/client/add",
@@ -141,6 +142,23 @@
       },
       handleCancel () {
         this.close()
+      },
+      validatePhone(rule, value, callback){
+        if(!value || new RegExp(/^1[3|4|5|7|8][0-9]\d{8}$/).test(value)){
+          var params = {
+            clientId:this.model.clientId,
+            phone:value
+          };
+          checkClient(params).then((res)=>{
+            if(res.success){
+              callback();
+            }else{
+              callback("该手机号码已被使用，请输入其他手机号码！");
+            }
+          });
+        }else{
+          callback("请输入正确格式的手机号码!");
+        }
       },
     }
   }

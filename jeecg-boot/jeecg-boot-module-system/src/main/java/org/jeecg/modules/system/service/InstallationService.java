@@ -11,6 +11,12 @@ import org.jeecg.modules.system.vo.InstallationVO;
 import java.util.List;
 
 public interface InstallationService extends IService<Installation> {
+    /**
+     *
+     * @param page
+     * @param clientId
+     * @return
+     */
     IPage<InstallationVO> findSelect(Page page, String clientId);
     /**
      * 修改设备当前状态

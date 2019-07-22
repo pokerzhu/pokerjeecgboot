@@ -1,10 +1,14 @@
 package org.jeecg.modules.system.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.jeecg.common.aspect.annotation.Dict;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.sql.Date;
+
 @Data
 public class EquipmentVO implements Serializable {
     //设备编号
@@ -56,4 +60,13 @@ public class EquipmentVO implements Serializable {
     @TableField("orgCode")
     private String orgCode;
 
+    //过期时间
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @TableField("expirationtime")
+    private Date expirationtime;
+
+    //客户手机号码
+    @TableField("phone")
+    private String phone;
 }

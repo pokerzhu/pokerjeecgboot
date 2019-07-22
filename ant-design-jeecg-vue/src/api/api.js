@@ -24,6 +24,8 @@ const getUserList = (params)=>getAction("/sys/user/list",params);
 const frozenBatch = (params)=>putAction("/sys/user/frozenBatch",params);
 //验证用户账号是否唯一
 const checkUsername = (params)=>getAction("/sys/user/checkOnlyUser",params);
+//验证客户手机号码是否唯一
+const checkClient = (params)=>getAction("/demo/client/countphone",params);
 //改变密码
 const changPassword = (params)=>putAction("/sys/user/changPassword",params);
 
@@ -88,6 +90,7 @@ const queryUserRoleMap = (params)=>getAction("/sys/user/queryUserRoleMap",params
 const duplicateCheck = (params)=>getAction("/sys/duplicate/check",params);
 
 export {
+  checkClient,
   // imgView,
   // doMian,
   addRole,
