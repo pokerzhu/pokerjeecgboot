@@ -38,4 +38,25 @@ public class FilterelementReplaceServiceImpl extends ServiceImpl<FilterelementRe
     public boolean UpdfiletereMent(String updateBy, String id) {
         return filterelementReplaceMapper.UpdfiletereMent(updateBy,id);
     }
+
+    @Override
+    public boolean UpdYC() {
+        System.out.println("滤芯状态异常");
+        return filterelementReplaceMapper.UpdYC();
+}
+
+    @Override
+    public boolean UpdZC(String equipmentId) {
+        return filterelementReplaceMapper.UpdZC(equipmentId);
+    }
+
+    @Override
+    public String UpdZT() {
+        return filterelementReplaceMapper.UpdZT();
+    }
+
+    @Override
+    public String findbyid(String recordId) {
+        return filterelementReplaceMapper.findbyid(recordId);
+    }
 }

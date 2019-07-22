@@ -43,7 +43,6 @@ public class ShiroConfig {
 		// 拦截器
 		Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
 		// 配置不会被拦截的链接 顺序判断
-        filterChainDefinitionMap.put("/demo/client/**", "anon"); //登录接口排除
         filterChainDefinitionMap.put("/sys/login", "anon"); //登录接口排除
 		filterChainDefinitionMap.put("/auth/2step-code", "anon");//登录验证码
 		filterChainDefinitionMap.put("/sys/common/upload/**", "anon");//图片上传不限制token

@@ -65,12 +65,18 @@ public class FilterelementReplaceController {
          Result<RelationshipVO> result = new Result<RelationshipVO>();
          LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
          filterelementReplace.setUpdateBy(sysUser.getRealname());
-             boolean ok = filterelementReplaceService.UpdfiletereMent(filterelementReplace.getUpdateBy(),filterelementReplace.getRecordId());
-             if (ok) {
-                 result.success("更换成功!");
-             }else{
-                 result.error500("更换失败!");
-             }
+         boolean ok = filterelementReplaceService.UpdfiletereMent(filterelementReplace.getUpdateBy(),filterelementReplace.getRecordId());
+         if (ok) {
+            String equipmentID= filterelementReplaceService.UpdZT();
+            //判断是否有异常设备id
+            if (equipmentID==null){//id为空，修改设备状态
+                //通過滤芯记录id得到设备id
+                filterelementReplaceService.UpdZC(filterelementReplaceService.findbyid(filterelementReplace.getRecordId()));
+            }
+             result.success("更换成功!");
+         }else{
+             result.error500("更换失败!");
+         }
          return result;
      }
 	
@@ -271,5 +277,4 @@ public class FilterelementReplaceController {
       }
       return Result.ok("文件导入失败！");
   }
-
 }

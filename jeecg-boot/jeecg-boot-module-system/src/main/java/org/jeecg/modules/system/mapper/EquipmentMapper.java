@@ -139,4 +139,6 @@ public interface EquipmentMapper extends BaseMapper<Equipment> {
      */
     @Select("SELECT count(1) FROM equipment WHERE client_id=#{clientId}")
     Integer EquipmentById(@Param("clientId")String clientId);
+
+
 }

@@ -15,13 +15,12 @@ import java.net.UnknownHostException;
 @Slf4j
 @EnableSwagger2
 @SpringBootApplication
-@ComponentScan
 @EnableAutoConfiguration
 public class JeecgApplication {
 
   public static void main(String[] args) throws UnknownHostException {
     //System.setProperty("spring.devtools.restart.enabled", "true");
-
+    JeecgTimer.showTimer();
     ConfigurableApplicationContext application = SpringApplication.run(JeecgApplication.class, args);
     Environment env = application.getEnvironment();
     String ip = InetAddress.getLocalHost().getHostAddress();

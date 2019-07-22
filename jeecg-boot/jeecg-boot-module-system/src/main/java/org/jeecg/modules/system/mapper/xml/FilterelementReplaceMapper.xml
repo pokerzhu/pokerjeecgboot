@@ -12,4 +12,32 @@
         </foreach>
     </insert>
 
+    <update id="UpdYC">
+        UPDATE equipment as eq,(
+        select e.equipment_id from  equipment as e
+        left join commodity as c on e.commodity_id = c.commodity_id
+        left join commodity_type as ct on c.type_id=ct.type_id
+        left join relationship as r  on ct.type_id = r.type_id
+        left join filterelement as f on r.filterelement_id=f.filterelement_id
+        left join filterelement_replace as fr on e.equipment_id=fr.equipment_id
+        where (f.validity*(1-e.lossratio))-DATEDIFF(now(),fr.installation_time)&lt;f.replacementdays
+        ) as b SET eq.filterelement_Type = 0
+        WHERE eq.equipment_id in (b.equipment_id)
+    </update>
+
+    <update id="UpdZC">
+        UPDATE `jeecg-boot`.`equipment` SET `filterelement_Type` = 1 WHERE `equipment_id`=#{equipmentId}
+    </update>
+
+    <select id="UpdZT" resultType="String">
+        select e.equipment_id
+        from
+        equipment as e
+        left join commodity as c on e.commodity_id = c.commodity_id
+        left join commodity_type as ct on c.type_id=ct.type_id
+        left join relationship as r  on ct.type_id = r.type_id
+        left join filterelement as f on r.filterelement_id=f.filterelement_id
+        left join filterelement_replace as fr on e.equipment_id=fr.equipment_id
+        where (f.validity*(1-e.lossratio))-DATEDIFF(now(),fr.installation_time)&lt;f.replacementdays
+    </select>
 </mapper>
