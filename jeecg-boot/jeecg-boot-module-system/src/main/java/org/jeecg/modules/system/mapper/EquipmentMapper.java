@@ -63,7 +63,7 @@ public interface EquipmentMapper extends BaseMapper<Equipment> {
      * @return
      */
     @Update("UPDATE `jeecg-boot`.`equipment` SET `commodity_id` = #{commodityId},`user_id` = #{userId},`ids` = #{ids}," +
-            "`enabled` = #{enabled},`lossratio`=#{lossratio},`update_time`=#{updateTime} WHERE `equipment_id` = #{equipmentId};")
+            "`enabled` = #{enabled},`lossratio`=#{lossratio},`update_time`=#{updateTime},`leasestate` =#{leasestate} WHERE `equipment_id` = #{equipmentId};")
             boolean UpdEquipment(Equipment equipment);
 
     /**

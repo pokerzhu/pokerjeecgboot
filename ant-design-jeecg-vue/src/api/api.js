@@ -89,6 +89,20 @@ const queryUserRoleMap = (params)=>getAction("/sys/user/queryUserRoleMap",params
 // 重复校验
 const duplicateCheck = (params)=>getAction("/sys/duplicate/check",params);
 
+
+//统计设备数量
+const sysCount = (params)=>getAction("/demo/sysanalysis/sysanalysis",params);
+//统计异常设备数量
+const sysYcCount=(params)=>getAction("/demo/sysanalysis/sysanalysisyc",params);
+//统计预计下周异常设备数
+const sysNextCount=(params)=>getAction("/demo/sysanalysis/sysanalysisTime",params);
+//统计设备安装比例
+const sysPercentage=(params)=>getAction("/demo/sysanalysis/SelectPercentage",params);
+//统计每个代理设备数量
+const sysPercentageUserId=(params)=>getAction("/demo/sysanalysis/sysanalysisUserId",params);
+//统计商品设备数量
+const sysPercentageCommodityId=(params)=>getAction("/demo/sysanalysis/sysanalysisCommodity",params);
+
 export {
   checkClient,
   // imgView,
@@ -134,6 +148,19 @@ export {
   queryUserRoleMap,
   duplicateCheck,
   queryTreeListForRole,
+
+  //统计设备数量
+  sysCount,
+  //统计异常设备数量
+  sysYcCount,
+  //统计每个代理设备数量
+  sysPercentageUserId,
+  //统计下周异常设备数
+  sysNextCount,
+  //统计设备安装比例
+  sysPercentage,
+  //统计商品设备数量
+  sysPercentageCommodityId,
 }
 
 

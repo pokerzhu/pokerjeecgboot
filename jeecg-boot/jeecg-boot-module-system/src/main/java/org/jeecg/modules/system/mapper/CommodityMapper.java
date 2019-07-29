@@ -54,6 +54,6 @@ public interface CommodityMapper extends BaseMapper<Commodity> {
      * @param commodityId
      * @return
      */
-    @Select("SELECT count(1) FROM equipment WHERE commodity_id='4ee02d27480631991af31224d276f656'")
+    @Select("SELECT count(1) FROM equipment WHERE commodity_id=#{commodityId}")
     Integer EquipmentById(@Param("commodityId") String commodityId);
 }

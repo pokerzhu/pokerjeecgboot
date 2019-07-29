@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org/jeecg/modules/system/mapper/xml/SysAnalysisMapper">
+    <!--<select id="SelectNextWeek" resultType="String">-->
+        <!--select fr.equipment_id-->
+        <!--from-->
+        <!--equipment as e-->
+        <!--left join commodity as c on e.commodity_id = c.commodity_id-->
+        <!--left join commodity_type as ct on c.type_id=ct.type_id-->
+        <!--left join relationship as r  on ct.type_id = r.type_id-->
+        <!--left join filterelement as f on r.filterelement_id=f.filterelement_id-->
+        <!--left join filterelement_replace as fr on e.equipment_id=fr.equipment_id-->
+        <!--where (f.validity*(1-e.lossratio))-DATEDIFF(DATE_ADD(NOW(),INTERVAL 7 DAY) ,fr.installation_time)&lt;f.replacementdays GROUP BY fr.equipment_id-->
+    <!--</select>-->
+</mapper>

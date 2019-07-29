@@ -157,7 +157,6 @@ public class CommodityTypeController {
 	 public Result<CommodityType> delete(@RequestParam(name="id",required=true) String id) {
 		 Result<CommodityType> result = new Result<CommodityType>();
 		 CommodityType commodityType = commodityTypeService.getById(id);
-
 		 if(commodityType==null) {
 			 result.error500("未找到对应实体");
 		 }else {

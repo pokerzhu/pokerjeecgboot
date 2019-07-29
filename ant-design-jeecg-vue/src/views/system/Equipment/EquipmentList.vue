@@ -186,7 +186,7 @@
             title: '价格',
             dataIndex: 'leasestate',
             align:"center",
-            scopedSlots: { customRender: 'leasestate' },
+            scopedSlots: {customRender: 'leasestate' },
           },
           {
             title: '主板状态',

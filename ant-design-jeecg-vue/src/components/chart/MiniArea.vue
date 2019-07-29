@@ -11,17 +11,8 @@
 
 <script>
   import moment from 'dayjs'
-
+  import {getAction,} from '@/api/manage'
   const sourceData = []
-  const beginDay = new Date().getTime()
-
-  for (let i = 0; i < 10; i++) {
-    sourceData.push({
-      x: moment(new Date(beginDay + 1000 * 60 * 60 * 24 * i)).format('YYYY-MM-DD'),
-      y: Math.round(Math.random() * 10)
-    })
-  }
-
   export default {
     name: 'MiniArea',
     props: {
@@ -43,7 +34,12 @@
     data() {
       return {
         data: [],
-        height: 100
+        height: 100,
+        url: {
+          list: "/demo/installation/list",
+          delete: "/demo/installation/delete",
+          sysanalysisDaily:"/demo/sysanalysis/sysanalysisDaily",
+        },
       }
     },
     computed: {
@@ -55,14 +51,35 @@
       }
     },
     created() {
+      this.time();
       if (this.dataSource.length === 0) {
         this.data = sourceData
       } else {
         this.data = this.dataSource
       }
+    },
+    methods: {
+      time(){
+        getAction(this.url.sysanalysisDaily).then((res) => {
+          if (res.success) {
+            var a = res.result;
+            console.log(a)
+            for (let i = 0; i < 7; i++) {
+              sourceData.push({
+                x: a[i].time,
+                y: a[i].count
+              })
+            }
+          }
+        })
+
+      }
     }
+
+
   }
 </script>
+
 
 <style lang="scss" scoped>
   @import "chart";
